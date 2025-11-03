@@ -9,7 +9,7 @@ export default {
     title: '个人中心',
     icon: 'User',
     showInMenu: true,
-    order: 4
+    order: 5
   }
 }
 

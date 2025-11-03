@@ -70,12 +70,15 @@ func Add(url string) (*Monitor, error) {
 
 // GetList 获取监控列表
 func GetList(page, pageSize int) ([]Monitor, int64, error) {
+	logger.Certificate.Infof("[证书服务] 获取证书列表: 页码=%d, 每页=%d", page, pageSize)
+
 	var monitors []Monitor
 	var total int64
 
 	offset := (page - 1) * pageSize
 
 	if err := database.DB.Model(&Monitor{}).Count(&total).Error; err != nil {
+		logger.Certificate.Errorf("[证书服务] 获取证书总数失败: %v", err)
 		return nil, 0, err
 	}
 
@@ -83,26 +86,36 @@ func GetList(page, pageSize int) ([]Monitor, int64, error) {
 		Limit(pageSize).
 		Offset(offset).
 		Find(&monitors).Error; err != nil {
+		logger.Certificate.Errorf("[证书服务] 获取证书列表失败: %v", err)
 		return nil, 0, err
 	}
 
+	logger.Certificate.Infof("[证书服务] 获取证书列表成功: 总数=%d, 返回=%d条", total, len(monitors))
 	return monitors, total, nil
 }
 
 // GetByID 根据 ID 获取监控信息
 func GetByID(id uint) (*Monitor, error) {
+	logger.Certificate.Infof("[证书服务] 获取证书详情: ID=%d", id)
+
 	var monitor Monitor
 	if err := database.DB.First(&monitor, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
+			logger.Certificate.Warnf("[证书服务] 证书不存在: ID=%d", id)
 			return nil, errors.New("监控记录不存在")
 		}
+		logger.Certificate.Errorf("[证书服务] 获取证书详情失败: ID=%d, 错误: %v", id, err)
 		return nil, err
 	}
+
+	logger.Certificate.Infof("[证书服务] 获取证书详情成功: ID=%d, URL=%s", id, monitor.URL)
 	return &monitor, nil
 }
 
 // Update 更新证书监控信息
 func Update(id uint) (*Monitor, error) {
+	logger.Certificate.Infof("[证书服务] 开始更新证书: ID=%d", id)
+
 	monitor, err := GetByID(id)
 	if err != nil {
 		return nil, err
@@ -110,6 +123,7 @@ func Update(id uint) (*Monitor, error) {
 
 	certInfo, err := Check(monitor.URL)
 	if err != nil {
+		logger.Certificate.Warnf("[证书服务] 证书检查失败: ID=%d, URL=%s, 错误: %v", id, monitor.URL, err)
 		monitor.ErrorMsg = err.Error()
 		monitor.IsValid = false
 		monitor.LastCheckAt = time.Now()
@@ -133,15 +147,31 @@ func Update(id uint) (*Monitor, error) {
 	monitor.Status = status
 
 	if err := database.DB.Save(monitor).Error; err != nil {
+		logger.Certificate.Errorf("[证书服务] 保存证书更新失败: ID=%d, 错误: %v", id, err)
 		return nil, err
 	}
 
+	logger.Certificate.Infof("[证书服务] 更新证书成功: ID=%d, URL=%s, 剩余%d天", id, monitor.URL, monitor.DaysLeft)
 	return monitor, nil
 }
 
 // Delete 删除证书监控
 func Delete(id uint) error {
-	return database.DB.Delete(&Monitor{}, id).Error
+	logger.Certificate.Infof("[证书服务] 开始删除证书: ID=%d", id)
+
+	// 先获取证书信息用于日志
+	monitor, err := GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	if err := database.DB.Delete(&Monitor{}, id).Error; err != nil {
+		logger.Certificate.Errorf("[证书服务] 删除证书失败: ID=%d, 错误: %v", id, err)
+		return err
+	}
+
+	logger.Certificate.Infof("[证书服务] 删除证书成功: ID=%d, URL=%s", id, monitor.URL)
+	return nil
 }
 
 // CheckAllResult 批量检查结果

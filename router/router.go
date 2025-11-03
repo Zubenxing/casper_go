@@ -6,6 +6,7 @@ import (
 	"casper_go/features/auth"
 	"casper_go/features/certificate"
 	"casper_go/features/password"
+	"casper_go/features/work"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -109,6 +110,28 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 				passwords.GET("/:id/password", password.GetPasswordAPI)
 				passwords.PUT("/:id", password.UpdateAPI)
 				passwords.DELETE("/:id", password.DeleteAPI)
+			}
+
+			// 工作记录路由
+			works := authenticated.Group("/works")
+			{
+				works.POST("", work.CreateWorkAPI)
+				works.GET("", work.GetWorkListAPI)
+				works.GET("/stats", work.GetWorkStatsAPI)
+				works.GET("/:id", work.GetWorkDetailAPI)
+				works.PUT("/:id", work.UpdateWorkAPI)
+				works.DELETE("/:id", work.DeleteWorkAPI)
+			}
+
+			// 问题记录路由
+			issues := authenticated.Group("/work-issues")
+			{
+				issues.POST("", work.CreateWorkIssueAPI)
+				issues.GET("", work.GetWorkIssueListAPI)
+				issues.GET("/stats", work.GetWorkIssueStatsAPI)
+				issues.GET("/:id", work.GetWorkIssueDetailAPI)
+				issues.PUT("/:id", work.UpdateWorkIssueAPI)
+				issues.DELETE("/:id", work.DeleteWorkIssueAPI)
 			}
 		}
 
