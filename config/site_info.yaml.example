@@ -1,0 +1,72 @@
+# 站点配置示例文件
+
+# 站点配置
+site:
+  name: "Casper Platform"
+  version: "1.0.0"
+  mode: "debug"              # 运行模式: debug, release, test
+  port: 8080                 # 服务端口
+  host: "0.0.0.0"           # 监听地址
+
+# 数据库初始化配置
+database_init:
+  auto_migrate: true      # 是否自动迁移表结构（建议保持 true）
+  init_default_data: true # 是否初始化默认数据（首次运行后可设为 false）
+
+# JWT 认证配置
+jwt:
+  secret: "your-secret-key-change-this-in-production-PLEASE-CHANGE-THIS"
+  expire_hours: 24           # Token 过期时间（小时）
+  refresh_expire_hours: 168  # 刷新令牌过期时间（小时，默认7天）
+  issuer: "casper_platform"  # 签发者
+
+# 日志配置
+logger:
+  level: "info"              # 日志级别: trace, debug, info, warn, error, fatal, panic
+  format: "json"             # 日志格式: json, text
+  output: "logs/app.log"     # 日志输出路径
+  max_size: 100              # 单个日志文件最大大小（MB）
+  max_backups: 10            # 保留的旧日志文件数量
+  max_age: 30                # 保留日志文件的最大天数
+  compress: true             # 是否压缩旧日志
+
+# API 配置
+api:
+  enable_version: false    # 是否启用版本控制（启用后路径为 /api/v1/...）
+  current_version: "v1"    # 当前 API 版本
+  rate_limit_enabled: true # 是否启用限流
+  rate_limit_requests: 100 # 每分钟最大请求数
+  request_id_enabled: true # 是否启用请求ID追踪
+
+# 证书监控配置
+certificate:
+  check_interval: 3600  # 自动检查间隔（秒，默认1小时）
+  warning_days: 30      # 证书到期前多少天开始警告
+
+# ========================================
+# 不同环境的推荐配置
+# ========================================
+
+# 开发环境推荐:
+# database_init.init_default_data: true
+# api.rate_limit_enabled: false
+# logger.level: "debug"
+
+# ========================================
+# 生产环境推荐配置
+# ========================================
+# site:
+#   mode: "release"
+# database_init:
+#   init_default_data: false
+# api:
+#   enable_version: true
+#   rate_limit_enabled: true
+#   rate_limit_requests: 60
+# jwt:
+#   secret: "使用强随机字符串，至少32位"
+#   expire_hours: 2
+# logger:
+#   level: "warn"
+# certificate:
+#   check_interval: 7200  # 生产环境可以设置更长间隔

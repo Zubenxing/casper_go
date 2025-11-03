@@ -1,0 +1,15 @@
+# 数据库配置示例文件
+# 使用前请复制为 database.yaml 并修改配置
+
+database:
+  host: "127.0.0.1"          # 数据库主机地址
+  port: 3306                  # 数据库端口
+  username: "root"            # 数据库用户名
+  password: "your_password"   # 数据库密码（请修改）
+  dbname: "casper_platform"   # 数据库名称
+  charset: "utf8mb4"          # 字符集
+  max_idle_conns: 10          # 最大空闲连接数
+  max_open_conns: 100         # 最大打开连接数
+  conn_max_lifetime: 3600     # 连接最大生命周期（秒）
+  log_level: "info"           # 日志级别: silent, error, warn, info
+

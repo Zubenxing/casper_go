@@ -1,0 +1,105 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+build/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - GoLand
+.idea/
+*.iml
+
+# IDE - Cursor
+.cursor/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Node.js (前端)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# 前端构建产物
+frontend/dist/
+frontend/.vite/
+frontend/.cache/
+
+# 配置文件（包含敏感信息，不要提交）
+config/database.yaml
+config/site_info.yaml
+
+# 但保留示例配置
+!config/database.yaml.example
+!config/site_info.yaml.example
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+
+# 测试数据
+test_data/*.pem
+test_data/*.key
+test_data/*.crt
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 编辑器备份
+*~
+.*.sw[a-z]
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 可执行文件
+casper_platform
+casper_platform.exe
+casper_platform_linux
+casper_server
+casper_server.exe

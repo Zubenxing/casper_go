@@ -1,0 +1,431 @@
+definitions:
+  casper_go_core_response.PageData:
+    properties:
+      list: {}
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  casper_go_core_response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  features_auth.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  features_auth.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      expires_at:
+        type: string
+      refresh_token:
+        type: string
+      token_type:
+        type: string
+      user:
+        $ref: '#/definitions/features_auth.UserResponse'
+    type: object
+  features_auth.UserResponse:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      role:
+        type: string
+      status:
+        type: integer
+      username:
+        type: string
+    type: object
+  features_certificate.AddRequest:
+    properties:
+      url:
+        type: string
+    required:
+    - url
+    type: object
+  features_certificate.Response:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      days_left:
+        type: integer
+      domain:
+        type: string
+      error_msg:
+        type: string
+      id:
+        type: integer
+      is_valid:
+        type: boolean
+      issuer:
+        type: string
+      last_check_at:
+        type: string
+      not_after:
+        type: string
+      not_before:
+        type: string
+      organization:
+        type: string
+      remark:
+        type: string
+      status:
+        type: integer
+      status_text:
+        type: string
+      subject:
+        type: string
+      url:
+        type: string
+    type: object
+  features_certificate.UpdateRequest:
+    properties:
+      customer_name:
+        type: string
+      remark:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录获取访问令牌
+      parameters:
+      - description: 登录信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/features_auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_auth.TokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      summary: 用户登录
+      tags:
+      - 认证
+  /api/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: 使用刷新令牌获取新的访问令牌
+      parameters:
+      - description: 刷新令牌
+        in: body
+        name: request
+        required: true
+        schema:
+          properties:
+            refresh_token:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_auth.TokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      summary: 刷新令牌
+      tags:
+      - 认证
+  /api/certificates:
+    get:
+      description: 分页获取所有证书监控项
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/casper_go_core_response.PageData'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取证书监控列表
+      tags:
+      - 证书监控
+    post:
+      consumes:
+      - application/json
+      description: 添加一个新的 SSL 证书监控项
+      parameters:
+      - description: 证书监控信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/features_certificate.AddRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_certificate.Response'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 添加证书监控
+      tags:
+      - 证书监控
+  /api/certificates/{id}:
+    delete:
+      description: 根据 ID 删除证书监控项
+      parameters:
+      - description: 监控项 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 删除证书监控
+      tags:
+      - 证书监控
+    get:
+      description: 根据 ID 获取证书监控的详细信息
+      parameters:
+      - description: 监控项 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_certificate.Response'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取证书监控详情
+      tags:
+      - 证书监控
+    put:
+      description: 手动触发证书信息更新
+      parameters:
+      - description: 监控项 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_certificate.Response'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新证书信息
+      tags:
+      - 证书监控
+  /api/certificates/{id}/info:
+    patch:
+      description: 更新证书的客户名和备注信息
+      parameters:
+      - description: 监控项 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/features_certificate.UpdateRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_certificate.Response'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新证书客户名和备注
+      tags:
+      - 证书监控
+  /api/certificates/check-all:
+    post:
+      description: 手动触发所有证书的检查更新
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 检查所有证书
+      tags:
+      - 证书监控
+  /api/logout:
+    post:
+      description: 用户登出，使当前令牌失效
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 用户登出
+      tags:
+      - 认证
+  /api/profile:
+    get:
+      description: 获取已登录用户的详细信息
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/casper_go_core_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/features_auth.UserResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/casper_go_core_response.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取当前用户信息
+      tags:
+      - 用户
+swagger: "2.0"

@@ -1,0 +1,13 @@
+{
+  "common_name": "example.com",
+  "country": "CN",
+  "province": "Beijing",
+  "locality": "Beijing",
+  "organization": "Example Corp",
+  "organizational_unit": "IT Department",
+  "email_address": "admin@example.com",
+  "dns_names": ["example.com", "www.example.com"],
+  "key_algorithm": "RSA",
+  "key_size": 2048
+}
+

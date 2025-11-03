@@ -1,0 +1,11 @@
+{
+  "common_name": "ecdsa.example.com",
+  "country": "US",
+  "province": "California",
+  "locality": "San Francisco",
+  "organization": "ECDSA Test Corp",
+  "organizational_unit": "Security",
+  "key_algorithm": "ECDSA",
+  "key_size": 256
+}
+
