@@ -24,21 +24,21 @@ import (
 func AddAPI(c *gin.Context) {
 	var req AddRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		logger.Log.Warnf("[证书监控] 请求参数错误: %v", err)
+		logger.Certificate.Warnf("[证书监控] 请求参数错误: %v", err)
 		response.BadRequest(c, "请求参数错误: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[证书监控] 尝试添加证书: %s", req.URL)
+	logger.Certificate.Infof("[证书监控] 尝试添加证书: %s", req.URL)
 
 	monitor, err := Add(req.URL)
 	if err != nil {
-		logger.Log.Errorf("[证书监控] 添加失败 URL=%s, 错误: %v", req.URL, err)
+		logger.Certificate.Errorf("[证书监控] 添加失败 URL=%s, 错误: %v", req.URL, err)
 		response.Error(c, 400, err.Error())
 		return
 	}
 
-	logger.Log.Infof("[证书监控] 添加成功: %s (ID=%d)", monitor.URL, monitor.ID)
+	logger.Certificate.Infof("[证书监控] 添加成功: %s (ID=%d)", monitor.URL, monitor.ID)
 	response.SuccessMsg(c, "添加成功", monitor.ToResponse())
 }
 
@@ -193,18 +193,18 @@ func DeleteAPI(c *gin.Context) {
 // @Failure 500 {object} response.Response
 // @Router /api/certificates/check-all [post]
 func CheckAllAPI(c *gin.Context) {
-	logger.Log.Info("[API] 开始批量检查证书")
-	
+	logger.Certificate.Info("[API] 开始批量检查证书")
+
 	result, err := CheckAll()
 	if err != nil {
 		response.ServerError(c, "检查失败: "+err.Error())
 		return
 	}
 
-	message := fmt.Sprintf("检查完成：总数 %d，成功 %d，失败 %d，耗时 %s", 
+	message := fmt.Sprintf("检查完成：总数 %d，成功 %d，失败 %d，耗时 %s",
 		result.Total, result.Success, result.Failed, result.Duration)
-	
-	logger.Log.Infof("[API] %s", message)
+
+	logger.Certificate.Infof("[API] %s", message)
 	response.SuccessMsg(c, message, result)
 }
 
@@ -221,22 +221,22 @@ func CheckAllAPI(c *gin.Context) {
 func GenerateCSRAPI(c *gin.Context) {
 	var req GenerateCSRRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		logger.Log.Warnf("[CSR生成] 请求参数错误: %v", err)
+		logger.Certificate.Warnf("[CSR生成] 请求参数错误: %v", err)
 		response.BadRequest(c, "请求参数错误: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[CSR生成] 开始生成 CSR, CN=%s, 算法=%s, 密钥长度=%d",
+	logger.Certificate.Infof("[CSR生成] 开始生成 CSR, CN=%s, 算法=%s, 密钥长度=%d",
 		req.CommonName, req.KeyAlgorithm, req.KeySize)
 
 	result, err := GenerateCSR(&req)
 	if err != nil {
-		logger.Log.Errorf("[CSR生成] 生成失败: %v", err)
+		logger.Certificate.Errorf("[CSR生成] 生成失败: %v", err)
 		response.ServerError(c, "生成 CSR 失败: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[CSR生成] 生成成功, CN=%s", req.CommonName)
+	logger.Certificate.Infof("[CSR生成] 生成成功, CN=%s", req.CommonName)
 	response.SuccessMsg(c, "CSR 生成成功", result)
 }
 
@@ -253,24 +253,24 @@ func GenerateCSRAPI(c *gin.Context) {
 func ValidateCSRAPI(c *gin.Context) {
 	var req ValidateCSRRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		logger.Log.Warnf("[CSR验证] 请求参数错误: %v", err)
+		logger.Certificate.Warnf("[CSR验证] 请求参数错误: %v", err)
 		response.BadRequest(c, "请求参数错误: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[CSR验证] 开始验证 CSR")
+	logger.Certificate.Infof("[CSR验证] 开始验证 CSR")
 
 	result, err := ValidateCSR(req.CSRContent)
 	if err != nil {
-		logger.Log.Errorf("[CSR验证] 验证失败: %v", err)
+		logger.Certificate.Errorf("[CSR验证] 验证失败: %v", err)
 		response.ServerError(c, "验证 CSR 失败: "+err.Error())
 		return
 	}
 
 	if result.Valid {
-		logger.Log.Infof("[CSR验证] 验证成功, CN=%s", result.CommonName)
+		logger.Certificate.Infof("[CSR验证] 验证成功, CN=%s", result.CommonName)
 	} else {
-		logger.Log.Warnf("[CSR验证] 验证失败: %s", result.ErrorMessage)
+		logger.Certificate.Warnf("[CSR验证] 验证失败: %s", result.ErrorMessage)
 	}
 
 	response.Success(c, result)
@@ -289,16 +289,16 @@ func ValidateCSRAPI(c *gin.Context) {
 func ValidateCertificateAPI(c *gin.Context) {
 	var req ValidateCertRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		logger.Log.Warnf("[证书验证] 请求参数错误: %v", err)
+		logger.Certificate.Warnf("[证书验证] 请求参数错误: %v", err)
 		response.BadRequest(c, "请求参数错误: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[证书验证] 开始验证证书")
+	logger.Certificate.Infof("[证书验证] 开始验证证书")
 
 	result, err := ValidateCertificate(req.CertContent, req.PrivateKeyContent)
 	if err != nil {
-		logger.Log.Errorf("[证书验证] 验证失败: %v", err)
+		logger.Certificate.Errorf("[证书验证] 验证失败: %v", err)
 		response.ServerError(c, "验证证书失败: "+err.Error())
 		return
 	}
@@ -306,15 +306,15 @@ func ValidateCertificateAPI(c *gin.Context) {
 	if result.Valid {
 		if result.KeyPairChecked {
 			if result.KeyPairMatched {
-				logger.Log.Infof("[证书验证] 验证成功, CN=%s, 剩余%d天, 证书私钥配对✓", result.CommonName, result.DaysLeft)
+				logger.Certificate.Infof("[证书验证] 验证成功, CN=%s, 剩余%d天, 证书私钥配对✓", result.CommonName, result.DaysLeft)
 			} else {
-				logger.Log.Warnf("[证书验证] 验证成功, CN=%s, 剩余%d天, 证书私钥不匹配✗", result.CommonName, result.DaysLeft)
+				logger.Certificate.Warnf("[证书验证] 验证成功, CN=%s, 剩余%d天, 证书私钥不匹配✗", result.CommonName, result.DaysLeft)
 			}
 		} else {
-			logger.Log.Infof("[证书验证] 验证成功, CN=%s, 剩余%d天", result.CommonName, result.DaysLeft)
+			logger.Certificate.Infof("[证书验证] 验证成功, CN=%s, 剩余%d天", result.CommonName, result.DaysLeft)
 		}
 	} else {
-		logger.Log.Warnf("[证书验证] 验证失败: %s", result.ErrorMessage)
+		logger.Certificate.Warnf("[证书验证] 验证失败: %s", result.ErrorMessage)
 	}
 
 	response.Success(c, result)

@@ -23,16 +23,16 @@ func CreateAPI(c *gin.Context) {
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 用户 %v 创建账户: %s", userID, req.Title)
+	logger.Password.Infof("[密码管理] 用户 %v 创建账户: %s", userID, req.Title)
 
 	account, err := Create(userID.(uint), &req)
 	if err != nil {
-		logger.Log.Errorf("[密码管理] 创建账户失败: %v", err)
+		logger.Password.Errorf("[密码管理] 创建账户失败: %v", err)
 		response.ServerError(c, "创建账户失败: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 账户创建成功: %s (ID: %d)", account.Title, account.ID)
+	logger.Password.Infof("[密码管理] 账户创建成功: %s (ID: %d)", account.Title, account.ID)
 	response.Success(c, account.ToResponse())
 }
 
@@ -59,7 +59,7 @@ func GetListAPI(c *gin.Context) {
 
 	list, err := GetList(userID.(uint), page, pageSize, category, keyword)
 	if err != nil {
-		logger.Log.Errorf("[密码管理] 获取账户列表失败: %v", err)
+		logger.Password.Errorf("[密码管理] 获取账户列表失败: %v", err)
 		response.ServerError(c, "获取列表失败")
 		return
 	}
@@ -104,7 +104,7 @@ func GetPasswordAPI(c *gin.Context) {
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 用户 %v 查看密码, 账户ID: %d", userID, id)
+	logger.Password.Infof("[密码管理] 用户 %v 查看密码, 账户ID: %d", userID, id)
 
 	password, err := GetPassword(userID.(uint), uint(id))
 	if err != nil {
@@ -137,16 +137,16 @@ func UpdateAPI(c *gin.Context) {
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 用户 %v 更新账户, ID: %d", userID, id)
+	logger.Password.Infof("[密码管理] 用户 %v 更新账户, ID: %d", userID, id)
 
 	account, err := Update(userID.(uint), uint(id), &req)
 	if err != nil {
-		logger.Log.Errorf("[密码管理] 更新账户失败: %v", err)
+		logger.Password.Errorf("[密码管理] 更新账户失败: %v", err)
 		response.ServerError(c, "更新账户失败: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 账户更新成功: %s (ID: %d)", account.Title, account.ID)
+	logger.Password.Infof("[密码管理] 账户更新成功: %s (ID: %d)", account.Title, account.ID)
 	response.Success(c, account.ToResponse())
 }
 
@@ -164,15 +164,15 @@ func DeleteAPI(c *gin.Context) {
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 用户 %v 删除账户, ID: %d", userID, id)
+	logger.Password.Infof("[密码管理] 用户 %v 删除账户, ID: %d", userID, id)
 
 	if err := Delete(userID.(uint), uint(id)); err != nil {
-		logger.Log.Errorf("[密码管理] 删除账户失败: %v", err)
+		logger.Password.Errorf("[密码管理] 删除账户失败: %v", err)
 		response.ServerError(c, "删除账户失败: "+err.Error())
 		return
 	}
 
-	logger.Log.Infof("[密码管理] 账户删除成功, ID: %d", id)
+	logger.Password.Infof("[密码管理] 账户删除成功, ID: %d", id)
 	response.Success(c, gin.H{"message": "删除成功"})
 }
 

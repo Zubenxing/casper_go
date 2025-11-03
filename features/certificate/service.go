@@ -24,20 +24,20 @@ func Add(url string) (*Monitor, error) {
 		// URL 已存在
 		if existing.DeletedAt.Valid {
 			// 如果是软删除的，恢复它
-			logger.Log.Infof("[证书服务] 恢复已删除的 URL: %s", url)
+			logger.Certificate.Infof("[证书服务] 恢复已删除的 URL: %s", url)
 			existing.DeletedAt = gorm.DeletedAt{}
 			database.DB.Unscoped().Save(&existing)
 			return &existing, nil
 		}
-		logger.Log.Warnf("[证书服务] URL 已存在: %s", url)
+		logger.Certificate.Warnf("[证书服务] URL 已存在: %s", url)
 		return nil, errors.New("该 URL 已存在监控列表")
 	}
 
 	// URL 不存在，开始检查证书
-	logger.Log.Infof("[证书服务] 开始检查证书: %s", url)
+	logger.Certificate.Infof("[证书服务] 开始检查证书: %s", url)
 	certInfo, err := Check(url)
 	if err != nil {
-		logger.Log.Errorf("[证书服务] 证书检查失败 URL=%s, 错误: %v", url, err)
+		logger.Certificate.Errorf("[证书服务] 证书检查失败 URL=%s, 错误: %v", url, err)
 		return nil, fmt.Errorf("证书检查失败: %w", err)
 	}
 
@@ -60,11 +60,11 @@ func Add(url string) (*Monitor, error) {
 	}
 
 	if err := database.DB.Create(monitor).Error; err != nil {
-		logger.Log.Errorf("[证书服务] 数据库插入失败 URL=%s, 错误: %v", url, err)
+		logger.Certificate.Errorf("[证书服务] 数据库插入失败 URL=%s, 错误: %v", url, err)
 		return nil, fmt.Errorf("数据库错误: %w", err)
 	}
 
-	logger.Log.Infof("[证书服务] 证书添加成功 URL=%s, ID=%d, 剩余%d天", url, monitor.ID, monitor.DaysLeft)
+	logger.Certificate.Infof("[证书服务] 证书添加成功 URL=%s, ID=%d, 剩余%d天", url, monitor.ID, monitor.DaysLeft)
 	return monitor, nil
 }
 
@@ -162,7 +162,7 @@ func CheckAll() (*CheckAllResult, error) {
 // CheckAllWithContext 带超时的并发检查所有证书
 func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 	startTime := time.Now()
-	
+
 	// 获取所有需要检查的证书（排除删除的）
 	var monitors []Monitor
 	if err := database.DB.Find(&monitors).Error; err != nil {
@@ -171,7 +171,7 @@ func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 
 	total := len(monitors)
 	if total == 0 {
-		logger.Log.Info("[证书服务] 没有需要检查的证书")
+		logger.Certificate.Info("[证书服务] 没有需要检查的证书")
 		return &CheckAllResult{
 			Total:     0,
 			Success:   0,
@@ -182,7 +182,7 @@ func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 		}, nil
 	}
 
-	logger.Log.Infof("[证书服务] 开始并发检查 %d 个证书", total)
+	logger.Certificate.Infof("[证书服务] 开始并发检查 %d 个证书", total)
 
 	// 使用并发处理，限制并发数为 10
 	concurrency := 10
@@ -203,12 +203,12 @@ func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 			for monitor := range taskChan {
 				select {
 				case <-ctx.Done():
-					logger.Log.Warnf("[证书服务] Worker %d 收到取消信号", workerID)
+					logger.Certificate.Warnf("[证书服务] Worker %d 收到取消信号", workerID)
 					resultChan <- false
 					return
 				default:
 					// 执行证书检查
-					logger.Log.Debugf("[证书服务] Worker %d 检查: %s", workerID, monitor.URL)
+					logger.Certificate.Debugf("[证书服务] Worker %d 检查: %s", workerID, monitor.URL)
 					_, err := updateMonitor(&monitor)
 					resultChan <- (err == nil)
 				}
@@ -253,7 +253,7 @@ func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 		Duration:  duration.Round(time.Millisecond).String(),
 	}
 
-	logger.Log.Infof("[证书服务] 检查完成: 总数=%d, 成功=%d, 失败=%d, 耗时=%s", 
+	logger.Certificate.Infof("[证书服务] 检查完成: 总数=%d, 成功=%d, 失败=%d, 耗时=%s",
 		result.Total, result.Success, result.Failed, result.Duration)
 
 	return result, nil
@@ -262,16 +262,16 @@ func CheckAllWithContext(ctx context.Context) (*CheckAllResult, error) {
 // updateMonitor 更新单个证书监控（内部方法）
 func updateMonitor(monitor *Monitor) (*Monitor, error) {
 	certInfo, err := Check(monitor.URL)
-	
+
 	// 无论成功失败都更新最后检查时间
 	monitor.LastCheckAt = time.Now()
-	
+
 	if err != nil {
 		monitor.ErrorMsg = err.Error()
 		monitor.IsValid = false
 		// 保存错误信息
 		if saveErr := database.DB.Save(monitor).Error; saveErr != nil {
-			logger.Log.Errorf("[证书服务] 保存错误信息失败 URL=%s: %v", monitor.URL, saveErr)
+			logger.Certificate.Errorf("[证书服务] 保存错误信息失败 URL=%s: %v", monitor.URL, saveErr)
 		}
 		return nil, err
 	}
@@ -292,7 +292,7 @@ func updateMonitor(monitor *Monitor) (*Monitor, error) {
 	monitor.Status = status
 
 	if err := database.DB.Save(monitor).Error; err != nil {
-		logger.Log.Errorf("[证书服务] 保存证书信息失败 URL=%s: %v", monitor.URL, err)
+		logger.Certificate.Errorf("[证书服务] 保存证书信息失败 URL=%s: %v", monitor.URL, err)
 		return nil, err
 	}
 

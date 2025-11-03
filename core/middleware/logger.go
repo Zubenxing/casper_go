@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"strings"
 	"time"
 
 	"casper_go/core/logger"
@@ -30,7 +31,28 @@ func Logger() gin.HandlerFunc {
 			fields["request_id"] = requestID
 		}
 
-		logger.Log.WithFields(fields).Info("API 请求")
+		// 根据请求路径，写入对应的模块日志
+		uri := c.Request.RequestURI
+		logged := false
+
+		// 密码管理相关 API
+		if strings.HasPrefix(uri, "/api/passwords") {
+			logger.Password.WithFields(fields).Info("API 请求")
+			logged = true
+		}
+
+		// 证书监控相关 API（包括证书列表、CSR、SSL验证等）
+		if !logged && (strings.HasPrefix(uri, "/api/certificates") ||
+			strings.HasPrefix(uri, "/api/csr/") ||
+			strings.HasPrefix(uri, "/api/ssl-cert")) {
+			logger.Certificate.WithFields(fields).Info("API 请求")
+			logged = true
+		}
+
+		// 其他 API 写入通用日志
+		if !logged {
+			logger.Log.WithFields(fields).Info("API 请求")
+		}
 	}
 }
 
