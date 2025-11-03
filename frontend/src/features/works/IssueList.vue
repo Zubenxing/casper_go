@@ -40,6 +40,7 @@
           clearable
           @change="handleFilterChange"
           class="status-filter"
+          size="large"
         >
           <el-option label="全部状态" value="" />
           <el-option label="待处理" value="open" />
@@ -48,80 +49,35 @@
           <el-option label="已关闭" value="closed" />
         </el-select>
 
-        <el-button type="warning" @click="handleAdd" class="add-btn">
+        <el-button type="warning" size="large" @click="handleAdd" class="add-btn">
           <el-icon><Plus /></el-icon>
           <span>新建问题</span>
         </el-button>
       </div>
     </div>
 
-    <!-- 问题列表 -->
-    <div v-loading="loading" class="issue-cards">
-      <el-empty v-if="!loading && issueList.length === 0" description="暂无问题记录" />
+    <!-- 表格 -->
+    <el-table
+      v-loading="loading"
+      :data="issueList"
+      stripe
+      class="issue-table"
+      :header-cell-style="{ background: '#fff5f5', color: '#c2410c', fontWeight: '600' }"
+    >
+      <el-table-column type="index" label="#" width="60" align="center" />
 
-      <transition-group name="list">
-        <div
-          v-for="issue in issueList"
-          :key="issue.id"
-          class="issue-card"
-          :class="`severity-${issue.severity}`"
-        >
-          <!-- 卡片头部 -->
-          <div class="card-header">
-            <div class="header-left">
-              <el-tag
-                :type="getStatusType(issue.status)"
-                size="small"
-                effect="dark"
-                class="status-tag"
-              >
-                {{ getStatusText(issue.status) }}
-              </el-tag>
-              <el-tag
-                :type="getSeverityType(issue.severity)"
-                size="small"
-                effect="plain"
-                class="severity-tag"
-              >
-                {{ getSeverityText(issue.severity) }}
-              </el-tag>
+      <el-table-column label="问题" min-width="300">
+        <template #default="{ row }">
+          <div class="issue-cell">
+            <div class="issue-title">{{ row.title }}</div>
+            <div v-if="row.description" class="issue-desc">{{ row.description }}</div>
+            <div v-if="row.solution" class="issue-solution">
+              <el-icon class="solution-icon"><Checked /></el-icon>
+              <span>{{ row.solution }}</span>
             </div>
-            <div class="header-right">
-              <el-button
-                type="warning"
-                size="small"
-                link
-                @click="handleEdit(issue)"
-              >
-                <el-icon><Edit /></el-icon>
-              </el-button>
-              <el-button
-                type="danger"
-                size="small"
-                link
-                @click="handleDelete(issue)"
-              >
-                <el-icon><Delete /></el-icon>
-              </el-button>
-            </div>
-          </div>
-
-          <!-- 卡片内容 -->
-          <div class="card-body">
-            <h3 class="issue-title">{{ issue.title }}</h3>
-            <p v-if="issue.description" class="issue-desc">{{ issue.description }}</p>
-
-            <div v-if="issue.solution" class="issue-solution">
-              <div class="solution-label">
-                <el-icon><Checked /></el-icon>
-                <span>解决方案</span>
-              </div>
-              <p class="solution-text">{{ issue.solution }}</p>
-            </div>
-
-            <div v-if="issue.tags" class="issue-tags">
+            <div v-if="row.tags" class="issue-tags">
               <el-tag
-                v-for="(tag, index) in issue.tags.split(',')"
+                v-for="(tag, index) in row.tags.split(',')"
                 :key="index"
                 size="small"
                 class="issue-tag"
@@ -130,21 +86,71 @@
               </el-tag>
             </div>
           </div>
+        </template>
+      </el-table-column>
 
-          <!-- 卡片底部 -->
-          <div class="card-footer">
-            <div class="time-info">
-              <el-icon><Calendar /></el-icon>
-              <span>{{ formatDate(issue.created_at) }}</span>
-            </div>
-            <div v-if="issue.resolved_at" class="resolved-time">
-              <el-icon><CircleCheck /></el-icon>
-              <span>{{ formatDate(issue.resolved_at) }}</span>
-            </div>
-          </div>
-        </div>
-      </transition-group>
-    </div>
+      <el-table-column label="状态" width="140" align="center">
+        <template #default="{ row }">
+          <el-tag
+            :type="getStatusType(row.status)"
+            effect="dark"
+            size="large"
+            class="status-tag"
+          >
+            {{ getStatusText(row.status) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="严重程度" width="120" align="center">
+        <template #default="{ row }">
+          <el-tag
+            :type="getSeverityType(row.severity)"
+            effect="plain"
+            size="large"
+          >
+            {{ getSeverityText(row.severity) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="创建时间" width="140" align="center">
+        <template #default="{ row }">
+          {{ formatDate(row.created_at) }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="解决时间" width="140" align="center">
+        <template #default="{ row }">
+          <span v-if="row.resolved_at" class="resolved-time">
+            <el-icon><CircleCheck /></el-icon>
+            {{ formatDate(row.resolved_at) }}
+          </span>
+          <span v-else class="text-muted">-</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" width="120" align="center" fixed="right">
+        <template #default="{ row }">
+          <el-button
+            type="warning"
+            link
+            size="small"
+            @click="handleEdit(row)"
+          >
+            <el-icon><Edit /></el-icon>
+          </el-button>
+          <el-button
+            type="danger"
+            link
+            size="small"
+            @click="handleDelete(row)"
+          >
+            <el-icon><Delete /></el-icon>
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- 分页 -->
     <div v-if="total > 0" class="pagination">
@@ -171,7 +177,7 @@
         ref="formRef"
         :model="form"
         :rules="rules"
-        label-width="80px"
+        label-width="90px"
       >
         <el-form-item label="问题标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入问题标题" />
@@ -186,23 +192,28 @@
           />
         </el-form-item>
 
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="form.status" placeholder="请选择状态">
-            <el-option label="待处理" value="open" />
-            <el-option label="处理中" value="in_progress" />
-            <el-option label="已解决" value="resolved" />
-            <el-option label="已关闭" value="closed" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="严重程度" prop="severity">
-          <el-select v-model="form.severity" placeholder="请选择严重程度">
-            <el-option label="低" value="low" />
-            <el-option label="中" value="medium" />
-            <el-option label="高" value="high" />
-            <el-option label="紧急" value="critical" />
-          </el-select>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="form.status" placeholder="请选择状态" style="width: 100%">
+                <el-option label="待处理" value="open" />
+                <el-option label="处理中" value="in_progress" />
+                <el-option label="已解决" value="resolved" />
+                <el-option label="已关闭" value="closed" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="严重程度" prop="severity">
+              <el-select v-model="form.severity" placeholder="请选择严重程度" style="width: 100%">
+                <el-option label="低" value="low" />
+                <el-option label="中" value="medium" />
+                <el-option label="高" value="high" />
+                <el-option label="紧急" value="critical" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item label="解决方案">
           <el-input
@@ -219,8 +230,8 @@
       </el-form>
 
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="warning" @click="handleSubmit" :loading="submitting">
+        <el-button @click="dialogVisible = false" size="large">取消</el-button>
+        <el-button type="warning" @click="handleSubmit" :loading="submitting" size="large">
           确定
         </el-button>
       </template>
@@ -232,7 +243,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Plus, Edit, Delete, Calendar, Warning, Loading, CircleCheck, 
+  Plus, Edit, Delete, Warning, Loading, CircleCheck, 
   DocumentChecked, Checked
 } from '@element-plus/icons-vue'
 import {
@@ -544,7 +555,7 @@ defineExpose({
 }
 
 .status-filter {
-  width: 140px;
+  width: 160px;
 }
 
 .add-btn {
@@ -559,155 +570,89 @@ defineExpose({
   box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
 }
 
-/* 问题卡片 */
-.issue-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.issue-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+/* 表格样式 */
+.issue-table {
+  width: 100%;
+  border-radius: 8px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.issue-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  border-color: #f59e0b;
+.issue-table :deep(.el-table__row) {
+  transition: all 0.2s ease;
 }
 
-.issue-card.severity-low {
-  border-left: 4px solid #3b82f6;
+.issue-table :deep(.el-table__row:hover) {
+  background-color: #fff5f5;
 }
 
-.issue-card.severity-medium {
-  border-left: 4px solid #fbbf24;
-}
-
-.issue-card.severity-high {
-  border-left: 4px solid #f97316;
-}
-
-.issue-card.severity-critical {
-  border-left: 4px solid #ef4444;
-}
-
-/* 卡片头部 */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
-  border-bottom: 1px solid #ffe0e0;
-}
-
-.header-left {
-  display: flex;
-  gap: 8px;
-}
-
-.status-tag {
-  font-weight: 600;
-  border-radius: 6px;
-}
-
-.severity-tag {
-  border-radius: 6px;
-}
-
-.header-right {
-  display: flex;
-  gap: 4px;
-}
-
-/* 卡片内容 */
-.card-body {
-  padding: 16px;
+.issue-cell {
+  padding: 4px 0;
 }
 
 .issue-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #2d3748;
-  margin: 0 0 8px 0;
-  line-height: 1.4;
+  margin-bottom: 4px;
 }
 
 .issue-desc {
-  font-size: 14px;
+  font-size: 13px;
   color: #718096;
-  margin: 0 0 12px 0;
-  line-height: 1.6;
+  margin-bottom: 6px;
+  line-height: 1.5;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .issue-solution {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-}
-
-.solution-label {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  padding: 6px 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  margin: 6px 0;
   font-size: 12px;
-  font-weight: 600;
-  color: #059669;
-  margin-bottom: 6px;
+  color: #065f46;
 }
 
-.solution-text {
-  font-size: 13px;
-  color: #065f46;
-  margin: 0;
-  line-height: 1.5;
+.solution-icon {
+  color: #059669;
 }
 
 .issue-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
+  margin-top: 6px;
 }
 
 .issue-tag {
   background: #fff7ed;
   border: 1px solid #fed7aa;
   color: #c2410c;
-  border-radius: 4px;
-}
-
-/* 卡片底部 */
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #fafafa;
-  border-top: 1px solid #e2e8f0;
   font-size: 12px;
-  color: #718096;
 }
 
-.time-info, .resolved-time {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.status-tag {
+  font-weight: 600;
+  padding: 6px 12px;
+}
+
+.text-muted {
+  color: #a0aec0;
 }
 
 .resolved-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   color: #10b981;
   font-weight: 600;
 }
@@ -717,21 +662,8 @@ defineExpose({
   display: flex;
   justify-content: center;
   padding: 24px 0;
-}
-
-/* 列表动画 */
-.list-enter-active, .list-leave-active {
-  transition: all 0.3s ease;
-}
-
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(-20px);
+  background: white;
+  border-radius: 0 0 8px 8px;
 }
 
 /* 对话框 */
@@ -743,9 +675,15 @@ defineExpose({
 .issue-dialog :deep(.el-dialog__title) {
   color: white;
   font-weight: 600;
+  font-size: 18px;
 }
 
 .issue-dialog :deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: white;
+  font-size: 20px;
+}
+
+.issue-dialog :deep(.el-dialog__headerbtn:hover .el-dialog__close) {
   color: white;
 }
 
@@ -767,10 +705,5 @@ defineExpose({
   .status-filter {
     flex: 1;
   }
-
-  .issue-cards {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
-

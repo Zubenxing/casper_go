@@ -12,6 +12,7 @@ func GetAllMigrations() []database.Migration {
 		&AddCriticalIndexes20251103000002{},
 		&OptimizePasswordIndexes20251103000003{},
 		&CreateWorksTables20251103000004{},
+		&AddUserIDField20251103000005{},
 		// 在这里添加新的迁移...
 	}
 }

@@ -40,6 +40,7 @@
           clearable
           @change="handleFilterChange"
           class="status-filter"
+          size="large"
         >
           <el-option label="全部状态" value="" />
           <el-option label="待办" value="pending" />
@@ -48,95 +49,110 @@
           <el-option label="已取消" value="cancelled" />
         </el-select>
 
-        <el-button type="primary" @click="handleAdd" class="add-btn">
+        <el-button type="primary" size="large" @click="handleAdd" class="add-btn">
           <el-icon><Plus /></el-icon>
           <span>新建任务</span>
         </el-button>
       </div>
     </div>
 
-    <!-- 工作列表 -->
-    <div v-loading="loading" class="work-cards">
-      <el-empty v-if="!loading && workList.length === 0" description="暂无工作记录" />
+    <!-- 表格 -->
+    <el-table
+      v-loading="loading"
+      :data="workList"
+      stripe
+      class="work-table"
+      :header-cell-style="{ background: '#f5f7fa', color: '#606266', fontWeight: '600' }"
+    >
+      <el-table-column type="index" label="#" width="60" align="center" />
 
-      <transition-group name="list">
-        <div
-          v-for="work in workList"
-          :key="work.id"
-          class="work-card"
-          :class="`status-${work.status}`"
-        >
-          <!-- 卡片头部 -->
-          <div class="card-header">
-            <div class="header-left">
+      <el-table-column label="任务" min-width="300">
+        <template #default="{ row }">
+          <div class="task-cell">
+            <div class="task-title">{{ row.title }}</div>
+            <div v-if="row.description" class="task-desc">{{ row.description }}</div>
+            <div v-if="row.tags" class="task-tags">
               <el-tag
-                :type="getStatusType(work.status)"
-                size="small"
-                effect="dark"
-                class="status-tag"
-              >
-                {{ getStatusText(work.status) }}
-              </el-tag>
-              <el-tag
-                :type="getPriorityType(work.priority)"
-                size="small"
-                effect="plain"
-                class="priority-tag"
-              >
-                {{ getPriorityText(work.priority) }}
-              </el-tag>
-            </div>
-            <div class="header-right">
-              <el-button
-                type="primary"
-                size="small"
-                link
-                @click="handleEdit(work)"
-              >
-                <el-icon><Edit /></el-icon>
-              </el-button>
-              <el-button
-                type="danger"
-                size="small"
-                link
-                @click="handleDelete(work)"
-              >
-                <el-icon><Delete /></el-icon>
-              </el-button>
-            </div>
-          </div>
-
-          <!-- 卡片内容 -->
-          <div class="card-body">
-            <h3 class="work-title">{{ work.title }}</h3>
-            <p v-if="work.description" class="work-desc">{{ work.description }}</p>
-
-            <div v-if="work.tags" class="work-tags">
-              <el-tag
-                v-for="(tag, index) in work.tags.split(',')"
+                v-for="(tag, index) in row.tags.split(',')"
                 :key="index"
                 size="small"
-                class="work-tag"
+                class="task-tag"
               >
                 {{ tag }}
               </el-tag>
             </div>
           </div>
+        </template>
+      </el-table-column>
 
-          <!-- 卡片底部 -->
-          <div class="card-footer">
-            <div class="time-info">
-              <el-icon><Calendar /></el-icon>
-              <span>创建于 {{ formatDate(work.created_at) }}</span>
-            </div>
-            <div v-if="work.due_date" class="due-date" :class="{ overdue: isOverdue(work.due_date) }">
-              <el-icon><Timer /></el-icon>
-              <span>{{ formatDate(work.due_date) }}</span>
-            </div>
-          </div>
-        </div>
-      </transition-group>
-    </div>
+      <el-table-column label="状态" width="140" align="center">
+        <template #default="{ row }">
+          <el-tag
+            :type="getStatusType(row.status)"
+            effect="dark"
+            size="large"
+            class="status-tag"
+          >
+            {{ getStatusText(row.status) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="优先级" width="120" align="center">
+        <template #default="{ row }">
+          <el-tag
+            :type="getPriorityType(row.priority)"
+            effect="plain"
+            size="large"
+          >
+            {{ getPriorityText(row.priority) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="截止日期" width="140" align="center">
+        <template #default="{ row }">
+          <span v-if="row.due_date" :class="{ 'overdue': isOverdue(row.due_date) }">
+            {{ formatDate(row.due_date) }}
+          </span>
+          <span v-else class="text-muted">-</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="开始日期" width="140" align="center">
+        <template #default="{ row }">
+          <span v-if="row.start_date">{{ formatDate(row.start_date) }}</span>
+          <span v-else class="text-muted">-</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="创建时间" width="140" align="center">
+        <template #default="{ row }">
+          {{ formatDate(row.created_at) }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" width="120" align="center" fixed="right">
+        <template #default="{ row }">
+          <el-button
+            type="primary"
+            link
+            size="small"
+            @click="handleEdit(row)"
+          >
+            <el-icon><Edit /></el-icon>
+          </el-button>
+          <el-button
+            type="danger"
+            link
+            size="small"
+            @click="handleDelete(row)"
+          >
+            <el-icon><Delete /></el-icon>
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- 分页 -->
     <div v-if="total > 0" class="pagination">
@@ -163,7 +179,7 @@
         ref="formRef"
         :model="form"
         :rules="rules"
-        label-width="80px"
+        label-width="90px"
       >
         <el-form-item label="任务标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入任务标题" />
@@ -178,41 +194,51 @@
           />
         </el-form-item>
 
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="form.status" placeholder="请选择状态">
-            <el-option label="待办" value="pending" />
-            <el-option label="进行中" value="in_progress" />
-            <el-option label="已完成" value="completed" />
-            <el-option label="已取消" value="cancelled" />
-          </el-select>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="form.status" placeholder="请选择状态" style="width: 100%">
+                <el-option label="待办" value="pending" />
+                <el-option label="进行中" value="in_progress" />
+                <el-option label="已完成" value="completed" />
+                <el-option label="已取消" value="cancelled" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="优先级" prop="priority">
+              <el-select v-model="form.priority" placeholder="请选择优先级" style="width: 100%">
+                <el-option label="低" value="low" />
+                <el-option label="中" value="medium" />
+                <el-option label="高" value="high" />
+                <el-option label="紧急" value="urgent" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <el-form-item label="优先级" prop="priority">
-          <el-select v-model="form.priority" placeholder="请选择优先级">
-            <el-option label="低" value="low" />
-            <el-option label="中" value="medium" />
-            <el-option label="高" value="high" />
-            <el-option label="紧急" value="urgent" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="开始日期">
-          <el-date-picker
-            v-model="form.start_date"
-            type="datetime"
-            placeholder="选择开始日期"
-            style="width: 100%"
-          />
-        </el-form-item>
-
-        <el-form-item label="截止日期">
-          <el-date-picker
-            v-model="form.due_date"
-            type="datetime"
-            placeholder="选择截止日期"
-            style="width: 100%"
-          />
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="开始日期">
+              <el-date-picker
+                v-model="form.start_date"
+                type="datetime"
+                placeholder="选择开始日期"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="截止日期">
+              <el-date-picker
+                v-model="form.due_date"
+                type="datetime"
+                placeholder="选择截止日期"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item label="标签">
           <el-input v-model="form.tags" placeholder="多个标签用逗号分隔" />
@@ -220,8 +246,8 @@
       </el-form>
 
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit" :loading="submitting">
+        <el-button @click="dialogVisible = false" size="large">取消</el-button>
+        <el-button type="primary" @click="handleSubmit" :loading="submitting" size="large">
           确定
         </el-button>
       </template>
@@ -233,7 +259,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Plus, Edit, Delete, Calendar, Timer, Clock, Loading, CircleCheck, Tickets
+  Plus, Edit, Delete, Clock, Loading, CircleCheck, Tickets
 } from '@element-plus/icons-vue'
 import {
   getWorkList, createWork, updateWork, deleteWork, getWorkStats
@@ -551,7 +577,7 @@ defineExpose({
 }
 
 .status-filter {
-  width: 140px;
+  width: 160px;
 }
 
 .add-btn {
@@ -565,131 +591,68 @@ defineExpose({
   box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
 }
 
-/* 工作卡片 */
-.work-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.work-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+/* 表格样式 */
+.work-table {
+  width: 100%;
+  border-radius: 8px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.work-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  border-color: #667eea;
+.work-table :deep(.el-table__row) {
+  transition: all 0.2s ease;
 }
 
-.work-card.status-pending {
-  border-left: 4px solid #fbbf24;
+.work-table :deep(.el-table__row:hover) {
+  background-color: #f5f7fa;
 }
 
-.work-card.status-in_progress {
-  border-left: 4px solid #3b82f6;
+.task-cell {
+  padding: 4px 0;
 }
 
-.work-card.status-completed {
-  border-left: 4px solid #10b981;
-}
-
-.work-card.status-cancelled {
-  border-left: 4px solid #ef4444;
-  opacity: 0.7;
-}
-
-/* 卡片头部 */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.header-left {
-  display: flex;
-  gap: 8px;
-}
-
-.status-tag {
-  font-weight: 600;
-  border-radius: 6px;
-}
-
-.priority-tag {
-  border-radius: 6px;
-}
-
-.header-right {
-  display: flex;
-  gap: 4px;
-}
-
-/* 卡片内容 */
-.card-body {
-  padding: 16px;
-}
-
-.work-title {
-  font-size: 16px;
+.task-title {
+  font-size: 14px;
   font-weight: 600;
   color: #2d3748;
-  margin: 0 0 8px 0;
-  line-height: 1.4;
+  margin-bottom: 4px;
 }
 
-.work-desc {
-  font-size: 14px;
+.task-desc {
+  font-size: 13px;
   color: #718096;
-  margin: 0 0 12px 0;
-  line-height: 1.6;
+  margin-bottom: 6px;
+  line-height: 1.5;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.work-tags {
+.task-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
+  margin-top: 6px;
 }
 
-.work-tag {
+.task-tag {
   background: #f7fafc;
   border: 1px solid #e2e8f0;
   color: #4a5568;
-  border-radius: 4px;
-}
-
-/* 卡片底部 */
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #f7fafc;
-  border-top: 1px solid #e2e8f0;
   font-size: 12px;
-  color: #718096;
 }
 
-.time-info, .due-date {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.status-tag {
+  font-weight: 600;
+  padding: 6px 12px;
 }
 
-.due-date.overdue {
+.text-muted {
+  color: #a0aec0;
+}
+
+.overdue {
   color: #ef4444;
   font-weight: 600;
 }
@@ -699,21 +662,8 @@ defineExpose({
   display: flex;
   justify-content: center;
   padding: 24px 0;
-}
-
-/* 列表动画 */
-.list-enter-active, .list-leave-active {
-  transition: all 0.3s ease;
-}
-
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(-20px);
+  background: white;
+  border-radius: 0 0 8px 8px;
 }
 
 /* 对话框 */
@@ -725,9 +675,15 @@ defineExpose({
 .work-dialog :deep(.el-dialog__title) {
   color: white;
   font-weight: 600;
+  font-size: 18px;
 }
 
 .work-dialog :deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: white;
+  font-size: 20px;
+}
+
+.work-dialog :deep(.el-dialog__headerbtn:hover .el-dialog__close) {
   color: white;
 }
 
@@ -749,10 +705,5 @@ defineExpose({
   .status-filter {
     flex: 1;
   }
-
-  .work-cards {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
-
