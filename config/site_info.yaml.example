@@ -43,6 +43,13 @@ certificate:
   check_interval: 3600  # 自动检查间隔（秒，默认1小时）
   warning_days: 30      # 证书到期前多少天开始警告
 
+# 文件上传配置
+upload:
+  base_dir: "uploads"           # 上传文件根目录
+  work_issues_dir: "work-issues" # 工作问题图片子目录
+  max_file_size: 5              # 最大文件大小（MB）
+  allowed_types: ".jpg,.jpeg,.png,.gif,.webp" # 允许的文件类型
+
 # ========================================
 # 不同环境的推荐配置
 # ========================================

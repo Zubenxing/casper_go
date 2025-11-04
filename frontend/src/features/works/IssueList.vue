@@ -2,37 +2,6 @@
   <div class="issue-list">
     <!-- 顶部操作栏 -->
     <div class="action-bar">
-      <div class="stats-cards">
-        <div class="stat-card stat-total">
-          <el-icon class="stat-icon"><DocumentChecked /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.total || 0 }}</div>
-            <div class="stat-label">全部问题</div>
-          </div>
-        </div>
-        <div class="stat-card stat-open">
-          <el-icon class="stat-icon"><Warning /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.open || 0 }}</div>
-            <div class="stat-label">待处理</div>
-          </div>
-        </div>
-        <div class="stat-card stat-progress">
-          <el-icon class="stat-icon"><Loading /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.in_progress || 0 }}</div>
-            <div class="stat-label">处理中</div>
-          </div>
-        </div>
-        <div class="stat-card stat-resolved">
-          <el-icon class="stat-icon"><CircleCheck /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.resolved || 0 }}</div>
-            <div class="stat-label">已解决</div>
-          </div>
-        </div>
-      </div>
-
       <div class="action-buttons">
         <el-select
           v-model="filterStatus"
@@ -71,6 +40,20 @@
           <div class="issue-cell">
             <div class="issue-title">{{ row.title }}</div>
             <div v-if="row.description" class="issue-desc">{{ row.description }}</div>
+            
+            <!-- 嵌入的截图 -->
+            <div v-if="row.images && parseImages(row.images).length > 0" class="issue-images">
+              <el-image
+                v-for="(img, index) in parseImages(row.images).slice(0, 3)"
+                :key="index"
+                :src="getImageUrl(img)"
+                :preview-src-list="parseImages(row.images).map(i => getImageUrl(i))"
+                :initial-index="index"
+                fit="cover"
+                class="issue-image"
+              />
+            </div>
+            
             <div v-if="row.solution" class="issue-solution">
               <el-icon class="solution-icon"><Checked /></el-icon>
               <span>{{ row.solution }}</span>
@@ -89,28 +72,51 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" width="140" align="center">
+      <el-table-column label="状态" width="140" align="center" sortable prop="status">
         <template #default="{ row }">
-          <el-tag
-            :type="getStatusType(row.status)"
-            effect="dark"
-            size="large"
-            class="status-tag"
-          >
-            {{ getStatusText(row.status) }}
-          </el-tag>
+          <el-dropdown @command="(cmd) => handleStatusChange(row, cmd)" trigger="click">
+            <el-tag
+              :type="getStatusType(row.status)"
+              effect="dark"
+              size="large"
+              class="status-tag clickable"
+            >
+              {{ getStatusText(row.status) }}
+              <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+            </el-tag>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="open">待处理</el-dropdown-item>
+                <el-dropdown-item command="in_progress">处理中</el-dropdown-item>
+                <el-dropdown-item command="resolved">已解决</el-dropdown-item>
+                <el-dropdown-item command="closed">已关闭</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
 
-      <el-table-column label="严重程度" width="120" align="center">
+      <el-table-column label="严重程度" width="120" align="center" sortable prop="severity">
         <template #default="{ row }">
-          <el-tag
-            :type="getSeverityType(row.severity)"
-            effect="plain"
-            size="large"
-          >
-            {{ getSeverityText(row.severity) }}
-          </el-tag>
+          <el-dropdown @command="(cmd) => handleSeverityChange(row, cmd)" trigger="click">
+            <el-tag
+              :type="getSeverityType(row.severity)"
+              effect="plain"
+              size="large"
+              class="severity-tag clickable"
+            >
+              {{ getSeverityText(row.severity) }}
+              <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+            </el-tag>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="low">低</el-dropdown-item>
+                <el-dropdown-item command="medium">中</el-dropdown-item>
+                <el-dropdown-item command="high">高</el-dropdown-item>
+                <el-dropdown-item command="critical">严重</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
 
@@ -132,22 +138,36 @@
 
       <el-table-column label="操作" width="120" align="center" fixed="right">
         <template #default="{ row }">
-          <el-button
-            type="warning"
-            link
-            size="small"
-            @click="handleEdit(row)"
-          >
-            <el-icon><Edit /></el-icon>
-          </el-button>
-          <el-button
-            type="danger"
-            link
-            size="small"
-            @click="handleDelete(row)"
-          >
-            <el-icon><Delete /></el-icon>
-          </el-button>
+          <el-tooltip content="查看详情" placement="top">
+            <el-button
+              type="primary"
+              link
+              size="small"
+              @click="handleViewDetail(row)"
+            >
+              <el-icon><Document /></el-icon>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip content="编辑" placement="top">
+            <el-button
+              type="warning"
+              link
+              size="small"
+              @click="handleEdit(row)"
+            >
+              <el-icon><Edit /></el-icon>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button
+              type="danger"
+              link
+              size="small"
+              @click="handleDelete(row)"
+            >
+              <el-icon><Delete /></el-icon>
+            </el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -192,6 +212,26 @@
           />
         </el-form-item>
 
+        <el-form-item label="问题截图">
+          <div class="image-upload-area">
+            <el-upload
+              v-model:file-list="imageFileList"
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :on-success="handleImageSuccess"
+              :on-remove="handleImageRemove"
+              :before-upload="beforeImageUpload"
+              :limit="3"
+              :on-exceed="handleImageExceed"
+              list-type="picture-card"
+              accept="image/*"
+            >
+              <el-icon><Plus /></el-icon>
+            </el-upload>
+            <div class="upload-tip">最多上传3张截图，单张不超过5MB</div>
+          </div>
+        </el-form-item>
+
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="状态" prop="status">
@@ -227,6 +267,16 @@
         <el-form-item label="标签">
           <el-input v-model="form.tags" placeholder="多个标签用逗号分隔" />
         </el-form-item>
+
+        <el-form-item label="详细内容">
+          <el-input
+            v-model="form.content"
+            type="textarea"
+            :rows="6"
+            placeholder="请输入问题的详细内容、复现步骤、解决过程等（支持 Markdown 格式）"
+          />
+          <div class="content-tip">提示：可以在这里详细记录问题分析、解决过程、注意事项等</div>
+        </el-form-item>
       </el-form>
 
       <template #footer>
@@ -236,6 +286,14 @@
         </el-button>
       </template>
     </el-dialog>
+
+    <!-- 问题详情编辑器 -->
+    <IssueDetailEditor
+      v-model="detailEditorVisible"
+      :issue="currentIssue || {}"
+      @edit="handleEditFromDetail"
+      @refresh="fetchData"
+    />
   </div>
 </template>
 
@@ -244,12 +302,13 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Plus, Edit, Delete, Warning, Loading, CircleCheck, 
-  DocumentChecked, Checked
+  DocumentChecked, Checked, ArrowDown, Document
 } from '@element-plus/icons-vue'
 import {
   getWorkIssueList, createWorkIssue, updateWorkIssue, 
   deleteWorkIssue, getWorkIssueStats
 } from './api'
+import IssueDetailEditor from './IssueDetailEditor.vue'
 
 const loading = ref(false)
 const submitting = ref(false)
@@ -276,7 +335,9 @@ const form = reactive({
   status: 'open',
   severity: 'medium',
   solution: '',
-  tags: ''
+  tags: '',
+  images: [],
+  content: ''
 })
 
 const rules = {
@@ -284,6 +345,17 @@ const rules = {
   status: [{ required: true, message: '请选择状态', trigger: 'change' }],
   severity: [{ required: true, message: '请选择严重程度', trigger: 'change' }]
 }
+
+// 图片上传相关
+const imageFileList = ref([])
+const uploadUrl = 'http://localhost:8080/api/work-issues/upload'
+const uploadHeaders = {
+  'Authorization': `Bearer ${localStorage.getItem('token')}`
+}
+
+// 详情编辑器
+const detailEditorVisible = ref(false)
+const currentIssue = ref(null)
 
 // 获取数据
 const fetchData = async () => {
@@ -331,11 +403,11 @@ const getStatusText = (status) => {
 const getSeverityType = (severity) => {
   const map = {
     low: 'info',
-    medium: '',
+    medium: 'warning',
     high: 'warning',
     critical: 'danger'
   }
-  return map[severity] || ''
+  return map[severity] || 'info'
 }
 
 const getSeverityText = (severity) => {
@@ -348,6 +420,34 @@ const getSeverityText = (severity) => {
   return map[severity] || severity
 }
 
+// 快速更改状态
+const handleStatusChange = async (row, newStatus) => {
+  if (row.status === newStatus) return
+  
+  try {
+    await updateWorkIssue(row.id, { status: newStatus })
+    ElMessage.success('状态已更新')
+    row.status = newStatus
+    // 刷新统计数据
+    await fetchStats()
+  } catch (error) {
+    ElMessage.error(error.message || '状态更新失败')
+  }
+}
+
+// 快速更改严重程度
+const handleSeverityChange = async (row, newSeverity) => {
+  if (row.severity === newSeverity) return
+  
+  try {
+    await updateWorkIssue(row.id, { severity: newSeverity })
+    ElMessage.success('严重程度已更新')
+    row.severity = newSeverity
+  } catch (error) {
+    ElMessage.error(error.message || '严重程度更新失败')
+  }
+}
+
 // 日期格式化
 const formatDate = (date) => {
   if (!date) return ''
@@ -357,6 +457,74 @@ const formatDate = (date) => {
     month: '2-digit',
     day: '2-digit'
   })
+}
+
+// 解析图片JSON
+const parseImages = (images) => {
+  if (!images) return []
+  try {
+    return typeof images === 'string' ? JSON.parse(images) : images
+  } catch {
+    return []
+  }
+}
+
+// 获取图片URL
+const getImageUrl = (path) => {
+  // 如果路径已经是完整URL，直接返回
+  if (path.startsWith('http')) return path
+  // 否则拼接API基础路径
+  return `http://localhost:8080${path}`
+}
+
+// 图片上传成功
+const handleImageSuccess = (response) => {
+  if (response.code === 200) {
+    form.images.push(response.data.url)
+    ElMessage.success('图片上传成功')
+  } else {
+    ElMessage.error(response.message || '图片上传失败')
+  }
+}
+
+// 图片移除
+const handleImageRemove = (file) => {
+  const index = imageFileList.value.findIndex(item => item.uid === file.uid)
+  if (index !== -1 && form.images[index]) {
+    form.images.splice(index, 1)
+  }
+}
+
+// 图片上传前检查
+const beforeImageUpload = (file) => {
+  const isImage = file.type.startsWith('image/')
+  const isLt5M = file.size / 1024 / 1024 < 5
+
+  if (!isImage) {
+    ElMessage.error('只能上传图片文件!')
+    return false
+  }
+  if (!isLt5M) {
+    ElMessage.error('图片大小不能超过 5MB!')
+    return false
+  }
+  return true
+}
+
+// 超出上传数量限制
+const handleImageExceed = () => {
+  ElMessage.warning('最多只能上传 3 张图片!')
+}
+
+// 查看详情
+const handleViewDetail = (row) => {
+  currentIssue.value = { ...row }
+  detailEditorVisible.value = true
+}
+
+// 从详情编辑器编辑问题
+const handleEditFromDetail = (issue) => {
+  handleEdit(issue)
 }
 
 // 筛选变更
@@ -377,13 +545,26 @@ const handleAdd = () => {
 const handleEdit = (issue) => {
   dialogTitle.value = '编辑问题'
   currentEditId.value = issue.id
+  
+  // 解析图片数据
+  const images = parseImages(issue.images)
+  form.images = images
+  
+  // 构建图片文件列表用于显示
+  imageFileList.value = images.map((url, index) => ({
+    uid: Date.now() + index,
+    name: `image-${index + 1}`,
+    url: getImageUrl(url)
+  }))
+  
   Object.assign(form, {
     title: issue.title,
     description: issue.description,
     status: issue.status,
     severity: issue.severity,
     solution: issue.solution || '',
-    tags: issue.tags || ''
+    tags: issue.tags || '',
+    content: issue.content || ''
   })
   dialogVisible.value = true
 }
@@ -419,7 +600,12 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     submitting.value = true
 
-    const data = { ...form }
+    const data = {
+      ...form,
+      // 将图片数组转换为 JSON 字符串
+      images: form.images.length > 0 ? JSON.stringify(form.images) : ''
+    }
+    
     if (currentEditId.value) {
       await updateWorkIssue(currentEditId.value, data)
       ElMessage.success('更新成功')
@@ -447,8 +633,11 @@ const resetForm = () => {
     status: 'open',
     severity: 'medium',
     solution: '',
-    tags: ''
+    tags: '',
+    images: [],
+    content: ''
   })
+  imageFileList.value = []
   formRef.value?.clearValidate()
 }
 
@@ -644,6 +833,22 @@ defineExpose({
   padding: 6px 12px;
 }
 
+.severity-tag {
+  font-weight: 600;
+  padding: 6px 12px;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .text-muted {
   color: #a0aec0;
 }
@@ -655,6 +860,28 @@ defineExpose({
   gap: 4px;
   color: #10b981;
   font-weight: 600;
+}
+
+/* 嵌入式截图 */
+.issue-images {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.issue-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #e2e8f0;
+}
+
+.issue-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* 分页 */
@@ -685,6 +912,23 @@ defineExpose({
 
 .issue-dialog :deep(.el-dialog__headerbtn:hover .el-dialog__close) {
   color: white;
+}
+
+/* 图片上传区域 */
+.image-upload-area {
+  width: 100%;
+}
+
+.upload-tip {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #909399;
+}
+
+.content-tip {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #909399;
 }
 
 /* 响应式设计 */

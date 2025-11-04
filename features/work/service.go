@@ -6,6 +6,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -13,21 +14,39 @@ import (
 
 // CreateWork 创建工作记录
 func CreateWork(userID uint, work *Work) error {
-	logger.Log.Infof("[工作管理] 创建工作记录: 用户ID=%d, 标题=%s", userID, work.Title)
+	logger.Work.WithFields(logrus.Fields{
+		"user_id":  userID,
+		"title":    work.Title,
+		"status":   work.Status,
+		"priority": work.Priority,
+	}).Info("[工作记录] 创建工作记录")
 
 	work.UserID = userID
 	if err := database.DB.Create(work).Error; err != nil {
-		logger.Log.Errorf("[工作管理] 创建工作记录失败: %v", err)
+		logger.Work.WithFields(logrus.Fields{
+			"user_id": userID,
+			"error":   err.Error(),
+		}).Error("[工作记录] 创建失败")
 		return err
 	}
 
-	logger.Log.Infof("[工作管理] 创建工作记录成功: ID=%d", work.ID)
+	logger.Work.WithFields(logrus.Fields{
+		"work_id":  work.ID,
+		"title":    work.Title,
+		"status":   work.Status,
+		"priority": work.Priority,
+	}).Info("[工作记录] 创建成功")
 	return nil
 }
 
 // GetWorkList 获取工作记录列表
 func GetWorkList(userID uint, status string, page, pageSize int) ([]Work, int64, error) {
-	logger.Log.Infof("[工作管理] 获取工作列表: 用户ID=%d, 状态=%s, 页码=%d, 每页=%d", userID, status, page, pageSize)
+	logger.Work.WithFields(logrus.Fields{
+		"user_id":   userID,
+		"status":    status,
+		"page":      page,
+		"page_size": pageSize,
+	}).Info("[工作记录] 获取列表")
 
 	var works []Work
 	var total int64
@@ -39,7 +58,10 @@ func GetWorkList(userID uint, status string, page, pageSize int) ([]Work, int64,
 	}
 
 	if err := query.Count(&total).Error; err != nil {
-		logger.Log.Errorf("[工作管理] 获取工作总数失败: %v", err)
+		logger.Work.WithFields(logrus.Fields{
+			"user_id": userID,
+			"error":   err.Error(),
+		}).Error("[工作记录] 获取总数失败")
 		return nil, 0, err
 	}
 
@@ -48,35 +70,42 @@ func GetWorkList(userID uint, status string, page, pageSize int) ([]Work, int64,
 		Limit(pageSize).
 		Offset(offset).
 		Find(&works).Error; err != nil {
-		logger.Log.Errorf("[工作管理] 获取工作列表失败: %v", err)
+		logger.Work.WithFields(logrus.Fields{
+			"user_id": userID,
+			"error":   err.Error(),
+		}).Error("[工作记录] 获取列表失败")
 		return nil, 0, err
 	}
 
-	logger.Log.Infof("[工作管理] 获取工作列表成功: 总数=%d, 返回=%d条", total, len(works))
+	logger.Work.WithFields(logrus.Fields{
+		"user_id": userID,
+		"total":   total,
+		"count":   len(works),
+	}).Info("[工作记录] 获取列表成功")
 	return works, total, nil
 }
 
 // GetWorkByID 根据ID获取工作记录
 func GetWorkByID(userID, id uint) (*Work, error) {
-	logger.Log.Infof("[工作管理] 获取工作详情: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[工作管理] 获取工作详情: ID=%d, 用户ID=%d", id, userID)
 
 	var work Work
 	if err := database.DB.Where("id = ? AND user_id = ?", id, userID).First(&work).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			logger.Log.Warnf("[工作管理] 工作记录不存在: ID=%d", id)
+			logger.Work.Warnf("[工作管理] 工作记录不存在: ID=%d", id)
 			return nil, errors.New("工作记录不存在")
 		}
-		logger.Log.Errorf("[工作管理] 获取工作详情失败: %v", err)
+		logger.Work.Errorf("[工作管理] 获取工作详情失败: %v", err)
 		return nil, err
 	}
 
-	logger.Log.Infof("[工作管理] 获取工作详情成功: ID=%d", id)
+	logger.Work.Infof("[工作管理] 获取工作详情成功: ID=%d", id)
 	return &work, nil
 }
 
 // UpdateWork 更新工作记录
 func UpdateWork(userID, id uint, updates map[string]interface{}) error {
-	logger.Log.Infof("[工作管理] 更新工作记录: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[工作管理] 更新工作记录: ID=%d, 用户ID=%d", id, userID)
 
 	// 检查记录是否存在
 	work, err := GetWorkByID(userID, id)
@@ -91,17 +120,17 @@ func UpdateWork(userID, id uint, updates map[string]interface{}) error {
 	}
 
 	if err := database.DB.Model(work).Updates(updates).Error; err != nil {
-		logger.Log.Errorf("[工作管理] 更新工作记录失败: %v", err)
+		logger.Work.Errorf("[工作管理] 更新工作记录失败: %v", err)
 		return err
 	}
 
-	logger.Log.Infof("[工作管理] 更新工作记录成功: ID=%d", id)
+	logger.Work.Infof("[工作管理] 更新工作记录成功: ID=%d", id)
 	return nil
 }
 
 // DeleteWork 删除工作记录
 func DeleteWork(userID, id uint) error {
-	logger.Log.Infof("[工作管理] 删除工作记录: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[工作管理] 删除工作记录: ID=%d, 用户ID=%d", id, userID)
 
 	work, err := GetWorkByID(userID, id)
 	if err != nil {
@@ -109,17 +138,17 @@ func DeleteWork(userID, id uint) error {
 	}
 
 	if err := database.DB.Delete(work).Error; err != nil {
-		logger.Log.Errorf("[工作管理] 删除工作记录失败: %v", err)
+		logger.Work.Errorf("[工作管理] 删除工作记录失败: %v", err)
 		return err
 	}
 
-	logger.Log.Infof("[工作管理] 删除工作记录成功: ID=%d", id)
+	logger.Work.Infof("[工作管理] 删除工作记录成功: ID=%d", id)
 	return nil
 }
 
 // GetWorkStats 获取工作统计信息
 func GetWorkStats(userID uint) (map[string]interface{}, error) {
-	logger.Log.Infof("[工作管理] 获取工作统计: 用户ID=%d", userID)
+	logger.Work.Infof("[工作管理] 获取工作统计: 用户ID=%d", userID)
 
 	var total, pending, inProgress, completed int64
 
@@ -143,7 +172,7 @@ func GetWorkStats(userID uint) (map[string]interface{}, error) {
 		Scan(&result).Error
 
 	if err != nil {
-		logger.Log.Errorf("[工作管理] 获取工作统计失败: %v", err)
+		logger.Work.Errorf("[工作管理] 获取工作统计失败: %v", err)
 		return nil, err
 	}
 
@@ -159,7 +188,7 @@ func GetWorkStats(userID uint) (map[string]interface{}, error) {
 		"completed":   completed,
 	}
 
-	logger.Log.Infof("[工作管理] 统计信息获取成功: 总数=%d, 待办=%d, 进行中=%d, 已完成=%d",
+	logger.Work.Infof("[工作管理] 统计信息获取成功: 总数=%d, 待办=%d, 进行中=%d, 已完成=%d",
 		total, pending, inProgress, completed)
 	return stats, nil
 }
@@ -168,21 +197,21 @@ func GetWorkStats(userID uint) (map[string]interface{}, error) {
 
 // CreateWorkIssue 创建问题记录
 func CreateWorkIssue(userID uint, issue *WorkIssue) error {
-	logger.Log.Infof("[问题管理] 创建问题记录: 用户ID=%d, 标题=%s", userID, issue.Title)
+	logger.Work.Infof("[问题管理] 创建问题记录: 用户ID=%d, 标题=%s", userID, issue.Title)
 
 	issue.UserID = userID
 	if err := database.DB.Create(issue).Error; err != nil {
-		logger.Log.Errorf("[问题管理] 创建问题记录失败: %v", err)
+		logger.Work.Errorf("[问题管理] 创建问题记录失败: %v", err)
 		return err
 	}
 
-	logger.Log.Infof("[问题管理] 创建问题记录成功: ID=%d", issue.ID)
+	logger.Work.Infof("[问题管理] 创建问题记录成功: ID=%d", issue.ID)
 	return nil
 }
 
 // GetWorkIssueList 获取问题记录列表
 func GetWorkIssueList(userID uint, status string, page, pageSize int) ([]WorkIssue, int64, error) {
-	logger.Log.Infof("[问题管理] 获取问题列表: 用户ID=%d, 状态=%s, 页码=%d, 每页=%d", userID, status, page, pageSize)
+	logger.Work.Infof("[问题管理] 获取问题列表: 用户ID=%d, 状态=%s, 页码=%d, 每页=%d", userID, status, page, pageSize)
 
 	var issues []WorkIssue
 	var total int64
@@ -194,7 +223,7 @@ func GetWorkIssueList(userID uint, status string, page, pageSize int) ([]WorkIss
 	}
 
 	if err := query.Count(&total).Error; err != nil {
-		logger.Log.Errorf("[问题管理] 获取问题总数失败: %v", err)
+		logger.Work.Errorf("[问题管理] 获取问题总数失败: %v", err)
 		return nil, 0, err
 	}
 
@@ -203,35 +232,35 @@ func GetWorkIssueList(userID uint, status string, page, pageSize int) ([]WorkIss
 		Limit(pageSize).
 		Offset(offset).
 		Find(&issues).Error; err != nil {
-		logger.Log.Errorf("[问题管理] 获取问题列表失败: %v", err)
+		logger.Work.Errorf("[问题管理] 获取问题列表失败: %v", err)
 		return nil, 0, err
 	}
 
-	logger.Log.Infof("[问题管理] 获取问题列表成功: 总数=%d, 返回=%d条", total, len(issues))
+	logger.Work.Infof("[问题管理] 获取问题列表成功: 总数=%d, 返回=%d条", total, len(issues))
 	return issues, total, nil
 }
 
 // GetWorkIssueByID 根据ID获取问题记录
 func GetWorkIssueByID(userID, id uint) (*WorkIssue, error) {
-	logger.Log.Infof("[问题管理] 获取问题详情: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[问题管理] 获取问题详情: ID=%d, 用户ID=%d", id, userID)
 
 	var issue WorkIssue
 	if err := database.DB.Where("id = ? AND user_id = ?", id, userID).First(&issue).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			logger.Log.Warnf("[问题管理] 问题记录不存在: ID=%d", id)
+			logger.Work.Warnf("[问题管理] 问题记录不存在: ID=%d", id)
 			return nil, errors.New("问题记录不存在")
 		}
-		logger.Log.Errorf("[问题管理] 获取问题详情失败: %v", err)
+		logger.Work.Errorf("[问题管理] 获取问题详情失败: %v", err)
 		return nil, err
 	}
 
-	logger.Log.Infof("[问题管理] 获取问题详情成功: ID=%d", id)
+	logger.Work.Infof("[问题管理] 获取问题详情成功: ID=%d", id)
 	return &issue, nil
 }
 
 // UpdateWorkIssue 更新问题记录
 func UpdateWorkIssue(userID, id uint, updates map[string]interface{}) error {
-	logger.Log.Infof("[问题管理] 更新问题记录: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[问题管理] 更新问题记录: ID=%d, 用户ID=%d", id, userID)
 
 	// 检查记录是否存在
 	issue, err := GetWorkIssueByID(userID, id)
@@ -246,17 +275,17 @@ func UpdateWorkIssue(userID, id uint, updates map[string]interface{}) error {
 	}
 
 	if err := database.DB.Model(issue).Updates(updates).Error; err != nil {
-		logger.Log.Errorf("[问题管理] 更新问题记录失败: %v", err)
+		logger.Work.Errorf("[问题管理] 更新问题记录失败: %v", err)
 		return err
 	}
 
-	logger.Log.Infof("[问题管理] 更新问题记录成功: ID=%d", id)
+	logger.Work.Infof("[问题管理] 更新问题记录成功: ID=%d", id)
 	return nil
 }
 
 // DeleteWorkIssue 删除问题记录
 func DeleteWorkIssue(userID, id uint) error {
-	logger.Log.Infof("[问题管理] 删除问题记录: ID=%d, 用户ID=%d", id, userID)
+	logger.Work.Infof("[问题管理] 删除问题记录: ID=%d, 用户ID=%d", id, userID)
 
 	issue, err := GetWorkIssueByID(userID, id)
 	if err != nil {
@@ -264,17 +293,17 @@ func DeleteWorkIssue(userID, id uint) error {
 	}
 
 	if err := database.DB.Delete(issue).Error; err != nil {
-		logger.Log.Errorf("[问题管理] 删除问题记录失败: %v", err)
+		logger.Work.Errorf("[问题管理] 删除问题记录失败: %v", err)
 		return err
 	}
 
-	logger.Log.Infof("[问题管理] 删除问题记录成功: ID=%d", id)
+	logger.Work.Infof("[问题管理] 删除问题记录成功: ID=%d", id)
 	return nil
 }
 
 // GetWorkIssueStats 获取问题统计信息
 func GetWorkIssueStats(userID uint) (map[string]interface{}, error) {
-	logger.Log.Infof("[问题管理] 获取问题统计: 用户ID=%d", userID)
+	logger.Work.Infof("[问题管理] 获取问题统计: 用户ID=%d", userID)
 
 	var total, open, inProgress, resolved int64
 
@@ -298,7 +327,7 @@ func GetWorkIssueStats(userID uint) (map[string]interface{}, error) {
 		Scan(&result).Error
 
 	if err != nil {
-		logger.Log.Errorf("[问题管理] 获取问题统计失败: %v", err)
+		logger.Work.Errorf("[问题管理] 获取问题统计失败: %v", err)
 		return nil, err
 	}
 
@@ -314,7 +343,7 @@ func GetWorkIssueStats(userID uint) (map[string]interface{}, error) {
 		"resolved":    resolved,
 	}
 
-	logger.Log.Infof("[问题管理] 统计信息获取成功: 总数=%d, 待处理=%d, 进行中=%d, 已解决=%d",
+	logger.Work.Infof("[问题管理] 统计信息获取成功: 总数=%d, 待处理=%d, 进行中=%d, 已解决=%d",
 		total, open, inProgress, resolved)
 	return stats, nil
 }

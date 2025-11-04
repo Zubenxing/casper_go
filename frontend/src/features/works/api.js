@@ -106,3 +106,17 @@ export function getWorkIssueStats() {
   })
 }
 
+// 上传问题截图
+export function uploadIssueImage(file) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request({
+    url: '/work-issues/upload',
+    method: 'post',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+

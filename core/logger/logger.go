@@ -16,6 +16,7 @@ var (
 	Log         *logrus.Logger // 系统通用日志
 	Certificate *logrus.Logger // 证书监控模块日志
 	Password    *logrus.Logger // 密码管理模块日志
+	Work        *logrus.Logger // 工作记录模块日志
 )
 
 // Init 初始化日志系统
@@ -41,8 +42,11 @@ func Init(cfg *config.LoggerConfig) error {
 	// 初始化密码模块日志
 	Password = createLogger("logs/password.log", level, cfg)
 
+	// 初始化工作记录模块日志
+	Work = createLogger("logs/work.log", level, cfg)
+
 	Log.Info("日志系统初始化完成")
-	Log.Infof("已创建 3 个日志模块: app, certificate, password")
+	Log.Infof("已创建 4 个日志模块: app, certificate, password, work")
 
 	return nil
 }

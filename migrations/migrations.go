@@ -13,6 +13,7 @@ func GetAllMigrations() []database.Migration {
 		&OptimizePasswordIndexes20251103000003{},
 		&CreateWorksTables20251103000004{},
 		&AddUserIDField20251103000005{},
+		&AddIssueImagesContent20251104000006{},
 		// 在这里添加新的迁移...
 	}
 }

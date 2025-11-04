@@ -57,6 +57,9 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 		})
 	})
 
+	// 静态文件服务（用于访问上传的图片）
+	r.Static("/uploads", cfg.Upload.BaseDir)
+
 	// API 路由组（支持版本控制）
 	apiPath := "/api"
 	if cfg.API.EnableVersion {
@@ -132,6 +135,7 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 				issues.GET("/:id", work.GetWorkIssueDetailAPI)
 				issues.PUT("/:id", work.UpdateWorkIssueAPI)
 				issues.DELETE("/:id", work.DeleteWorkIssueAPI)
+				issues.POST("/upload", work.UploadImage) // 上传问题截图
 			}
 		}
 

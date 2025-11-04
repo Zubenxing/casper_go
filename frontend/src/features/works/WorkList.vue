@@ -2,37 +2,6 @@
   <div class="work-list">
     <!-- 顶部操作栏 -->
     <div class="action-bar">
-      <div class="stats-cards">
-        <div class="stat-card stat-total">
-          <el-icon class="stat-icon"><Tickets /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.total || 0 }}</div>
-            <div class="stat-label">全部任务</div>
-          </div>
-        </div>
-        <div class="stat-card stat-pending">
-          <el-icon class="stat-icon"><Clock /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.pending || 0 }}</div>
-            <div class="stat-label">待办</div>
-          </div>
-        </div>
-        <div class="stat-card stat-progress">
-          <el-icon class="stat-icon"><Loading /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.in_progress || 0 }}</div>
-            <div class="stat-label">进行中</div>
-          </div>
-        </div>
-        <div class="stat-card stat-completed">
-          <el-icon class="stat-icon"><CircleCheck /></el-icon>
-          <div class="stat-content">
-            <div class="stat-value">{{ stats.completed || 0 }}</div>
-            <div class="stat-label">已完成</div>
-          </div>
-        </div>
-      </div>
-
       <div class="action-buttons">
         <el-select
           v-model="filterStatus"
@@ -85,32 +54,55 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" width="140" align="center">
+      <el-table-column label="状态" width="140" align="center" sortable prop="status">
         <template #default="{ row }">
-          <el-tag
-            :type="getStatusType(row.status)"
-            effect="dark"
-            size="large"
-            class="status-tag"
-          >
-            {{ getStatusText(row.status) }}
-          </el-tag>
+          <el-dropdown @command="(cmd) => handleStatusChange(row, cmd)" trigger="click">
+            <el-tag
+              :type="getStatusType(row.status)"
+              effect="dark"
+              size="large"
+              class="status-tag clickable"
+            >
+              {{ getStatusText(row.status) }}
+              <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+            </el-tag>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="pending">待办</el-dropdown-item>
+                <el-dropdown-item command="in_progress">进行中</el-dropdown-item>
+                <el-dropdown-item command="completed">已完成</el-dropdown-item>
+                <el-dropdown-item command="cancelled">已取消</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
 
-      <el-table-column label="优先级" width="120" align="center">
+      <el-table-column label="优先级" width="120" align="center" sortable prop="priority">
         <template #default="{ row }">
-          <el-tag
-            :type="getPriorityType(row.priority)"
-            effect="plain"
-            size="large"
-          >
-            {{ getPriorityText(row.priority) }}
-          </el-tag>
+          <el-dropdown @command="(cmd) => handlePriorityChange(row, cmd)" trigger="click">
+            <el-tag
+              :type="getPriorityType(row.priority)"
+              effect="plain"
+              size="large"
+              class="priority-tag clickable"
+            >
+              {{ getPriorityText(row.priority) }}
+              <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+            </el-tag>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="low">低</el-dropdown-item>
+                <el-dropdown-item command="medium">中</el-dropdown-item>
+                <el-dropdown-item command="high">高</el-dropdown-item>
+                <el-dropdown-item command="urgent">紧急</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
 
-      <el-table-column label="截止日期" width="140" align="center">
+      <el-table-column label="截止日期" width="140" align="center" sortable prop="due_date">
         <template #default="{ row }">
           <span v-if="row.due_date" :class="{ 'overdue': isOverdue(row.due_date) }">
             {{ formatDate(row.due_date) }}
@@ -119,7 +111,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="开始日期" width="140" align="center">
+      <el-table-column label="开始日期" width="140" align="center" sortable prop="start_date">
         <template #default="{ row }">
           <span v-if="row.start_date">{{ formatDate(row.start_date) }}</span>
           <span v-else class="text-muted">-</span>
@@ -259,7 +251,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Plus, Edit, Delete, Clock, Loading, CircleCheck, Tickets
+  Plus, Edit, Delete, Clock, Loading, CircleCheck, Tickets, ArrowDown
 } from '@element-plus/icons-vue'
 import {
   getWorkList, createWork, updateWork, deleteWork, getWorkStats
@@ -346,21 +338,49 @@ const getStatusText = (status) => {
 const getPriorityType = (priority) => {
   const map = {
     low: 'info',
-    medium: '',
+    medium: 'warning',
     high: 'warning',
     urgent: 'danger'
   }
-  return map[priority] || ''
+  return map[priority] || 'info'
 }
 
 const getPriorityText = (priority) => {
   const map = {
-    low: '低优先级',
-    medium: '中优先级',
-    high: '高优先级',
+    low: '低',
+    medium: '中',
+    high: '高',
     urgent: '紧急'
   }
   return map[priority] || priority
+}
+
+// 快速更改状态
+const handleStatusChange = async (row, newStatus) => {
+  if (row.status === newStatus) return
+  
+  try {
+    await updateWork(row.id, { status: newStatus })
+    ElMessage.success('状态已更新')
+    row.status = newStatus
+    // 刷新统计数据
+    await fetchStats()
+  } catch (error) {
+    ElMessage.error(error.message || '状态更新失败')
+  }
+}
+
+// 快速更改优先级
+const handlePriorityChange = async (row, newPriority) => {
+  if (row.priority === newPriority) return
+  
+  try {
+    await updateWork(row.id, { priority: newPriority })
+    ElMessage.success('优先级已更新')
+    row.priority = newPriority
+  } catch (error) {
+    ElMessage.error(error.message || '优先级更新失败')
+  }
 }
 
 // 日期格式化
@@ -646,6 +666,22 @@ defineExpose({
 .status-tag {
   font-weight: 600;
   padding: 6px 12px;
+}
+
+.priority-tag {
+  font-weight: 600;
+  padding: 6px 12px;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .text-muted {
