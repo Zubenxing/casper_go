@@ -14,12 +14,19 @@ import (
 	"casper_go/features/auth"
 	"casper_go/features/certificate"
 	"casper_go/features/password"
+	"casper_go/migrations"
 	"casper_go/router"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// 检查是否是迁移命令
+	if len(os.Args) > 1 && os.Args[1] == "migrate" {
+		runMigrations()
+		return
+	}
+
 	// 加载配置
 	cfg, err := config.LoadConfig("./config")
 	if err != nil {
@@ -134,9 +141,57 @@ func startScheduledTasks(cfg *config.Config) {
 			if err != nil {
 				logger.Log.Errorf("证书检查失败: %v", err)
 			} else {
-				logger.Log.Infof("证书检查完成: 总数=%d, 成功=%d, 失败=%d, 耗时=%s", 
+				logger.Log.Infof("证书检查完成: 总数=%d, 成功=%d, 失败=%d, 耗时=%s",
 					result.Total, result.Success, result.Failed, result.Duration)
 			}
 		}
 	}
+}
+
+// runMigrations 运行数据库迁移
+func runMigrations() {
+	// 加载配置
+	cfg, err := config.LoadConfig("./config")
+	if err != nil {
+		fmt.Printf("加载配置失败: %v\n", err)
+		os.Exit(1)
+	}
+
+	// 初始化日志
+	if err := logger.Init(&cfg.Logger); err != nil {
+		fmt.Printf("初始化日志系统失败: %v\n", err)
+		os.Exit(1)
+	}
+
+	logger.Log.Info("=== 开始数据库迁移 ===")
+
+	// 初始化数据库
+	if err := database.Init(&cfg.Database); err != nil {
+		logger.Log.Fatalf("数据库连接失败: %v", err)
+	}
+
+	// 创建迁移管理器
+	migrator := database.NewMigrator(database.DB)
+
+	// 注册所有迁移
+	allMigrations := migrations.GetAllMigrations()
+	for _, m := range allMigrations {
+		migrator.Register(m)
+	}
+
+	// 显示迁移状态
+	if err := migrator.Status(); err != nil {
+		logger.Log.Fatalf("获取迁移状态失败: %v", err)
+	}
+
+	logger.Log.Info("========================================")
+	logger.Log.Info("开始执行迁移...")
+
+	// 执行迁移
+	if err := migrator.Up(); err != nil {
+		logger.Log.Fatalf("迁移失败: %v", err)
+	}
+
+	logger.Log.Info("✅ 所有迁移已完成")
+	os.Exit(0)
 }

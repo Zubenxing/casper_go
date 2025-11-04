@@ -469,18 +469,21 @@ const parseImages = (images) => {
   }
 }
 
-// 获取图片URL
+// 获取图片URL - 将数据库中的文件名转换为完整URL
 const getImageUrl = (path) => {
   // 如果路径已经是完整URL，直接返回
   if (path.startsWith('http')) return path
-  // 否则拼接API基础路径
-  return `http://localhost:8080${path}`
+  // 如果是旧格式的相对路径（/api/files/xxx），加上域名
+  if (path.startsWith('/api/')) return `http://localhost:8080${path}`
+  // 如果只是文件名（1001_xxx.png），拼接完整路径
+  return `http://localhost:8080/api/files/work-issues/${path}`
 }
 
 // 图片上传成功
 const handleImageSuccess = (response) => {
   if (response.code === 200) {
-    form.images.push(response.data.url)
+    // 后端返回文件名，前端存储文件名到数组
+    form.images.push(response.data.filename)
     ElMessage.success('图片上传成功')
   } else {
     ElMessage.error(response.message || '图片上传失败')

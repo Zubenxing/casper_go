@@ -57,9 +57,6 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 		})
 	})
 
-	// 静态文件服务（用于访问上传的图片）
-	r.Static("/uploads", cfg.Upload.BaseDir)
-
 	// API 路由组（支持版本控制）
 	apiPath := "/api"
 	if cfg.API.EnableVersion {
@@ -89,6 +86,9 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 			// 用户信息
 			authenticated.GET("/profile", auth.GetProfileAPI)
 			authenticated.POST("/logout", auth.LogoutAPI)
+
+			// 文件服务（统一的文件访问API）
+			authenticated.GET("/files/*filename", work.ServeFile)
 
 			// 证书监控路由
 			cert := authenticated.Group("/certificates")

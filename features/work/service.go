@@ -200,6 +200,12 @@ func CreateWorkIssue(userID uint, issue *WorkIssue) error {
 	logger.Work.Infof("[问题管理] 创建问题记录: 用户ID=%d, 标题=%s", userID, issue.Title)
 
 	issue.UserID = userID
+
+	// 处理 images 字段：空字符串转为空（MySQL JSON 不接受空字符串）
+	if issue.Images == "" {
+		issue.Images = "[]" // 设置为空 JSON 数组
+	}
+
 	if err := database.DB.Create(issue).Error; err != nil {
 		logger.Work.Errorf("[问题管理] 创建问题记录失败: %v", err)
 		return err
@@ -266,6 +272,13 @@ func UpdateWorkIssue(userID, id uint, updates map[string]interface{}) error {
 	issue, err := GetWorkIssueByID(userID, id)
 	if err != nil {
 		return err
+	}
+
+	// 处理 images 字段：空字符串转为空数组（MySQL JSON 不接受空字符串）
+	if images, ok := updates["images"].(string); ok {
+		if images == "" {
+			updates["images"] = "[]" // 设置为空 JSON 数组
+		}
 	}
 
 	// 如果状态变更为 resolved，自动设置解决时间
