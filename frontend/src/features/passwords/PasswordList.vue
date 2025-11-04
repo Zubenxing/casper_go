@@ -1,21 +1,5 @@
 <template>
   <div class="password-list-page">
-    <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-left">
-        <h2 class="page-title">密码管理</h2>
-        <el-tag type="info" size="small" effect="plain">
-          <el-icon><InfoFilled /></el-icon>
-          安全加密存储
-        </el-tag>
-      </div>
-      <div class="header-right">
-        <el-button type="primary" :icon="Plus" @click="showAddDialog = true">
-          添加账户
-        </el-button>
-      </div>
-    </div>
-
     <!-- 统计卡片 -->
     <el-row :gutter="20" class="stats-row">
       <el-col :span="6">
@@ -74,7 +58,7 @@
 
     <!-- 操作栏 -->
     <el-card class="operation-card" shadow="never">
-      <el-row :gutter="20">
+      <el-row :gutter="12" align="middle">
         <el-col :span="8">
           <el-input
             v-model="keyword"
@@ -85,7 +69,7 @@
             @keyup.enter="fetchData"
           />
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-select
             v-model="selectedCategory"
             placeholder="选择分类"
@@ -101,9 +85,14 @@
             />
           </el-select>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="3">
           <el-button type="primary" :icon="Search" @click="fetchData">
             搜索
+          </el-button>
+        </el-col>
+        <el-col :span="8" style="text-align: right;">
+          <el-button type="primary" :icon="Plus" @click="showAddDialog = true">
+            添加账户
           </el-button>
         </el-col>
       </el-row>
@@ -653,50 +642,61 @@ onMounted(() => {
 
 <style scoped>
 .password-list-page {
-  padding: 20px;
+  padding: 0;
 }
 
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.page-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: #303133;
-}
-
+/* ========== 统计卡片样式 ========== */
 .stats-row {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .stat-card {
   cursor: pointer;
-  transition: all 0.3s;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card:hover::before {
+  opacity: 1;
 }
 
 .stat-content {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
+  padding: 4px;
 }
 
 .stat-icon {
   flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
 }
 
 .stat-text {
@@ -704,30 +704,73 @@ onMounted(() => {
 }
 
 .stat-value {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: 700;
   color: #303133;
   line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
 .stat-label {
-  font-size: 14px;
+  font-size: 13px;
   color: #909399;
-  margin-top: 5px;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
+/* ========== 操作卡片样式 ========== */
 .operation-card {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  border: none;
 }
 
+.operation-card :deep(.el-card__body) {
+  padding: 20px 24px;
+}
+
+/* ========== 表格卡片样式 ========== */
 .table-card {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  border: none;
+  overflow: hidden;
 }
 
+.table-card :deep(.el-card__body) {
+  padding: 0;
+}
+
+.table-card :deep(.el-table) {
+  font-size: 14px;
+}
+
+.table-card :deep(.el-table th) {
+  background-color: #fafafa !important;
+  color: #303133;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 0;
+}
+
+.table-card :deep(.el-table td) {
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table-card :deep(.el-table__row:hover) {
+  background-color: #f5f7fa !important;
+}
+
+/* ========== 表格单元格样式 ========== */
 .title-cell {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 500;
+  color: #303133;
 }
 
 .url-link {
@@ -735,17 +778,20 @@ onMounted(() => {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  transition: all 0.3s;
+  font-weight: 500;
 }
 
 .url-link:hover {
+  color: #66b1ff;
   text-decoration: underline;
 }
 
 .username-cell {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -754,23 +800,32 @@ onMounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 500;
+  color: #606266;
 }
 
 .copy-icon {
   flex-shrink: 0;
   cursor: pointer;
   color: #409eff;
-  transition: color 0.3s;
+  transition: all 0.3s;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .copy-icon:hover {
   color: #66b1ff;
+  background-color: #ecf5ff;
 }
 
+/* ========== 分页容器 ========== */
 .pagination-container {
   margin-top: 20px;
+  padding: 16px 24px;
   display: flex;
   justify-content: flex-end;
+  background: white;
+  border-top: 1px solid #f0f0f0;
 }
 
 .password-view {

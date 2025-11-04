@@ -49,6 +49,13 @@ func Logger() gin.HandlerFunc {
 			logged = true
 		}
 
+		// 工作记录相关 API
+		if !logged && (strings.HasPrefix(uri, "/api/works") ||
+			strings.HasPrefix(uri, "/api/work-issues")) {
+			logger.Work.WithFields(fields).Info("API 请求")
+			logged = true
+		}
+
 		// 其他 API 写入通用日志
 		if !logged {
 			logger.Log.WithFields(fields).Info("API 请求")

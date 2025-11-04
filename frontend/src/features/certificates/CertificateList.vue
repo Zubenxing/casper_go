@@ -1,55 +1,55 @@
 <template>
   <div class="certificate-list">
-    <el-card shadow="never" class="operation-card">
-      <el-row :gutter="10">
-        <el-col :xs="24" :sm="12" :md="10">
-          <el-button type="primary" :icon="Plus" @click="showAddDialog = true">
-            添加监控
+    <!-- 操作工具栏 -->
+    <div class="toolbar-container">
+      <div class="toolbar-left">
+        <el-button type="primary" :icon="Plus" @click="showAddDialog = true" class="action-btn">
+          添加监控
+        </el-button>
+        <el-button :icon="Refresh" @click="handleRefresh" :loading="refreshing" class="action-btn">
+          刷新列表
+        </el-button>
+        <el-button :icon="Refresh" @click="handleCheckAll" :loading="checkingAll" class="action-btn">
+          检查所有
+        </el-button>
+        
+        <el-dropdown @command="handleExport">
+          <el-button :icon="Download" class="action-btn">
+            导出 <el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
-          <el-button :icon="Refresh" @click="handleRefresh" :loading="refreshing">
-            刷新列表
-          </el-button>
-          <el-button :icon="Refresh" @click="handleCheckAll" :loading="checkingAll">
-            检查所有
-          </el-button>
-          
-          <el-dropdown @command="handleExport">
-            <el-button :icon="Download">
-              导出 <el-icon class="el-icon--right"><arrow-down /></el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="json">
-                  <el-icon><Document /></el-icon> JSON 格式
-                </el-dropdown-item>
-                <el-dropdown-item command="csv">
-                  <el-icon><Document /></el-icon> CSV 格式
-                </el-dropdown-item>
-                <el-dropdown-item command="excel">
-                  <el-icon><Document /></el-icon> Excel 格式
-                </el-dropdown-item>
-                <el-dropdown-item command="txt">
-                  <el-icon><Document /></el-icon> TXT 文本
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          
-          <el-button :icon="Upload" @click="showImportDialog = true">
-            导入
-          </el-button>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :offset="6" class="text-right">
-          <el-input
-            v-model="searchText"
-            placeholder="搜索 URL 或域名"
-            :prefix-icon="Search"
-            clearable
-            @input="handleSearch"
-          />
-        </el-col>
-      </el-row>
-    </el-card>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="json">
+                <el-icon><Document /></el-icon> JSON 格式
+              </el-dropdown-item>
+              <el-dropdown-item command="csv">
+                <el-icon><Document /></el-icon> CSV 格式
+              </el-dropdown-item>
+              <el-dropdown-item command="excel">
+                <el-icon><Document /></el-icon> Excel 格式
+              </el-dropdown-item>
+              <el-dropdown-item command="txt">
+                <el-icon><Document /></el-icon> TXT 文本
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        
+        <el-button :icon="Upload" @click="showImportDialog = true" class="action-btn">
+          导入
+        </el-button>
+      </div>
+      <div class="toolbar-right">
+        <el-input
+          v-model="searchText"
+          placeholder="搜索 URL 或域名"
+          :prefix-icon="Search"
+          clearable
+          @input="handleSearch"
+          class="search-input"
+        />
+      </div>
+    </div>
 
     <!-- 证书列表 -->
     <el-card shadow="never" class="table-card">
@@ -58,62 +58,77 @@
         v-loading="loading"
         style="width: 100%"
         :default-sort="{ prop: 'created_at', order: 'descending' }"
+        class="modern-table"
       >
-        <el-table-column type="index" label="#" width="60" />
+        <el-table-column type="index" label="序号" width="60" align="center" />
         
-        <el-table-column prop="url" label="URL" min-width="200" show-overflow-tooltip />
-        
-        <el-table-column prop="customer_name" label="客户名" width="150">
+        <el-table-column prop="url" label="URL" min-width="180" show-overflow-tooltip>
           <template #default="{ row }">
-            <el-tag v-if="row.customer_name" type="info">{{ row.customer_name }}</el-tag>
-            <span v-else style="color: #909399;">未设置</span>
+            <div class="url-cell">
+              <el-icon color="#409eff" :size="16"><Link /></el-icon>
+              <span class="url-text">{{ row.url }}</span>
+            </div>
           </template>
         </el-table-column>
         
-        <el-table-column prop="issuer" label="颁发者" width="200" show-overflow-tooltip />
-        
-        <el-table-column prop="days_left" label="剩余天数" width="120" sortable>
+        <el-table-column prop="customer_name" label="客户名称" width="120">
           <template #default="{ row }">
-            <el-tag :type="getDaysLeftType(row.days_left)" effect="dark">
-              {{ row.days_left }} 天
-            </el-tag>
+            <span v-if="row.customer_name" class="customer-badge">{{ row.customer_name }}</span>
+            <span v-else class="empty-text">-</span>
           </template>
         </el-table-column>
         
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="issuer" label="证书颁发者" width="180" show-overflow-tooltip />
+        
+        <el-table-column prop="days_left" label="剩余天数" width="110" sortable align="center">
           <template #default="{ row }">
-            <el-tag :type="getStatusType(row.status)">
-              {{ row.status_text }}
-            </el-tag>
+            <div class="days-badge" :class="getDaysLeftClass(row.days_left)">
+              <span class="days-number">{{ row.days_left }}</span>
+              <span class="days-unit">天</span>
+            </div>
           </template>
         </el-table-column>
         
-        <el-table-column prop="last_check_at" label="最后检查" width="180">
+        <el-table-column prop="status" label="状态" width="100" align="center">
           <template #default="{ row }">
-            {{ formatTime(row.last_check_at) }}
+            <div class="status-badge" :class="getStatusClass(row.status)">
+              <span class="status-dot"></span>
+              <span class="status-text">{{ row.status_text }}</span>
+            </div>
           </template>
         </el-table-column>
         
-        <el-table-column label="操作" width="250" fixed="right">
+        <el-table-column prop="last_check_at" label="最后检查时间" width="160" align="center">
           <template #default="{ row }">
-            <el-button size="small" :icon="View" @click="handleView(row)" link>
-              详情
-            </el-button>
-            <el-button size="small" :icon="Edit" @click="handleEdit(row)" link type="primary">
-              编辑
-            </el-button>
-            <el-button size="small" :icon="Refresh" @click="handleUpdate(row.id)" link>
-              更新
-            </el-button>
-            <el-button 
-              size="small" 
-              :icon="Delete" 
-              type="danger" 
-              @click="handleDelete(row.id)" 
-              link
-            >
-              删除
-            </el-button>
+            <div class="time-cell">
+              <el-icon :size="14" color="#909399"><Clock /></el-icon>
+              <span>{{ formatTime(row.last_check_at) }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="操作" width="280" fixed="right" align="center">
+          <template #default="{ row }">
+            <el-space :size="2">
+              <el-button size="small" :icon="View" @click="handleView(row)" text type="primary">
+                详情
+              </el-button>
+              <el-button size="small" :icon="Edit" @click="handleEdit(row)" text type="primary">
+                编辑
+              </el-button>
+              <el-button size="small" :icon="Refresh" @click="handleUpdate(row.id)" text type="success">
+                更新
+              </el-button>
+              <el-button 
+                size="small" 
+                :icon="Delete" 
+                type="danger" 
+                @click="handleDelete(row.id)" 
+                text
+              >
+                删除
+              </el-button>
+            </el-space>
           </template>
         </el-table-column>
       </el-table>
@@ -335,11 +350,29 @@ import {
   Upload,
   ArrowDown,
   UploadFilled,
-  Edit
+  Edit,
+  Clock
 } from '@element-plus/icons-vue'
 import { formatTime, getDaysLeftType, getStatusType } from '@/core/utils/format'
 import api from '@/core/api'
 import * as XLSX from 'xlsx'
+
+// 新样式函数
+const getDaysLeftClass = (days) => {
+  if (days <= 7) return 'danger'
+  if (days <= 30) return 'warning'
+  return 'success'
+}
+
+const getStatusClass = (status) => {
+  const statusMap = {
+    'valid': 'success',
+    'expiring': 'warning',
+    'expired': 'danger',
+    'error': 'error'
+  }
+  return statusMap[status] || 'info'
+}
 
 const loading = ref(false)
 const adding = ref(false)
@@ -1035,30 +1068,243 @@ onBeforeUnmount(() => {
   width: 100%;
 }
 
-.operation-card {
-  margin-bottom: 20px;
-}
-
-.table-card {
-  margin-top: 20px;
-}
-
-.card-header {
+/* ========== 工具栏样式 ========== */
+.toolbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
+.toolbar-left {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.action-btn {
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.search-input {
+  width: 260px;
+}
+
+.search-input :deep(.el-input__wrapper) {
+  background-color: #f5f7fa;
+  box-shadow: none;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.search-input :deep(.el-input__wrapper:hover),
+.search-input :deep(.el-input__wrapper.is-focus) {
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== 表格卡片样式 ========== */
+.table-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table-card :deep(.el-card__body) {
+  padding: 0;
+}
+
+/* ========== 现代化表格样式 ========== */
+.modern-table {
+  font-size: 14px;
+}
+
+.modern-table :deep(.el-table__header-wrapper) {
+  border-radius: 8px 8px 0 0;
+}
+
+.modern-table :deep(th) {
+  background-color: #fafafa !important;
+  color: #303133;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 0;
+}
+
+.modern-table :deep(td) {
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modern-table :deep(.el-table__row:hover) {
+  background-color: #f5f7fa !important;
+}
+
+/* URL 单元格样式 */
+.url-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.url-text {
+  color: #409eff;
+  font-weight: 500;
+}
+
+/* 客户标签样式 */
+.customer-badge {
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty-text {
+  color: #c0c4cc;
+  font-size: 12px;
+}
+
+/* 剩余天数徽章 */
+.days-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.days-badge.success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.days-badge.warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.days-badge.danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.days-number {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.days-unit {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* 状态徽章 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-badge.success {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.status-badge.success .status-dot {
+  background-color: #10b981;
+}
+
+.status-badge.warning {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-badge.warning .status-dot {
+  background-color: #f59e0b;
+}
+
+.status-badge.danger {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-badge.danger .status-dot {
+  background-color: #ef4444;
+}
+
+.status-badge.error {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.status-badge.error .status-dot {
+  background-color: #9ca3af;
+}
+
+/* 时间单元格 */
+.time-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #606266;
+  font-size: 13px;
+}
+
+/* 操作按钮组 */
+.action-btns {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btns .el-button {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 分页样式 */
 .pagination {
   margin-top: 20px;
+  padding: 16px 20px;
   display: flex;
   justify-content: flex-end;
+  background: white;
+  border-top: 1px solid #f0f0f0;
 }
 
-.text-right {
-  text-align: right;
-}
-
+/* 导入相关样式 */
 .import-tabs {
   margin-top: 10px;
 }
@@ -1070,13 +1316,19 @@ onBeforeUnmount(() => {
 :deep(.el-upload-dragger) {
   padding: 40px;
   width: 100%;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+:deep(.el-upload-dragger:hover) {
+  border-color: #409eff;
 }
 
 .preview-area {
   margin-top: 20px;
   padding: 15px;
   background: #f5f7fa;
-  border-radius: 4px;
+  border-radius: 8px;
   max-height: 300px;
   overflow-y: auto;
 }
@@ -1090,15 +1342,49 @@ onBeforeUnmount(() => {
 .url-preview-item {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 12px;
   background: white;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+}
+
+.url-preview-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateX(2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .toolbar-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .toolbar-left {
+    justify-content: flex-start;
+  }
+  
+  .toolbar-right {
+    width: 100%;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
-  .text-right {
-    text-align: left;
-    margin-top: 10px;
+  .action-btns {
+    flex-direction: column;
+  }
+  
+  .toolbar-left {
+    width: 100%;
+  }
+  
+  .action-btn {
+    width: 100%;
   }
 }
 </style>

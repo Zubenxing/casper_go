@@ -9,6 +9,7 @@ import (
 // User 用户模型
 type User struct {
 	ID        uint           `gorm:"primarykey" json:"id"`
+	UserID    uint           `gorm:"uniqueIndex;not null;comment:用户ID(1000-2000:admin, 2000-10000:普通用户)" json:"user_id"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
@@ -21,7 +22,8 @@ type User struct {
 	Role     string `gorm:"type:varchar(20);default:'user'" json:"role"` // admin, user
 	Status   int    `gorm:"type:tinyint;default:1" json:"status"`        // 1:启用 0:禁用
 
-	Tokens []UserToken `gorm:"foreignKey:UserID" json:"-"`
+	// 注意：Tokens 关联已移除，因为 user_id 现在是独立字段，不再使用外键
+	// Tokens []UserToken `gorm:"foreignKey:UserID" json:"-"`
 }
 
 // TableName 指定表名
@@ -36,7 +38,7 @@ type UserToken struct {
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
-	UserID           uint      `gorm:"index;not null" json:"user_id"`
+	UserID           uint      `gorm:"index;not null;comment:用户ID(对应users.user_id，非外键)" json:"user_id"`
 	Token            string    `gorm:"type:varchar(500);uniqueIndex;not null" json:"token"`
 	RefreshToken     string    `gorm:"type:varchar(500);uniqueIndex" json:"refresh_token"`
 	TokenType        string    `gorm:"type:varchar(20);default:'Bearer'" json:"token_type"`
@@ -46,7 +48,8 @@ type UserToken struct {
 	UserAgent        string    `gorm:"type:varchar(255)" json:"user_agent"`
 	IsValid          bool      `gorm:"default:true" json:"is_valid"`
 
-	User User `gorm:"foreignKey:UserID" json:"-"`
+	// 注意：User 关联已移除，因为 user_id 现在对应 users.user_id，不再使用外键
+	// User User `gorm:"foreignKey:UserID" json:"-"`
 }
 
 // TableName 指定表名
@@ -84,6 +87,7 @@ type TokenResponse struct {
 // UserResponse 用户响应
 type UserResponse struct {
 	ID        uint      `json:"id"`
+	UserID    uint      `json:"user_id"`
 	Username  string    `json:"username"`
 	Email     string    `json:"email"`
 	Nickname  string    `json:"nickname"`
@@ -97,6 +101,7 @@ type UserResponse struct {
 func (u *User) ToResponse() *UserResponse {
 	return &UserResponse{
 		ID:        u.ID,
+		UserID:    u.UserID,
 		Username:  u.Username,
 		Email:     u.Email,
 		Nickname:  u.Nickname,

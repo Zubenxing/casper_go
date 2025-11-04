@@ -38,6 +38,8 @@ type WorkIssue struct {
 	WorkID      *uint          `gorm:"index;comment:关联的工作ID(可选)" json:"work_id,omitempty"`
 	Title       string         `gorm:"type:varchar(200);not null;comment:问题标题" json:"title"`
 	Description string         `gorm:"type:text;comment:问题描述" json:"description"`
+	Images      string         `gorm:"type:json;comment:问题截图(最多3张)" json:"images,omitempty"`
+	Content     string         `gorm:"type:text;comment:问题详细内容(富文本)" json:"content,omitempty"`
 	Status      string         `gorm:"type:varchar(20);not null;default:'open';index:idx_issue_user_status_created,priority:2;comment:状态:open/in_progress/resolved/closed" json:"status"`
 	Severity    string         `gorm:"type:varchar(20);not null;default:'medium';comment:严重程度:low/medium/high/critical" json:"severity"`
 	Solution    string         `gorm:"type:text;comment:解决方案" json:"solution"`

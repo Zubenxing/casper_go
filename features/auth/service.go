@@ -29,12 +29,12 @@ func Login(username, password, ipAddress, userAgent string) (*TokenResponse, err
 		return nil, errors.New("用户已被禁用")
 	}
 
-	token, err := jwt.GenerateToken(user.ID, user.Username, user.Role)
+	token, err := jwt.GenerateToken(user.UserID, user.Username, user.Role)
 	if err != nil {
 		return nil, err
 	}
 
-	refreshToken, err := jwt.GenerateRefreshToken(user.ID, user.Username, user.Role)
+	refreshToken, err := jwt.GenerateRefreshToken(user.UserID, user.Username, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func Login(username, password, ipAddress, userAgent string) (*TokenResponse, err
 	now := time.Now()
 
 	userToken := &UserToken{
-		UserID:           user.ID,
+		UserID:           user.UserID,
 		Token:            token,
 		RefreshToken:     refreshToken,
 		TokenType:        "Bearer",
@@ -91,7 +91,7 @@ func RefreshToken(refreshToken, ipAddress, userAgent string) (*TokenResponse, er
 	}
 
 	var user User
-	if err := database.DB.First(&user, claims.UserID).Error; err != nil {
+	if err := database.DB.Where("user_id = ?", claims.UserID).First(&user).Error; err != nil {
 		return nil, err
 	}
 
@@ -99,12 +99,12 @@ func RefreshToken(refreshToken, ipAddress, userAgent string) (*TokenResponse, er
 		return nil, errors.New("用户已被禁用")
 	}
 
-	newToken, err := jwt.GenerateToken(user.ID, user.Username, user.Role)
+	newToken, err := jwt.GenerateToken(user.UserID, user.Username, user.Role)
 	if err != nil {
 		return nil, err
 	}
 
-	newRefreshToken, err := jwt.GenerateRefreshToken(user.ID, user.Username, user.Role)
+	newRefreshToken, err := jwt.GenerateRefreshToken(user.UserID, user.Username, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func RefreshToken(refreshToken, ipAddress, userAgent string) (*TokenResponse, er
 	database.DB.Model(&userToken).Update("is_valid", false)
 
 	newUserToken := &UserToken{
-		UserID:           user.ID,
+		UserID:           user.UserID,
 		Token:            newToken,
 		RefreshToken:     newRefreshToken,
 		TokenType:        "Bearer",
@@ -142,7 +142,7 @@ func RefreshToken(refreshToken, ipAddress, userAgent string) (*TokenResponse, er
 // GetUserInfo 获取用户信息
 func GetUserInfo(userID uint) (*UserResponse, error) {
 	var user User
-	if err := database.DB.First(&user, userID).Error; err != nil {
+	if err := database.DB.Where("user_id = ?", userID).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return user.ToResponse(), nil
@@ -169,7 +169,13 @@ func InitDefaultData() error {
 			return err
 		}
 
+		// 获取当前最大的 admin user_id，如果没有则从 1000 开始
+		var maxUserID uint = 999
+		database.DB.Model(&User{}).Where("role = ? AND user_id >= ? AND user_id < ?", "admin", 1000, 2000).
+			Select("COALESCE(MAX(user_id), 999)").Scan(&maxUserID)
+
 		admin := &User{
+			UserID:   maxUserID + 1,
 			Username: "admin",
 			Password: hashedPassword,
 			Email:    "admin@casper.local",

@@ -1,53 +1,73 @@
 <template>
   <div class="works-container">
-    <!-- 页面标题和统计 -->
-    <div class="page-header">
-      <div class="header-left">
-        <h1 class="page-title">
-          <el-icon class="title-icon"><Document /></el-icon>
-          工作记录管理
-        </h1>
-        <p class="page-subtitle">记录您的工作任务和遇到的问题</p>
-      </div>
+    <!-- 统计卡片 -->
+    <div class="stats-overview">
+      <el-row :gutter="16">
+        <el-col :span="6">
+          <el-card class="stat-card stat-total" shadow="hover">
+            <div class="stat-content">
+              <el-icon class="stat-icon" :size="36"><Tickets /></el-icon>
+              <div class="stat-info">
+                <div class="stat-value">{{ currentStats.total || 0 }}</div>
+                <div class="stat-label">全部{{ activeTab === 'works' ? '任务' : '问题' }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="stat-card stat-pending" shadow="hover">
+            <div class="stat-content">
+              <el-icon class="stat-icon" :size="36"><Clock /></el-icon>
+              <div class="stat-info">
+                <div class="stat-value">{{ currentStats.pending || currentStats.open || 0 }}</div>
+                <div class="stat-label">{{ activeTab === 'works' ? '待办' : '待处理' }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="stat-card stat-progress" shadow="hover">
+            <div class="stat-content">
+              <el-icon class="stat-icon" :size="36"><Loading /></el-icon>
+              <div class="stat-info">
+                <div class="stat-value">{{ currentStats.in_progress || 0 }}</div>
+                <div class="stat-label">{{ activeTab === 'works' ? '进行中' : '处理中' }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="stat-card stat-completed" shadow="hover">
+            <div class="stat-content">
+              <el-icon class="stat-icon" :size="36"><CircleCheck /></el-icon>
+              <div class="stat-info">
+                <div class="stat-value">{{ currentStats.completed || currentStats.resolved || 0 }}</div>
+                <div class="stat-label">{{ activeTab === 'works' ? '已完成' : '已解决' }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
 
-    <!-- Tab 切换 -->
-    <el-card class="tabs-card" shadow="hover">
-      <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-        <el-tab-pane label="工作记录" name="works">
-          <template #label>
-            <span class="tab-label">
-              <el-icon><Notebook /></el-icon>
-              <span>工作记录</span>
-              <el-badge v-if="workStats.total > 0" :value="workStats.total" class="tab-badge" />
-            </span>
-          </template>
-          <WorkList ref="workListRef" />
-        </el-tab-pane>
-
-        <el-tab-pane label="问题记录" name="issues">
-          <template #label>
-            <span class="tab-label">
-              <el-icon><Warning /></el-icon>
-              <span>问题记录</span>
-              <el-badge v-if="issueStats.total > 0" :value="issueStats.total" class="tab-badge" type="warning" />
-            </span>
-          </template>
-          <IssueList ref="issueListRef" />
-        </el-tab-pane>
-      </el-tabs>
-    </el-card>
+    <!-- 内容区域 -->
+    <div class="content-area">
+      <WorkList v-if="activeTab === 'works'" ref="workListRef" :hide-stats="true" @stats-update="handleWorkStatsUpdate" />
+      <IssueList v-else-if="activeTab === 'issues'" ref="issueListRef" :hide-stats="true" @stats-update="handleIssueStatsUpdate" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { Document, Notebook, Warning } from '@element-plus/icons-vue'
+import { ref, computed, inject, watch, onMounted } from 'vue'
+import { Tickets, Clock, Loading, CircleCheck } from '@element-plus/icons-vue'
 import WorkList from './WorkList.vue'
 import IssueList from './IssueList.vue'
 import { getWorkStats, getWorkIssueStats } from './api'
 
-const activeTab = ref('works')
+// 从 MainLayout 注入的 tab 状态
+const activeTab = inject('certificateTab', ref('works'))
+
 const workListRef = ref(null)
 const issueListRef = ref(null)
 
@@ -65,200 +85,167 @@ const issueStats = ref({
   resolved: 0
 })
 
-const handleTabChange = (tabName) => {
-  console.log('切换到标签页:', tabName)
-}
+// 根据当前 tab 返回对应的统计数据
+const currentStats = computed(() => {
+  return activeTab.value === 'works' ? workStats.value : issueStats.value
+})
 
-const loadStats = async () => {
+const loadWorkStats = async () => {
   try {
-    const [workRes, issueRes] = await Promise.all([
-      getWorkStats(),
-      getWorkIssueStats()
-    ])
-    workStats.value = workRes.data
-    issueStats.value = issueRes.data
+    const workRes = await getWorkStats()
+    workStats.value = workRes.data || {}
   } catch (error) {
-    console.error('加载统计信息失败:', error)
+    console.error('加载工作统计信息失败:', error)
   }
 }
 
+const loadIssueStats = async () => {
+  try {
+    const issueRes = await getWorkIssueStats()
+    issueStats.value = issueRes.data || {}
+  } catch (error) {
+    console.error('加载问题统计信息失败:', error)
+  }
+}
+
+// 处理工作统计更新
+const handleWorkStatsUpdate = (stats) => {
+  workStats.value = stats
+}
+
+// 处理问题统计更新
+const handleIssueStatsUpdate = (stats) => {
+  issueStats.value = stats
+}
+
+// 监听 tab 变化，加载对应的统计数据
+watch(activeTab, (newTab) => {
+  if (newTab === 'works') {
+    loadWorkStats()
+  } else if (newTab === 'issues') {
+    loadIssueStats()
+  }
+}, { immediate: true })
+
 onMounted(() => {
-  loadStats()
+  console.log('工作记录页面加载完成')
 })
 
 // 暴露刷新方法给子组件调用
 defineExpose({
-  refreshStats: loadStats
+  refreshStats: () => {
+    loadWorkStats()
+    loadIssueStats()
+  }
 })
 </script>
 
 <style scoped>
 .works-container {
-  padding: 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: calc(100vh - 60px);
+  padding: 0;
+  background: #ffffff;
 }
 
-/* 页面标题 */
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* 统计卡片 */
+.stats-overview {
   margin-bottom: 24px;
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.25);
-  transition: all 0.3s ease;
 }
 
-.page-header:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.35);
+.stat-card {
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.header-left {
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px;
+}
+
+.stat-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.stat-total .stat-icon {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.1) 0%, rgba(64, 158, 255, 0.05) 100%);
+  color: #409eff;
+}
+
+.stat-pending .stat-icon {
+  background: linear-gradient(135deg, rgba(230, 162, 60, 0.1) 0%, rgba(230, 162, 60, 0.05) 100%);
+  color: #e6a23c;
+}
+
+.stat-progress .stat-icon {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+  color: #667eea;
+}
+
+.stat-completed .stat-icon {
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.1) 0%, rgba(103, 194, 58, 0.05) 100%);
+  color: #67c23a;
+}
+
+.stat-info {
   flex: 1;
 }
 
-.page-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2d3748;
-  margin: 0 0 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.title-icon {
+.stat-value {
   font-size: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 700;
+  color: #303133;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
-.page-subtitle {
-  color: #718096;
-  font-size: 14px;
-  margin: 0;
-  padding-left: 44px;
-}
-
-/* Tabs 卡片 */
-.tabs-card {
-  border-radius: 16px;
-  border: none;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
-  transition: all 0.3s ease;
-}
-
-.tabs-card:hover {
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
-}
-
-.tabs-card :deep(.el-card__body) {
-  padding: 0;
-}
-
-/* Tab 样式 */
-.tabs-card :deep(.el-tabs__header) {
-  margin: 0;
-  padding: 20px 20px 0;
-  background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
-}
-
-.tabs-card :deep(.el-tabs__nav-wrap::after) {
-  display: none;
-}
-
-.tabs-card :deep(.el-tabs__active-bar) {
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  border-radius: 3px 3px 0 0;
-}
-
-.tabs-card :deep(.el-tabs__item) {
-  font-size: 16px;
+.stat-label {
+  font-size: 13px;
+  color: #909399;
+  margin-top: 4px;
   font-weight: 500;
-  color: #718096;
-  padding: 0 24px;
-  height: 48px;
-  line-height: 48px;
-  transition: all 0.3s ease;
 }
 
-.tabs-card :deep(.el-tabs__item:hover) {
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.05);
-  border-radius: 8px 8px 0 0;
-}
-
-.tabs-card :deep(.el-tabs__item.is-active) {
-  color: #667eea;
-  font-weight: 600;
-}
-
-.tab-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-}
-
-.tab-label .el-icon {
-  font-size: 18px;
-}
-
-.tab-badge {
-  margin-left: 4px;
-}
-
-.tab-badge :deep(.el-badge__content) {
-  font-weight: 600;
-  font-size: 11px;
-}
-
-/* Tab 内容区域 */
-.tabs-card :deep(.el-tabs__content) {
-  padding: 24px;
+/* 内容区域 */
+.content-area {
   background: #ffffff;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .works-container {
-    padding: 16px;
-  }
-
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .page-title {
-    font-size: 24px;
-  }
-
-  .page-subtitle {
-    padding-left: 38px;
+    padding: 0;
   }
 
   .tabs-card :deep(.el-tabs__item) {
-    padding: 0 16px;
+    padding: 0 12px;
     font-size: 14px;
   }
 
   .tab-label .el-icon {
-    font-size: 16px;
+    font-size: 14px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .stat-icon {
+    width: 48px;
+    height: 48px;
   }
 }
 </style>

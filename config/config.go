@@ -16,6 +16,7 @@ type Config struct {
 	Logger       LoggerConfig       `mapstructure:"logger"`
 	API          APIConfig          `mapstructure:"api"`
 	Certificate  CertificateConfig  `mapstructure:"certificate"`
+	Upload       UploadConfig       `mapstructure:"upload"`
 }
 
 // DatabaseConfig 数据库配置
@@ -79,6 +80,24 @@ type LoggerConfig struct {
 type CertificateConfig struct {
 	CheckInterval int `mapstructure:"check_interval"`
 	WarningDays   int `mapstructure:"warning_days"`
+}
+
+// UploadConfig 文件上传配置
+type UploadConfig struct {
+	BaseDir       string `mapstructure:"base_dir"`
+	WorkIssuesDir string `mapstructure:"work_issues_dir"`
+	MaxFileSize   int    `mapstructure:"max_file_size"` // MB
+	AllowedTypes  string `mapstructure:"allowed_types"`
+}
+
+// GetWorkIssuesPath 获取工作问题图片上传路径
+func (c *UploadConfig) GetWorkIssuesPath() string {
+	return filepath.Join(c.BaseDir, c.WorkIssuesDir)
+}
+
+// GetMaxFileSizeBytes 获取最大文件大小（字节）
+func (c *UploadConfig) GetMaxFileSizeBytes() int64 {
+	return int64(c.MaxFileSize) * 1024 * 1024
 }
 
 var GlobalConfig *Config
