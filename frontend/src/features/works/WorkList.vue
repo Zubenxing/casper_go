@@ -18,6 +18,18 @@
           <el-option label="已取消" value="cancelled" />
         </el-select>
 
+        <el-date-picker
+          v-model="dateRange"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          @change="handleDateChange"
+          size="large"
+          class="date-filter"
+          clearable
+        />
+
         <el-button type="primary" size="large" @click="handleAdd" class="add-btn">
           <el-icon><Plus /></el-icon>
           <span>新建任务</span>
@@ -104,7 +116,7 @@
 
       <el-table-column label="截止日期" width="140" align="center" sortable prop="due_date">
         <template #default="{ row }">
-          <span v-if="row.due_date" :class="{ 'overdue': isOverdue(row.due_date) }">
+          <span v-if="row.due_date" :class="{ 'overdue': isOverdue(row.due_date, row.status) }">
             {{ formatDate(row.due_date) }}
           </span>
           <span v-else class="text-muted">-</span>
@@ -262,6 +274,7 @@ const submitting = ref(false)
 const dialogVisible = ref(false)
 const dialogTitle = ref('新建任务')
 const filterStatus = ref('')
+const dateRange = ref(null)
 const page = ref(1)
 const pageSize = ref(20)
 const total = ref(0)
@@ -292,6 +305,48 @@ const rules = {
   priority: [{ required: true, message: '请选择优先级', trigger: 'change' }]
 }
 
+// 获取统计数据
+const fetchStats = async () => {
+  try {
+    const statsRes = await getWorkStats()
+    stats.value = statsRes.data
+  } catch (error) {
+    console.error('获取统计失败:', error)
+  }
+}
+
+// 排序规则
+const sortWorkList = (list) => {
+  // 状态优先级：进行中 > 待办 > 已完成 > 已取消
+  const statusOrder = {
+    'in_progress': 1,
+    'pending': 2,
+    'completed': 3,
+    'cancelled': 4
+  }
+  
+  // 优先级排序：紧急 > 高 > 中 > 低
+  const priorityOrder = {
+    'urgent': 1,
+    'high': 2,
+    'medium': 3,
+    'low': 4
+  }
+  
+  return list.sort((a, b) => {
+    // 首先按状态排序
+    const statusDiff = (statusOrder[a.status] || 999) - (statusOrder[b.status] || 999)
+    if (statusDiff !== 0) return statusDiff
+    
+    // 状态相同时按优先级排序
+    const priorityDiff = (priorityOrder[a.priority] || 999) - (priorityOrder[b.priority] || 999)
+    if (priorityDiff !== 0) return priorityDiff
+    
+    // 都相同时按创建时间倒序（新的在前）
+    return new Date(b.created_at) - new Date(a.created_at)
+  })
+}
+
 // 获取数据
 const fetchData = async () => {
   loading.value = true
@@ -304,7 +359,7 @@ const fetchData = async () => {
       }),
       getWorkStats()
     ])
-    workList.value = listRes.data.list || []
+    workList.value = sortWorkList(listRes.data.list || [])
     total.value = listRes.data.total || 0
     stats.value = statsRes.data
   } catch (error) {
@@ -363,8 +418,9 @@ const handleStatusChange = async (row, newStatus) => {
     await updateWork(row.id, { status: newStatus })
     ElMessage.success('状态已更新')
     row.status = newStatus
-    // 刷新统计数据
+    // 刷新统计数据并重新排序
     await fetchStats()
+    workList.value = sortWorkList([...workList.value])
   } catch (error) {
     ElMessage.error(error.message || '状态更新失败')
   }
@@ -378,6 +434,8 @@ const handlePriorityChange = async (row, newPriority) => {
     await updateWork(row.id, { priority: newPriority })
     ElMessage.success('优先级已更新')
     row.priority = newPriority
+    // 重新排序列表
+    workList.value = sortWorkList([...workList.value])
   } catch (error) {
     ElMessage.error(error.message || '优先级更新失败')
   }
@@ -394,12 +452,26 @@ const formatDate = (date) => {
   })
 }
 
-const isOverdue = (dueDate) => {
+// 判断是否过期（只有未完成的任务且已过期才显示红色）
+const isOverdue = (dueDate, status) => {
   if (!dueDate) return false
-  return new Date(dueDate) < new Date()
+  // 已完成或已取消的任务不显示过期
+  if (status === 'completed' || status === 'cancelled') return false
+  // 比较日期，去掉时间部分
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const due = new Date(dueDate)
+  due.setHours(0, 0, 0, 0)
+  return due < today
 }
 
-// 筛选变更
+// 日期筛选变更
+const handleDateChange = () => {
+  page.value = 1
+  fetchData()
+}
+
+// 状态筛选变更
 const handleFilterChange = () => {
   page.value = 1
   fetchData()
@@ -598,6 +670,10 @@ defineExpose({
 
 .status-filter {
   width: 160px;
+}
+
+.date-filter {
+  width: 280px;
 }
 
 .add-btn {

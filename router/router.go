@@ -79,6 +79,9 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 			certTools.POST("/validate-cert", certificate.ValidateCertificateAPI)
 		}
 
+		// 文件服务（公开访问，不需要认证 - 允许浏览器直接加载图片）
+		api.GET("/files/*filename", work.ServeFile)
+
 		// 需要认证的路由
 		authenticated := api.Group("")
 		authenticated.Use(middleware.JWTAuth())
@@ -86,9 +89,6 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 			// 用户信息
 			authenticated.GET("/profile", auth.GetProfileAPI)
 			authenticated.POST("/logout", auth.LogoutAPI)
-
-			// 文件服务（统一的文件访问API）
-			authenticated.GET("/files/*filename", work.ServeFile)
 
 			// 证书监控路由
 			cert := authenticated.Group("/certificates")

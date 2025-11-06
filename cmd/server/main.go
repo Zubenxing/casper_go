@@ -14,6 +14,7 @@ import (
 	"casper_go/features/auth"
 	"casper_go/features/certificate"
 	"casper_go/features/password"
+	"casper_go/features/work"
 	"casper_go/migrations"
 	"casper_go/router"
 
@@ -56,6 +57,8 @@ func main() {
 			&auth.UserToken{},
 			&certificate.Monitor{},
 			&password.Account{},
+			&work.Work{},
+			&work.WorkIssue{},
 		); err != nil {
 			logger.Log.Fatalf("数据库迁移失败: %v", err)
 		}

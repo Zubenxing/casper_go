@@ -209,13 +209,17 @@ const editorConfig = {
       maxFileSize: 5 * 1024 * 1024, // 5MB
       allowedFileTypes: ['image/*'],
       customInsert(res, insertFn) {
-        if (res.code === 200) {
+        console.log('[富文本编辑器] 图片上传响应:', res)
+        // 后端 response.Success 返回的 code 是 0，不是 200
+        if (res.code === 0 || res.code == 0) {
           // 后端返回文件名，前端拼接完整URL
           const filename = res.data.filename
           const imageUrl = `http://localhost:8080/api/files/work-issues/${filename}`
+          console.log('[富文本编辑器] 插入图片URL:', imageUrl)
           insertFn(imageUrl, res.data.originalName || '', imageUrl)
           ElMessage.success('图片上传成功')
         } else {
+          console.error('[富文本编辑器] 图片上传失败，code:', res.code)
           ElMessage.error(res.message || '图片上传失败')
         }
       }

@@ -18,6 +18,18 @@
           <el-option label="已关闭" value="closed" />
         </el-select>
 
+        <el-date-picker
+          v-model="dateRange"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          @change="handleDateChange"
+          size="large"
+          class="date-filter"
+          clearable
+        />
+
         <el-button type="warning" size="large" @click="handleAdd" class="add-btn">
           <el-icon><Plus /></el-icon>
           <span>新建问题</span>
@@ -35,38 +47,54 @@
     >
       <el-table-column type="index" label="#" width="60" align="center" />
 
-      <el-table-column label="问题" min-width="300">
+      <el-table-column label="问题" min-width="400">
         <template #default="{ row }">
-          <div class="issue-cell">
-            <div class="issue-title">{{ row.title }}</div>
-            <div v-if="row.description" class="issue-desc">{{ row.description }}</div>
+          <div class="issue-cell-wrapper">
+            <!-- 左侧：标题和描述区 -->
+            <div class="issue-main-content">
+              <div class="issue-cell">
+                <div class="issue-title">{{ row.title }}</div>
+                <div v-if="row.description" class="issue-desc">{{ row.description }}</div>
+              </div>
+              
+              <!-- 解决方案和标签在下方 -->
+              <div v-if="row.solution" class="issue-solution">
+                <el-icon class="solution-icon"><Checked /></el-icon>
+                <span>{{ row.solution }}</span>
+              </div>
+              <div v-if="row.tags" class="issue-tags">
+                <el-tag
+                  v-for="(tag, index) in row.tags.split(',')"
+                  :key="index"
+                  size="small"
+                  class="issue-tag"
+                >
+                  {{ tag }}
+                </el-tag>
+              </div>
+            </div>
             
-            <!-- 嵌入的截图 -->
-            <div v-if="row.images && parseImages(row.images).length > 0" class="issue-images">
+            <!-- 右侧：图片区（覆盖标题+描述高度） -->
+            <div v-if="row.images && parseImages(row.images).length > 0" class="issue-images-area">
               <el-image
                 v-for="(img, index) in parseImages(row.images).slice(0, 3)"
                 :key="index"
                 :src="getImageUrl(img)"
                 :preview-src-list="parseImages(row.images).map(i => getImageUrl(i))"
                 :initial-index="index"
+                :z-index="9999"
+                :preview-teleported="true"
+                :hide-on-click-modal="true"
                 fit="cover"
                 class="issue-image"
-              />
-            </div>
-            
-            <div v-if="row.solution" class="issue-solution">
-              <el-icon class="solution-icon"><Checked /></el-icon>
-              <span>{{ row.solution }}</span>
-            </div>
-            <div v-if="row.tags" class="issue-tags">
-              <el-tag
-                v-for="(tag, index) in row.tags.split(',')"
-                :key="index"
-                size="small"
-                class="issue-tag"
+                lazy
               >
-                {{ tag }}
-              </el-tag>
+                <template #error>
+                  <div class="image-error">
+                    <el-icon><Picture /></el-icon>
+                  </div>
+                </template>
+              </el-image>
             </div>
           </div>
         </template>
@@ -298,11 +326,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Plus, Edit, Delete, Warning, Loading, CircleCheck, 
-  DocumentChecked, Checked, ArrowDown, Document
+  DocumentChecked, Checked, ArrowDown, Document, Picture
 } from '@element-plus/icons-vue'
 import {
   getWorkIssueList, createWorkIssue, updateWorkIssue, 
@@ -315,6 +343,7 @@ const submitting = ref(false)
 const dialogVisible = ref(false)
 const dialogTitle = ref('新建问题')
 const filterStatus = ref('')
+const dateRange = ref(null)
 const page = ref(1)
 const pageSize = ref(20)
 const total = ref(0)
@@ -349,13 +378,56 @@ const rules = {
 // 图片上传相关
 const imageFileList = ref([])
 const uploadUrl = 'http://localhost:8080/api/work-issues/upload'
-const uploadHeaders = {
+// 动态获取 token，避免过期问题
+const uploadHeaders = computed(() => ({
   'Authorization': `Bearer ${localStorage.getItem('token')}`
-}
+}))
 
 // 详情编辑器
 const detailEditorVisible = ref(false)
 const currentIssue = ref(null)
+
+// 获取统计数据
+const fetchStats = async () => {
+  try {
+    const statsRes = await getWorkIssueStats()
+    stats.value = statsRes.data
+  } catch (error) {
+    console.error('获取统计失败:', error)
+  }
+}
+
+// 排序规则
+const sortIssueList = (list) => {
+  // 状态优先级：处理中 > 待处理 > 已解决 > 已关闭
+  const statusOrder = {
+    'in_progress': 1,
+    'open': 2,
+    'resolved': 3,
+    'closed': 4
+  }
+  
+  // 严重程度排序：严重 > 高 > 中 > 低
+  const severityOrder = {
+    'critical': 1,
+    'high': 2,
+    'medium': 3,
+    'low': 4
+  }
+  
+  return list.sort((a, b) => {
+    // 首先按状态排序
+    const statusDiff = (statusOrder[a.status] || 999) - (statusOrder[b.status] || 999)
+    if (statusDiff !== 0) return statusDiff
+    
+    // 状态相同时按严重程度排序
+    const severityDiff = (severityOrder[a.severity] || 999) - (severityOrder[b.severity] || 999)
+    if (severityDiff !== 0) return severityDiff
+    
+    // 都相同时按创建时间倒序（新的在前）
+    return new Date(b.created_at) - new Date(a.created_at)
+  })
+}
 
 // 获取数据
 const fetchData = async () => {
@@ -369,7 +441,7 @@ const fetchData = async () => {
       }),
       getWorkIssueStats()
     ])
-    issueList.value = listRes.data.list || []
+    issueList.value = sortIssueList(listRes.data.list || [])
     total.value = listRes.data.total || 0
     stats.value = statsRes.data
   } catch (error) {
@@ -428,8 +500,9 @@ const handleStatusChange = async (row, newStatus) => {
     await updateWorkIssue(row.id, { status: newStatus })
     ElMessage.success('状态已更新')
     row.status = newStatus
-    // 刷新统计数据
+    // 刷新统计数据并重新排序
     await fetchStats()
+    issueList.value = sortIssueList([...issueList.value])
   } catch (error) {
     ElMessage.error(error.message || '状态更新失败')
   }
@@ -443,6 +516,8 @@ const handleSeverityChange = async (row, newSeverity) => {
     await updateWorkIssue(row.id, { severity: newSeverity })
     ElMessage.success('严重程度已更新')
     row.severity = newSeverity
+    // 重新排序列表
+    issueList.value = sortIssueList([...issueList.value])
   } catch (error) {
     ElMessage.error(error.message || '严重程度更新失败')
   }
@@ -479,23 +554,52 @@ const getImageUrl = (path) => {
   return `http://localhost:8080/api/files/work-issues/${path}`
 }
 
-// 图片上传成功
-const handleImageSuccess = (response) => {
-  if (response.code === 200) {
+// 图片上传成功（el-upload 的 on-success 回调：(response, uploadFile, uploadFiles) => void）
+const handleImageSuccess = (response, uploadFile, uploadFiles) => {
+  console.log('==================== [图片上传] ====================')
+  console.log('[图片上传] 完整响应对象:', response)
+  console.log('[图片上传] response.code 值:', response.code)
+  console.log('[图片上传] response.code 类型:', typeof response.code)
+  console.log('[图片上传] response.code === 0:', response.code === 0)
+  console.log('[图片上传] response.code == 0:', response.code == 0)
+  console.log('[图片上传] 当前 form.images:', JSON.stringify(form.images))
+  
+  // 后端 response.Success 返回的 code 是 0，使用宽松比较
+  if (response.code == 0 || response.code === 0) {
     // 后端返回文件名，前端存储文件名到数组
-    form.images.push(response.data.filename)
+    const filename = response.data.filename
+    console.log('[图片上传] ✅ 提取的文件名:', filename)
+    
+    // 添加到 form.images 数组
+    form.images.push(filename)
+    console.log('[图片上传] ✅ 添加后的 form.images:', JSON.stringify(form.images))
+    
     ElMessage.success('图片上传成功')
   } else {
+    console.error('[图片上传] ❌ 条件判断失败！')
+    console.error('[图片上传] response.code:', response.code, '(type:', typeof response.code, ')')
     ElMessage.error(response.message || '图片上传失败')
   }
+  console.log('====================================================')
 }
 
-// 图片移除
-const handleImageRemove = (file) => {
-  const index = imageFileList.value.findIndex(item => item.uid === file.uid)
+// 图片移除（el-upload 的 on-remove 回调：(uploadFile, uploadFiles) => void）
+const handleImageRemove = (uploadFile, uploadFiles) => {
+  console.log('==================== [图片移除] ====================')
+  console.log('[图片移除] 移除的文件:', uploadFile)
+  console.log('[图片移除] 剩余文件:', uploadFiles)
+  console.log('[图片移除] 移除前 form.images:', JSON.stringify(form.images))
+  
+  // 找到要移除的文件在 imageFileList 中的索引
+  const index = imageFileList.value.findIndex(item => item.uid === uploadFile.uid)
+  console.log('[图片移除] 找到的索引:', index)
+  
   if (index !== -1 && form.images[index]) {
+    // 移除 form.images 中对应的文件名
     form.images.splice(index, 1)
+    console.log('[图片移除] 移除后 form.images:', JSON.stringify(form.images))
   }
+  console.log('====================================================')
 }
 
 // 图片上传前检查
@@ -530,7 +634,13 @@ const handleEditFromDetail = (issue) => {
   handleEdit(issue)
 }
 
-// 筛选变更
+// 日期筛选变更
+const handleDateChange = () => {
+  page.value = 1
+  fetchData()
+}
+
+// 状态筛选变更
 const handleFilterChange = () => {
   page.value = 1
   fetchData()
@@ -603,11 +713,16 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     submitting.value = true
 
+    console.log('[提交] form.images:', form.images)
+    console.log('[提交] imageFileList:', imageFileList.value)
+
     const data = {
       ...form,
       // 将图片数组转换为 JSON 字符串
-      images: form.images.length > 0 ? JSON.stringify(form.images) : ''
+      images: form.images.length > 0 ? JSON.stringify(form.images) : '[]'
     }
+    
+    console.log('[提交] 最终数据:', data)
     
     if (currentEditId.value) {
       await updateWorkIssue(currentEditId.value, data)
@@ -750,6 +865,10 @@ defineExpose({
   width: 160px;
 }
 
+.date-filter {
+  width: 280px;
+}
+
 .add-btn {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   border: none;
@@ -778,15 +897,34 @@ defineExpose({
   background-color: #fff5f5;
 }
 
+/* 左右分栏容器 */
+.issue-cell-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+/* 左侧主内容区 */
+.issue-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 标题和描述容器 */
 .issue-cell {
-  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .issue-title {
   font-size: 14px;
   font-weight: 600;
   color: #2d3748;
-  margin-bottom: 4px;
+  line-height: 1.4;
 }
 
 .issue-desc {
@@ -865,26 +1003,39 @@ defineExpose({
   font-weight: 600;
 }
 
-/* 嵌入式截图 */
-.issue-images {
+/* 右侧图片区（覆盖标题+描述高度） */
+.issue-images-area {
   display: flex;
   gap: 6px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .issue-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 4px;
+  width: 55px;
+  height: 55px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #e2e8f0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .issue-image:hover {
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.image-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  color: #999;
+  font-size: 20px;
 }
 
 /* 分页 */

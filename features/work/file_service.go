@@ -24,8 +24,11 @@ import (
 func ServeFile(c *gin.Context) {
 	filename := c.Param("filename")
 
+	// Gin 的 *filename 参数会包含开头的斜杠，需要去除
+	filename = strings.TrimPrefix(filename, "/")
+
 	// 安全检查：防止路径穿越攻击
-	if strings.Contains(filename, "..") || strings.HasPrefix(filename, "/") {
+	if strings.Contains(filename, "..") {
 		logger.Work.WithFields(logrus.Fields{
 			"filename": filename,
 			"ip":       c.ClientIP(),
@@ -51,8 +54,9 @@ func ServeFile(c *gin.Context) {
 	// 记录文件访问日志
 	logger.Work.WithFields(logrus.Fields{
 		"filename": filename,
+		"fullPath": fullPath,
 		"ip":       c.ClientIP(),
-	}).Debug("[文件服务] 文件访问")
+	}).Info("[文件服务] 文件访问成功")
 
 	// 设置合适的 Content-Type
 	ext := strings.ToLower(filepath.Ext(filename))
