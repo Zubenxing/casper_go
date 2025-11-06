@@ -82,19 +82,16 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	// 返回文件URL（统一使用 / 作为路径分隔符）
-	fileURL := fmt.Sprintf("/%s", strings.ReplaceAll(filePath, "\\", "/"))
-
+	// 只返回文件名，不返回完整URL（URL由前端拼接）
 	logger.Work.WithFields(logrus.Fields{
 		"user_id":  userID,
 		"filename": filename,
-		"url":      fileURL,
 	}).Info("[工作记录] 图片上传成功")
 
 	response.Success(c, gin.H{
-		"url":      fileURL,
-		"filename": file.Filename,
-		"size":     file.Size,
+		"filename":     filename,      // 数据库存储的文件名
+		"originalName": file.Filename, // 原始文件名
+		"size":         file.Size,
 	})
 }
 

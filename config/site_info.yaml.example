@@ -9,8 +9,9 @@ site:
   host: "0.0.0.0"           # 监听地址
 
 # 数据库初始化配置
+# 使用版本化迁移系统，运行 `./casper_server migrate` 命令进行数据库迁移
 database_init:
-  auto_migrate: true      # 是否自动迁移表结构（建议保持 true）
+  auto_migrate: false     # 是否使用GORM自动迁移（已改用版本化迁移系统，设为 false）
   init_default_data: true # 是否初始化默认数据（首次运行后可设为 false）
 
 # JWT 认证配置

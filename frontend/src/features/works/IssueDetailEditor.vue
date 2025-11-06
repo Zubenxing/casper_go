@@ -209,14 +209,17 @@ const editorConfig = {
       maxFileSize: 5 * 1024 * 1024, // 5MB
       allowedFileTypes: ['image/*'],
       customInsert(res, insertFn) {
-        if (res.code === 200) {
-          // 将相对路径转换为完整 URL
-          let imageUrl = res.data.url
-          if (!imageUrl.startsWith('http')) {
-            imageUrl = `http://localhost:8080${imageUrl}`
-          }
-          insertFn(imageUrl, res.data.filename || '', imageUrl)
+        console.log('[富文本编辑器] 图片上传响应:', res)
+        // 后端 response.Success 返回的 code 是 0，不是 200
+        if (res.code === 0 || res.code == 0) {
+          // 后端返回文件名，前端拼接完整URL
+          const filename = res.data.filename
+          const imageUrl = `http://localhost:8080/api/files/work-issues/${filename}`
+          console.log('[富文本编辑器] 插入图片URL:', imageUrl)
+          insertFn(imageUrl, res.data.originalName || '', imageUrl)
+          ElMessage.success('图片上传成功')
         } else {
+          console.error('[富文本编辑器] 图片上传失败，code:', res.code)
           ElMessage.error(res.message || '图片上传失败')
         }
       }
@@ -224,15 +227,19 @@ const editorConfig = {
   }
 }
 
-// 解析图片
+// 解析图片 - 将数据库中的文件名转换为完整URL
 const images = ref([])
 const parseImages = (imagesStr) => {
   if (!imagesStr) return []
   try {
     const parsed = JSON.parse(imagesStr)
     return Array.isArray(parsed) ? parsed.map(img => {
+      // 如果已经是完整URL，直接返回
       if (img.startsWith('http')) return img
-      return `http://localhost:8080${img}`
+      // 如果是旧格式的相对路径（/api/files/xxx），加上域名
+      if (img.startsWith('/api/')) return `http://localhost:8080${img}`
+      // 如果只是文件名（1001_xxx.png），拼接完整路径
+      return `http://localhost:8080/api/files/work-issues/${img}`
     }) : []
   } catch {
     return []
@@ -357,22 +364,34 @@ const handleClose = () => {
   emit('update:modelValue', false)
 }
 
+// 初始化编辑器内容
+const initializeContent = (issue) => {
+  let content = issue.content || ''
+  images.value = parseImages(issue.images)
+  
+  // 如果 content 为空或只是默认内容，但有上传的图片，则自动插入图片
+  if ((!content || content === '<p>暂无详细内容</p>') && images.value.length > 0) {
+    // 生成包含所有图片的 HTML
+    const imagesHtml = images.value.map(img => `<p><img src="${img}" alt="问题截图" style="max-width: 100%;"/></p>`).join('')
+    content = `<p>问题截图：</p>${imagesHtml}<p><br></p>`
+  }
+  
+  contentHtml.value = content || '<p>暂无详细内容</p>'
+  originalContent.value = contentHtml.value
+}
+
 // 监听 props 变化
 watch(() => props.modelValue, (val) => {
   visible.value = val
   if (val) {
-    contentHtml.value = props.issue.content || '<p>暂无详细内容</p>'
-    originalContent.value = contentHtml.value
-    images.value = parseImages(props.issue.images)
+    initializeContent(props.issue)
     isEditing.value = false
   }
 })
 
 watch(() => props.issue, (newVal) => {
   if (newVal && visible.value) {
-    contentHtml.value = newVal.content || '<p>暂无详细内容</p>'
-    originalContent.value = contentHtml.value
-    images.value = parseImages(newVal.images)
+    initializeContent(newVal)
   }
 }, { deep: true })
 

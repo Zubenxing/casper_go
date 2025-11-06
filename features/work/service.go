@@ -113,6 +113,25 @@ func UpdateWork(userID, id uint, updates map[string]interface{}) error {
 		return err
 	}
 
+	// 处理日期字段：将ISO 8601格式转换为time.Time
+	dateFields := []string{"start_date", "due_date"}
+	for _, field := range dateFields {
+		if dateStr, ok := updates[field].(string); ok && dateStr != "" {
+			// 解析 ISO 8601 格式: 2025-11-05T16:00:00.000Z
+			parsedTime, err := time.Parse(time.RFC3339, dateStr)
+			if err != nil {
+				logger.Work.Warnf("[工作管理] 日期解析失败 %s=%s: %v", field, dateStr, err)
+				// 如果解析失败，尝试其他格式
+				parsedTime, err = time.Parse("2006-01-02T15:04:05Z", dateStr)
+				if err != nil {
+					logger.Work.Errorf("[工作管理] 日期格式错误 %s=%s", field, dateStr)
+					return errors.New("日期格式错误: " + field)
+				}
+			}
+			updates[field] = parsedTime
+		}
+	}
+
 	// 如果状态变更为 completed，自动设置完成时间
 	if status, ok := updates["status"].(string); ok && status == WorkStatusCompleted {
 		now := time.Now()
@@ -200,6 +219,12 @@ func CreateWorkIssue(userID uint, issue *WorkIssue) error {
 	logger.Work.Infof("[问题管理] 创建问题记录: 用户ID=%d, 标题=%s", userID, issue.Title)
 
 	issue.UserID = userID
+
+	// 处理 images 字段：空字符串转为空（MySQL JSON 不接受空字符串）
+	if issue.Images == "" {
+		issue.Images = "[]" // 设置为空 JSON 数组
+	}
+
 	if err := database.DB.Create(issue).Error; err != nil {
 		logger.Work.Errorf("[问题管理] 创建问题记录失败: %v", err)
 		return err
@@ -266,6 +291,13 @@ func UpdateWorkIssue(userID, id uint, updates map[string]interface{}) error {
 	issue, err := GetWorkIssueByID(userID, id)
 	if err != nil {
 		return err
+	}
+
+	// 处理 images 字段：空字符串转为空数组（MySQL JSON 不接受空字符串）
+	if images, ok := updates["images"].(string); ok {
+		if images == "" {
+			updates["images"] = "[]" // 设置为空 JSON 数组
+		}
 	}
 
 	// 如果状态变更为 resolved，自动设置解决时间
