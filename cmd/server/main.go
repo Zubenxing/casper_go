@@ -15,6 +15,7 @@ import (
 	"casper_go/features/certificate"
 	"casper_go/features/password"
 	"casper_go/features/work"
+	"casper_go/features/workflow"
 	"casper_go/migrations"
 	"casper_go/router"
 
@@ -75,6 +76,15 @@ func main() {
 		logger.Log.Info("默认数据初始化完成")
 	} else {
 		logger.Log.Info("默认数据初始化已禁用")
+	}
+
+	// 初始化 workflow 服务
+	if cfg.N8N.APIURL != "" {
+		workflow.InitService(&cfg.N8N)
+		logger.Log.Info("n8n 工作流服务已初始化")
+		logger.Log.Infof("n8n API: %s", cfg.N8N.APIURL)
+	} else {
+		logger.Log.Warn("n8n 配置未设置，工作流功能将不可用")
 	}
 
 	// 设置 Gin 模式

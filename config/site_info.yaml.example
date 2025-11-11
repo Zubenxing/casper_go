@@ -51,6 +51,11 @@ upload:
   max_file_size: 5              # 最大文件大小（MB）
   allowed_types: ".jpg,.jpeg,.png,.gif,.webp" # 允许的文件类型
 
+# n8n 工作流引擎配置
+n8n:
+  api_url: "http://localhost:5678"  # n8n API 地址
+  api_key: ""                        # n8n API Key (在 n8n UI 中生成)
+
 # ========================================
 # 不同环境的推荐配置
 # ========================================

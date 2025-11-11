@@ -7,6 +7,7 @@ import (
 	"casper_go/features/certificate"
 	"casper_go/features/password"
 	"casper_go/features/work"
+	"casper_go/features/workflow"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -136,6 +137,20 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 				issues.PUT("/:id", work.UpdateWorkIssueAPI)
 				issues.DELETE("/:id", work.DeleteWorkIssueAPI)
 				issues.POST("/upload", work.UploadImage) // 上传问题截图
+			}
+
+			// AI 工作流路由
+			workflows := authenticated.Group("/workflows")
+			{
+				workflows.GET("", workflow.GetWorkflowsAPI)
+				workflows.GET("/health", workflow.CheckHealthAPI)
+				workflows.GET("/executions", workflow.GetExecutionsAPI)
+				workflows.GET("/executions/:id", workflow.GetExecutionAPI)
+				workflows.DELETE("/executions/:id", workflow.DeleteExecutionAPI)
+				workflows.GET("/:id", workflow.GetWorkflowAPI)
+				workflows.POST("/:id/execute", workflow.ExecuteWorkflowAPI)
+				workflows.POST("/:id/activate", workflow.ActivateWorkflowAPI)
+				workflows.POST("/:id/deactivate", workflow.DeactivateWorkflowAPI)
 			}
 		}
 

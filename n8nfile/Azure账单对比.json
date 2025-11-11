@@ -1,0 +1,217 @@
+{
+  "name": "Azure账单对比",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "azure-bill",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook",
+      "name": "接收Excel文件",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "azure-bill-compare"
+    },
+    {
+      "parameters": {
+        "operation": "fromFile",
+        "fileFormat": "autodetect",
+        "binaryPropertyName": "current_month",
+        "options": {}
+      },
+      "id": "read-current",
+      "name": "读取本月Excel",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [460, 200]
+    },
+    {
+      "parameters": {
+        "operation": "fromFile",
+        "fileFormat": "autodetect",
+        "binaryPropertyName": "last_month",
+        "options": {}
+      },
+      "id": "read-last",
+      "name": "读取上月Excel",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge",
+      "name": "合并数据",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// 从Merge节点获取数据 - input1是本月，input2是上月\nconst currentMonth = $('读取本月Excel').all().map(item => item.json);\nconst lastMonth = $('读取上月Excel').all().map(item => item.json);\n\n// 创建上月数据映射 - 使用Resource作为key\nconst lastMonthMap = new Map();\nlastMonth.forEach(item => {\n  const key = item.Resource || item.ResourceId || item['资源'];\n  const cost = parseFloat(item.Cost || item.CostUSD || item['费用'] || 0);\n  \n  if (key) {\n    lastMonthMap.set(key, {\n      cost: cost,\n      resourceGroup: item.ResourceGroup || item['资源组'] || '',\n      resourceType: item.ResourceType || item['资源类型'] || ''\n    });\n  }\n});\n\n// 对比并生成结果\nconst results = [];\nconst processedKeys = new Set();\n\ncurrentMonth.forEach(item => {\n  const key = item.Resource || item.ResourceId || item['资源'];\n  const currentCost = parseFloat(item.Cost || item.CostUSD || item['费用'] || 0);\n  const resourceGroup = item.ResourceGroup || item['资源组'] || '';\n  const resourceType = item.ResourceType || item['资源类型'] || '';\n  \n  if (!key) return;\n  \n  const lastData = lastMonthMap.get(key);\n  const lastCost = lastData ? lastData.cost : 0;\n  const diff = currentCost - lastCost;\n  const percentChange = lastCost !== 0 ? ((diff / lastCost) * 100).toFixed(2) : (currentCost > 0 ? 'NEW' : '0');\n  \n  results.push({\n    '资源组': resourceGroup,\n    '资源名称': key,\n    '资源类型': resourceType,\n    '本月费用': currentCost.toFixed(2),\n    '上月费用': lastCost.toFixed(2),\n    '差额': diff.toFixed(2),\n    '变化%': percentChange === 'NEW' ? '新增' : percentChange + '%',\n    '状态': diff > 0 ? '↑增加' : diff < 0 ? '↓减少' : '→持平',\n    '_sort': Math.abs(diff)\n  });\n  \n  processedKeys.add(key);\n  lastMonthMap.delete(key);\n});\n\n// 添加已删除的资源\nlastMonthMap.forEach((data, key) => {\n  results.push({\n    '资源组': data.resourceGroup,\n    '资源名称': key,\n    '资源类型': data.resourceType,\n    '本月费用': '0.00',\n    '上月费用': data.cost.toFixed(2),\n    '差额': (-data.cost).toFixed(2),\n    '变化%': '-100%',\n    '状态': '✕已删除',\n    '_sort': data.cost\n  });\n});\n\n// 按差额绝对值排序\nresults.sort((a, b) => b._sort - a._sort);\nresults.forEach(r => delete r._sort);\n\n// 计算汇总\nconst totalCurrent = results.reduce((s, r) => s + parseFloat(r['本月费用']), 0);\nconst totalLast = results.reduce((s, r) => s + parseFloat(r['上月费用']), 0);\nconst totalDiff = totalCurrent - totalLast;\nconst totalPercent = totalLast !== 0 ? ((totalDiff / totalLast) * 100).toFixed(2) : 'N/A';\n\n// 统计信息\nconst stats = {\n  increase: results.filter(r => r['状态'] === '↑增加').length,\n  decrease: results.filter(r => r['状态'] === '↓减少').length,\n  newItems: results.filter(r => r['变化%'] === '新增').length,\n  deleted: results.filter(r => r['状态'] === '✕已删除').length\n};\n\n// 插入汇总行\nresults.unshift(\n  {\n    '资源组': '══════════',\n    '资源名称': '汇总统计',\n    '资源类型': '══════════',\n    '本月费用': totalCurrent.toFixed(2),\n    '上月费用': totalLast.toFixed(2),\n    '差额': totalDiff.toFixed(2),\n    '变化%': totalPercent === 'N/A' ? 'N/A' : totalPercent + '%',\n    '状态': totalDiff > 0 ? '▲总体增加' : totalDiff < 0 ? '▼总体减少' : '━持平'\n  },\n  {\n    '资源组': '',\n    '资源名称': `变化明细: 增${stats.increase} | 减${stats.decrease} | 新${stats.newItems} | 删${stats.deleted}`,\n    '资源类型': '',\n    '本月费用': '',\n    '上月费用': '',\n    '差额': '',\n    '变化%': '',\n    '状态': ''\n  },\n  {\n    '资源组': '──────────',\n    '资源名称': '──────────',\n    '资源类型': '──────────',\n    '本月费用': '──────────',\n    '上月费用': '──────────',\n    '差额': '──────────',\n    '变化%': '──────────',\n    '状态': '──────────'\n  }\n);\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "compare",
+      "name": "对比分析",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "xlsx",
+        "options": {
+          "fileName": "=Azure账单对比_{{ $now.format('YYYY-MM-DD_HHmm') }}.xlsx",
+          "sheetName": "对比结果"
+        }
+      },
+      "id": "export",
+      "name": "生成Excel",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              },
+              {
+                "name": "Content-Disposition",
+                "value": "=attachment; filename=\"Azure账单对比_{{ $now.format('YYYY-MM-DD') }}.xlsx\""
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, GET, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "response",
+      "name": "返回结果",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "接收Excel文件": {
+      "main": [
+        [
+          {
+            "node": "读取本月Excel",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "读取上月Excel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "读取本月Excel": {
+      "main": [
+        [
+          {
+            "node": "合并数据",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "读取上月Excel": {
+      "main": [
+        [
+          {
+            "node": "合并数据",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "合并数据": {
+      "main": [
+        [
+          {
+            "node": "对比分析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "对比分析": {
+      "main": [
+        [
+          {
+            "node": "生成Excel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "生成Excel": {
+      "main": [
+        [
+          {
+            "node": "返回结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-11T03:30:00.000Z",
+  "versionId": "1"
+}

@@ -26,6 +26,14 @@
 - 收藏功能
 - 快速搜索和筛选
 
+### 🤖 AI 工作流 (n8n 集成)
+- 可视化工作流编辑器
+- 400+ 服务集成
+- 支持定时任务和 Webhook 触发
+- AI 功能（集成 ChatGPT、Claude 等）
+- 前端一键执行和结果查看
+- 完整的执行历史记录
+
 ## 🚀 技术栈
 
 ### 后端
@@ -105,7 +113,19 @@ npm run dev
 
 前端将在 `http://localhost:3001` 启动
 
-### 6. 登录系统
+### 6. （可选）启动 n8n 工作流服务
+
+```bash
+# Windows
+.\start-n8n.ps1
+
+# Linux/Mac
+./start-n8n.sh
+```
+
+n8n 将在 `http://localhost:5678` 启动。详细配置请参考 [README_N8N.md](README_N8N.md)
+
+### 7. 登录系统
 
 默认管理员账户：
 - 用户名：`admin`
@@ -119,7 +139,8 @@ npm run dev
 - [性能优化总结](docs/OPTIMIZATION_SUMMARY.md)
 - [证书工具 API](docs/CERTIFICATE_TOOLS_API.md)
 - [密码管理 API](docs/PASSWORD_API.md)
-- [前端 API 文档](FRONTEND_API.md)
+- [n8n 工作流集成指南](docs/N8N_INTEGRATION.md)
+- [n8n 快速开始](README_N8N.md) ⭐ 推荐阅读
 
 ## 🔧 开发命令
 

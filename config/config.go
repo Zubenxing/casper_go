@@ -17,6 +17,7 @@ type Config struct {
 	API          APIConfig          `mapstructure:"api"`
 	Certificate  CertificateConfig  `mapstructure:"certificate"`
 	Upload       UploadConfig       `mapstructure:"upload"`
+	N8N          N8NConfig          `mapstructure:"n8n"`
 }
 
 // DatabaseConfig 数据库配置
@@ -98,6 +99,12 @@ func (c *UploadConfig) GetWorkIssuesPath() string {
 // GetMaxFileSizeBytes 获取最大文件大小（字节）
 func (c *UploadConfig) GetMaxFileSizeBytes() int64 {
 	return int64(c.MaxFileSize) * 1024 * 1024
+}
+
+// N8NConfig n8n 工作流引擎配置
+type N8NConfig struct {
+	APIURL string `mapstructure:"api_url"`
+	APIKey string `mapstructure:"api_key"`
 }
 
 var GlobalConfig *Config
