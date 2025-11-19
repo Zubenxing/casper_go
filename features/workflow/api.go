@@ -5,6 +5,7 @@ import (
 	"casper_go/core/response"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,7 @@ var service *Service
 // InitService 初始化工作流服务
 func InitService(cfg *config.N8NConfig) {
 	service = NewService(cfg)
+	// 注意：工作流配置表由 migrate 系统管理，见 migrations/20251111000007_create_workflow_configs_table.go
 }
 
 // GetWorkflowsAPI 获取所有工作流
@@ -99,7 +101,20 @@ func ExecuteWorkflowAPI(c *gin.Context) {
 		return
 	}
 
-	// 解析请求参数
+	// 检查是否是 multipart/form-data（文件上传）
+	contentType := c.GetHeader("Content-Type")
+	if strings.Contains(contentType, "multipart/form-data") {
+		// 处理文件上传
+		result, err := service.ExecuteWorkflowWithFiles(workflowID, c)
+		if err != nil {
+			response.Error(c, http.StatusInternalServerError, "执行工作流失败: "+err.Error())
+			return
+		}
+		response.Success(c, result)
+		return
+	}
+
+	// 解析请求参数（JSON）
 	var data map[string]interface{}
 	if err := c.ShouldBindJSON(&data); err != nil {
 		// 如果没有请求体，使用空 map

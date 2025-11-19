@@ -14,6 +14,7 @@ func GetAllMigrations() []database.Migration {
 		&CreateWorksTables20251103000004{},
 		&AddUserIDField20251103000005{},
 		&AddIssueImagesContent20251104000006{},
+		&CreateWorkflowConfigsTable20251111000007{},
 		// 在这里添加新的迁移...
 	}
 }

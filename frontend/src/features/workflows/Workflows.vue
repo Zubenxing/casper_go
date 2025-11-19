@@ -77,9 +77,14 @@
               </el-icon>
               <h3>{{ workflow.name }}</h3>
             </div>
-            <el-tag :type="workflow.active ? 'success' : 'info'" size="small">
-              {{ workflow.active ? '已激活' : '未激活' }}
-            </el-tag>
+            <div class="workflow-status">
+              <el-tag :type="getWorkflowTypeTag(workflow).type" size="small" style="margin-right: 5px">
+                {{ getWorkflowTypeTag(workflow).text }}
+              </el-tag>
+              <el-tag :type="workflow.active ? 'success' : 'info'" size="small">
+                {{ workflow.active ? '已激活' : '未激活' }}
+              </el-tag>
+            </div>
           </div>
 
           <div class="workflow-meta">
@@ -318,86 +323,12 @@
       </el-table>
     </el-card>
 
-    <!-- 执行工作流对话框 -->
-    <el-dialog
+    <!-- 动态执行工作流对话框 -->
+    <DynamicExecuteDialog
       v-model="executeDialogVisible"
-      title="确认执行"
-      width="500px"
-      :close-on-click-modal="false"
-    >
-      <div v-if="currentWorkflow" style="text-align: center; padding: 20px 0">
-        <el-icon :size="60" color="#409eff" style="margin-bottom: 20px">
-          <CaretRight />
-        </el-icon>
-        
-        <h2 style="margin: 0 0 10px 0; font-size: 20px; color: #303133">
-          {{ currentWorkflow.name }}
-        </h2>
-        
-        <p style="color: #909399; margin-bottom: 20px">
-          <el-icon style="vertical-align: middle"><Grid /></el-icon>
-          包含 {{ currentWorkflow.nodes?.length || 0 }} 个节点
-        </p>
-
-        <el-divider style="margin: 20px 0" />
-
-        <!-- 高级选项（折叠） -->
-        <el-collapse v-model="showAdvancedOptions" style="text-align: left">
-          <el-collapse-item name="advanced">
-            <template #title>
-              <span style="color: #909399; font-size: 14px">
-                <el-icon style="vertical-align: middle"><Setting /></el-icon>
-                高级选项（可选）
-              </span>
-            </template>
-            <el-form label-position="top" size="small">
-              <el-form-item label="自定义参数 (JSON)">
-                <el-input
-                  v-model="executeParams"
-                  type="textarea"
-                  :rows="6"
-                  placeholder='{"key": "value"}'
-                  style="font-family: monospace; font-size: 12px"
-                />
-                <div style="margin-top: 5px; color: #909399; font-size: 12px">
-                  💡 如果工作流需要额外参数，可以在这里输入
-                </div>
-              </el-form-item>
-            </el-form>
-          </el-collapse-item>
-        </el-collapse>
-
-        <el-alert
-          type="info"
-          :closable="false"
-          show-icon
-          style="margin-top: 20px"
-        >
-          <template #title>
-            <span style="font-size: 13px">
-              工作流将使用 n8n 中配置的默认参数执行
-            </span>
-          </template>
-        </el-alert>
-      </div>
-
-      <template #footer>
-        <div style="display: flex; justify-content: center; gap: 10px">
-          <el-button @click="executeDialogVisible = false" size="large">
-            取消
-          </el-button>
-          <el-button
-            type="primary"
-            :icon="CaretRight"
-            @click="executeWorkflowNow"
-            :loading="executing"
-            size="large"
-          >
-            {{ executing ? '执行中...' : '立即执行' }}
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+      :config="currentWorkflowConfig"
+      @execute="handleDynamicExecute"
+    />
 
   </div>
 </template>
@@ -438,6 +369,9 @@ import {
   deactivateWorkflow,
   checkHealth
 } from './api'
+import { getWorkflowConfig, WORKFLOW_TYPES, loadWorkflowConfigs } from './workflow-configs'
+import { WorkflowTriggerFactory } from './workflow-trigger-factory'
+import DynamicExecuteDialog from './components/DynamicExecuteDialog.vue'
 
 // 数据
 const workflows = ref([])
@@ -449,6 +383,12 @@ const healthChecking = ref(false)
 const healthStatus = ref('unknown')
 const executeDialogVisible = ref(false)
 const currentWorkflow = ref(null)
+const currentWorkflowConfig = ref({
+  type: WORKFLOW_TYPES.SIMPLE,
+  description: '',
+  executeLabel: '执行',
+  workflow: null
+})
 const executeParams = ref('')
 const executing = ref(false)
 const executionResult = ref(null)
@@ -529,88 +469,63 @@ const checkN8nHealth = async () => {
 
 const showExecuteDialog = (workflow) => {
   currentWorkflow.value = workflow
+  currentWorkflowConfig.value = getWorkflowConfig(workflow)
   executeParams.value = ''
-  showAdvancedOptions.value = [] // 默认折叠高级选项
+  showAdvancedOptions.value = false
   executeDialogVisible.value = true
 }
 
-const executeWorkflowNow = async () => {
-  executing.value = true
+// 动态执行处理 - 使用策略模式
+const handleDynamicExecute = async (formData, done) => {
   try {
-    // 解析参数
-    let params = {}
-    if (executeParams.value.trim()) {
-      try {
-        params = JSON.parse(executeParams.value)
-      } catch (e) {
-        ElMessage.error('参数格式错误，请输入有效的 JSON')
-        executing.value = false
-        return
-      }
-    }
-
-    console.log('准备执行工作流:', {
-      id: currentWorkflow.value.id,
-      name: currentWorkflow.value.name,
-      params: params
+    console.log('动态执行工作流:', {
+      workflow: currentWorkflow.value.name,
+      type: currentWorkflowConfig.value.type,
+      formData
     })
 
-    const res = await executeWorkflow(currentWorkflow.value.id, params)
+    // 使用策略模式选择对应的触发器
+    const trigger = WorkflowTriggerFactory.createTrigger(currentWorkflowConfig.value.type)
     
-    // 调试：打印返回数据
-    console.log('工作流执行返回数据:', res)
+    // 执行工作流
+    const result = await trigger.execute(currentWorkflow.value, formData, currentWorkflowConfig.value)
     
-    // 检查响应结构
-    if (res.code === 500 || res.code !== 0) {
-      // 后端返回错误
-      const errorMsg = res.message || res.msg || '执行失败'
-      console.error('后端返回错误:', errorMsg)
-      ElMessage.error(`执行失败: ${errorMsg}`)
-      executing.value = false
-      executeDialogVisible.value = false
-      return
-    }
+    console.log('工作流执行结果:', result)
     
-    console.log('res.data:', res.data)
-    
-    // 后端返回格式：{code: 0, data: ExecutionData}
-    if (!res.data) {
-      console.error('返回数据为空')
-      ElMessage.error('执行失败: 返回数据为空')
-      executing.value = false
-      executeDialogVisible.value = false
-      return
-    }
-    
-    executionResult.value = res.data
-    executeDialogVisible.value = false
-    
-    console.log('executionResult 已设置:', executionResult.value)
-    
-    ElMessage.success('🎉 工作流执行成功！')
-    
-    // 刷新工作流列表和执行历史
-    fetchWorkflows()
-    fetchExecutions()
-    
-    // 滚动到结果区域
-    setTimeout(() => {
-      const resultCard = document.querySelector('.result-card')
-      console.log('查找结果卡片:', resultCard)
-      if (resultCard) {
-        resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      } else {
-        console.warn('未找到 .result-card 元素，executionResult:', executionResult.value)
+    // 处理执行结果
+    if (result.success) {
+      if (result.message) {
+        ElMessage.success(result.message)
       }
-    }, 200)
-  } catch (error) {
-    console.error('执行异常:', error)
-    ElMessage.error('执行失败: ' + (error.message || '未知错误'))
+      
+      // 设置执行结果用于显示
+      executionResult.value = result.data
+      
+      // 刷新数据
+      fetchWorkflows()
+      fetchExecutions()
+      
+      // 滚动到结果区域
+      setTimeout(() => {
+        const resultCard = document.querySelector('.result-card')
+        if (resultCard) {
+          resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 200)
+    }
+    
+    done() // 通知对话框执行完成
     executeDialogVisible.value = false
-  } finally {
-    executing.value = false
+    
+  } catch (error) {
+    console.error('动态执行失败:', error)
+    ElMessage.error('执行失败: ' + (error.message || '未知错误'))
+    done() // 确保对话框可以关闭
   }
 }
+
+
+
 
 const viewWorkflowDetail = async (workflow) => {
   try {
@@ -757,6 +672,21 @@ const formatJSON = (data) => {
   }
 }
 
+// 获取工作流类型标签
+const getWorkflowTypeTag = (workflow) => {
+  const config = getWorkflowConfig(workflow)
+  
+  const typeMap = {
+    [WORKFLOW_TYPES.SIMPLE]: { text: '简单执行', type: 'success' },
+    [WORKFLOW_TYPES.UPLOAD_FILES]: { text: '文件上传', type: 'warning' },
+    [WORKFLOW_TYPES.FORM_INPUT]: { text: '表单输入', type: 'primary' },
+    [WORKFLOW_TYPES.WEBHOOK]: { text: 'Webhook', type: 'info' },
+    [WORKFLOW_TYPES.BATCH]: { text: '批量处理', type: 'danger' }
+  }
+  
+  return typeMap[config.type] || { text: '自动', type: 'info' }
+}
+
 // 判断是否为 HTML 结果
 const isHTMLResult = computed(() => {
   if (!executionResult.value?.data) return false
@@ -871,7 +801,11 @@ const viewHTMLInNewTab = () => {
 }
 
 // 生命周期
-onMounted(() => {
+onMounted(async () => {
+  // 先加载工作流配置
+  await loadWorkflowConfigs()
+  
+  // 再加载数据
   fetchWorkflows()
   fetchExecutions()
   checkN8nHealth()
@@ -1149,6 +1083,4 @@ onMounted(() => {
   font-family: 'Monaco', 'Menlo', monospace;
 }
 </style>
-
-
 

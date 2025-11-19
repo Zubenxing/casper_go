@@ -151,6 +151,14 @@ func Setup(mode string, cfg *config.Config) *gin.Engine {
 				workflows.POST("/:id/execute", workflow.ExecuteWorkflowAPI)
 				workflows.POST("/:id/activate", workflow.ActivateWorkflowAPI)
 				workflows.POST("/:id/deactivate", workflow.DeactivateWorkflowAPI)
+				
+				// 工作流配置管理
+				workflows.GET("/configs", workflow.GetWorkflowConfigsAPI)
+				workflows.GET("/configs/:id", workflow.GetWorkflowConfigByWorkflowIDAPI)
+				workflows.POST("/configs", workflow.CreateWorkflowConfigAPI)
+				workflows.PUT("/configs/:id", workflow.UpdateWorkflowConfigAPI)
+				workflows.DELETE("/configs/:id", workflow.DeleteWorkflowConfigAPI)
+				workflows.POST("/configs/sync", workflow.SyncWorkflowConfigsAPI)
 			}
 		}
 

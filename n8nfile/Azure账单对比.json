@@ -98,6 +98,7 @@
     {
       "parameters": {
         "respondWith": "binary",
+        "binaryPropertyName": "data",
         "options": {
           "responseHeaders": {
             "entries": [
@@ -107,19 +108,7 @@
               },
               {
                 "name": "Content-Disposition",
-                "value": "=attachment; filename=\"Azure账单对比_{{ $now.format('YYYY-MM-DD') }}.xlsx\""
-              },
-              {
-                "name": "Access-Control-Allow-Origin",
-                "value": "*"
-              },
-              {
-                "name": "Access-Control-Allow-Methods",
-                "value": "POST, GET, OPTIONS"
-              },
-              {
-                "name": "Access-Control-Allow-Headers",
-                "value": "*"
+                "value": "attachment; filename=\"Azure账单对比.xlsx\""
               }
             ]
           }
@@ -128,7 +117,7 @@
       "id": "response",
       "name": "返回结果",
       "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1,
+      "typeVersion": 1.1,
       "position": [1340, 300]
     }
   ],

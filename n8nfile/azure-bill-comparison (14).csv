@@ -1,0 +1,876 @@
+﻿Resource,SubscriptionName,ResourceGroup,CurrentCostUSD,LastCostUSD,DeltaUSD,Remark
+[critical mysql offline]-mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+[critical mysql offline]-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+[critical mysql online]-mysql17-prod-kiocentraluk,KioSoft Globalazure  Subscription,rg60-prod-kiocentraluk,0.05827,0.05827,0,SAME
+[high replication lag]-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+[high replication lag]-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092063,0.092063,0,SAME
+[high storage io percent]-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+[high storage io percent]-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+02559940-92d3-4914-b3ac-cc3365d2bb2b,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,3.60004,3.60004,0,SAME
+8b906ae0-b714-42c6-9763-7e7d876c5224,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,3.60004,3.60004,0,SAME
+accessauditsystem-ip,KioSoft Globalazure  Subscription,rg20002-prod-om,3.60004,3.60004,0,SAME
+acr storage alert,KioSoft Globalazure  Subscription,commandcenter,0.092191,0.092191,0,SAME
+activeconnectionalert-kiopos-error,KioSoft Globalazure  Subscription,rg43_prod_alert,0.092191,0.092191,0,SAME
+activeconnectionalert-pros-cleanstore,KioSoft Globalazure  Subscription,retail,0.058655,0.058655,0,SAME
+adf10000-test-datalake,KioSoft Globalazure  Subscription,rg10003-test-datalake,14.40025,14.40025,0,SAME
+adls10000testdatalake,KioSoft Globalazure  Subscription,rg10003-test-datalake,0.672992,0.672992,0,SAME
+aks-agentpool-12407023-vmss,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,0.002831,0.002831,0,SAME
+aks-agentpool-12407023-vmss / 0,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,14.38,14.38,0,SAME
+aks-agentpool-12407023-vmss / 1,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,14.38,14.38,0,SAME
+aks-agentpool-124070aks-agentpool-1240702os__1_e26676ec8d1643a7a79695c0fc57cd42,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,19.285836,19.285836,0,SAME
+aks-agentpool-124070aks-agentpool-1240702os__1_fa5179932c094aa09d6a6fecba69ccab,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,19.285836,19.285836,0,SAME
+aks-e2asv4pool-31020068-vmss,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,0.149687,0.149687,0,SAME
+aks-e2asv4pool-31020068-vmss / 0,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,14.4,14.4,0,SAME
+aks-e2asv4pool-31020068-vmss / 1,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,14.4,14.4,0,SAME
+aks-e2asv4pool-31020aks-e2asv4pool-310200os__1_110cd2f919104b56830b7a3fa60ebbeb,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,19.285836,19.285836,0,SAME
+aks-e2asv4pool-31020aks-e2asv4pool-310200os__1_8157d663eb40472f8f0da43be164d201,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,19.285836,19.285836,0,SAME
+aks-e4asv4pool-22212387-vmss,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.014961,0.014961,0,SAME
+aks-e4asv4pool-22212387-vmss / 0,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,14.4,14.4,0,SAME
+aks-e4asv4pool-22212387-vmss / 2,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.02,0.02,0,SAME
+aks-e4asv4pool-22212387-vmss / 4,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.02,0.02,0,SAME
+aks-e4asv4pool-22212387-vmss / 5,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.42,0.42,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_10e1761e848c4a5fad65a01ba7cf9bde,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.711807,0.711807,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_2606b0bd40694f65a4956a15b6f95c80,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.014743,0.014743,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_3038d45942ad497a9522cc698a2afe1a,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,18.530155,18.530155,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_671737dcc4fe4f9f8c455b37c2902739,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.588954,0.588954,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_6979096261ea4b0c8fdf95a8df6a57c5,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.003548,0.003548,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_69867f336066425691e440396b1a211c,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.01084,0.01084,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_bc30a74a758c496b936207cbb71986fd,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.006544,0.006544,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_db555292357e47a0aa7a8bcb6d495b0f,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.014743,0.014743,0,SAME
+aks-e4asv4pool-22212aks-e4asv4pool-222123os__1_e9cf362d35334db4a17e80d427b15892,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.013363,0.013363,0,SAME
+aks-syspool-21886233-vmss,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.073616,0.073616,0,SAME
+aks-syspool-21886233-vmss / 0,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,14.4,14.4,0,SAME
+aks-syspool-21886233-vmss / 3,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.02,0.02,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_6176699af2d1436bad5dc534ade1af20,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,18.530352,18.530352,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_7e75143a4dde4f2c9b1dad717c4de616,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.68443,0.68443,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_b263f11f14314f988f50a85005199b26,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.047797,0.047797,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_cc1106c943f8465d876f9f731fb558fb,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.003686,0.003686,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_d5be47dec7204b5599addee472162eb6,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.003331,0.003331,0,SAME
+aks-syspool-21886233aks-syspool-21886233-os__1_d6b8df2d07ab4b3f92a077eea0265800,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.002089,0.002089,0,SAME
+alert_htest01,KioSoft Globalazure  Subscription,kiosoft-test,0.059423,0.059423,0,SAME
+app-gt02-prod-csc-retailweb,KioSoft Globalazure  Subscription,rg52-prod-csc,1446.833569,1446.833569,0,SAME
+arm,KioSoft Globalazure  Subscription,,1.188912,1.188912,0,SAME
+azeaus-secops-workspace,KioSoft Globalazure  Subscription,security-logrg,0.461377,0.461377,0,SAME
+azurebackup_cmk_929623887782337582,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.864956,6.864956,0,SAME
+azurebackup_ks-fgt_5414223953941450345,KioSoft Globalazure  Subscription,azurebackuprg_eastus2_1,0.165541,0.165541,0,SAME
+azurebackup_prod-mqtt-coffee_929623888628586878,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.085106,1.085106,0,SAME
+azurebackup_prod-sage-db01_929623887289847007,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,16.7659,16.7659,0,SAME
+azurebackup_prod-universal-db01_929623887786635939,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,13.767263,13.767263,0,SAME
+azurebackup_prod-universal-web01-new_929623888367181460,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.995419,8.995419,0,SAME
+azurebackup_prod-universal-web02-new_929623887727239512,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.895966,8.895966,0,SAME
+azurebackup_snipe-it_246291976234172,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.188822,0.188822,0,SAME
+azurebackup_sutserver01_5414223955705124177,KioSoft Globalazure  Subscription,azurebackuprg_eastus2_1,3.356456,3.356456,0,SAME
+azurebackup_sutserver02_5414223954115939432,KioSoft Globalazure  Subscription,azurebackuprg_eastus2_1,0.975449,0.975449,0,SAME
+azurebackup_tmsprod-db01_929623887247557873,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,7.041893,7.041893,0,SAME
+azurebackup_tmsprod-lb01_929623888688307930,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.362401,0.362401,0,SAME
+azurebackup_tmsprod-oldtms1_35185633139871,KioSoft Globalazure  Subscription,azurebackuprg_centralus_1,0.263017,0.263017,0,SAME
+azurebackup_tmsprod-tms01_929623888630237019,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.697373,0.697373,0,SAME
+azurebackup_tmsprod-tms02_929623887726593831,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.909955,0.909955,0,SAME
+azurebackup_tmsprod-tms03_929623889091889079,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,3.112248,3.112248,0,SAME
+azurebackup_tmsprod-web01_929623887909667835,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.750149,1.750149,0,SAME
+azurebackup_tmsprod-web02_929623889231908371,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.790863,1.790863,0,SAME
+azurebackup_ttideployment_929623889030321900,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,4.283559,4.283559,0,SAME
+azurebackup_vm100-prod-csc-universal-web04_929623888133131047,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.895519,6.895519,0,SAME
+azurebackup_vm10003-test-elk01_929623888568447995,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,26.669693,26.669693,0,SAME
+azurebackup_vm101-prod-csc-universal-soft01_929623889079237157,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.681659,1.681659,0,SAME
+azurebackup_vm102-prod-csc-retail-web01_929623888246176115,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.912163,8.912163,0,SAME
+azurebackup_vm103-prod-csc-retail-web02_929623888633314838,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.893084,8.893084,0,SAME
+azurebackup_vm104-prod-csc-retail-web03_929623889200107741,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.868526,8.868526,0,SAME
+azurebackup_vm105-prod-csc-retail-web04_929623888639561588,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.908415,8.908415,0,SAME
+azurebackup_vm106-prod-csc-retail-reportserver01_929623888529284737,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.607659,6.607659,0,SAME
+azurebackup_vm107-prod-csc-retail-reportserver02_929623888805026017,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.494381,6.494381,0,SAME
+azurebackup_vm108-prod-csc-retail-reportserver03_929623889063692052,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.599228,6.599228,0,SAME
+azurebackup_vm109-prod-csc-retail-reportserver04_929623888800437795,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.286548,6.286548,0,SAME
+azurebackup_vm120-prod-cleanstore-web08_929623888924411714,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,10.838844,10.838844,0,SAME
+azurebackup_vm121-prod-amusement-web01_929623888173040079,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,7.088345,7.088345,0,SAME
+azurebackup_vm123-prod-cleanstore-web09_929623887529406073,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,10.212228,10.212228,0,SAME
+azurebackup_vm126-automated-testing-platform_929623889014949279,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,3.459066,3.459066,0,SAME
+azurebackup_vm127-prod-tcn_929623888721242357,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.392893,6.392893,0,SAME
+azurebackup_vm128-prod-csc-retail-reportserver05_929623889277042919,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.587394,6.587394,0,SAME
+azurebackup_vm129-prod-csc-retail-reportserver06_929623887199236512,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.589247,6.589247,0,SAME
+azurebackup_vm130-prod-csc-retail-reportserver07_929623888124425786,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.366685,6.366685,0,SAME
+azurebackup_vm131-prod-csc-retail-reportserver08_929623887602792145,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.459371,6.459371,0,SAME
+azurebackup_vm133-prod-csc-tms_929623888589302131,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.151958,1.151958,0,SAME
+azurebackup_vm134-prod-amusement-web02_929623887426034662,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.585251,6.585251,0,SAME
+azurebackup_vm135-prod-amusement-web03_929623888410428142,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.577466,6.577466,0,SAME
+azurebackup_vm136-prod-wazan-web01_929623887255601481,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.586179,0.586179,0,SAME
+azurebackup_vm138-prod-cleanstore-web10_929623887690656174,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,10.246604,10.246604,0,SAME
+azurebackup_vm139-prod-universal-web03_929623889213854684,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,8.853056,8.853056,0,SAME
+azurebackup_vm140-prod-devops-ai_929623887696801515,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.66624,1.66624,0,SAME
+azurebackup_vm147-prod-kiocentral-tool_929623887329958306,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.252694,1.252694,0,SAME
+azurebackup_vm156-prod-operationcenter_929623887286655021,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,2.147754,2.147754,0,SAME
+azurebackup_vm157-prod-operation-management_929623887344118525,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.464075,1.464075,0,SAME
+azurebackup_vm158-prod-kiocentraluk-web01_351845567506023,KioSoft Globalazure  Subscription,azurebackuprg_uksouth_1,1.8669,1.8669,0,SAME
+azurebackup_vm20003-prod-seatunnel01_929623887342248016,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,27.970929,27.970929,0,SAME
+azurebackup_vm20004-prod-jenkins01_929623888926113461,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,13.290338,13.290338,0,SAME
+azurebackup_vm20005-prod-jumpserver_5414223954462998027,KioSoft Globalazure  Subscription,azurebackuprg_eastus2_1,5.108967,5.108967,0,SAME
+azurebackup_vm20006-prod-backupserver_929623888652037688,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.885,0.885,0,SAME
+azurebackup_vm20007-prod-elk01_929623888800552841,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,7.615236,7.615236,0,SAME
+azurebackup_vm20008-prod-csc-elk01_929623888257432526,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,14.80386,14.80386,0,SAME
+azurebackup_vm20009-prod-internal-web01_929623888850019341,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,2.530174,2.530174,0,SAME
+azurebackup_vm20010-prod-internal-web02_929623888179221498,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,2.514368,2.514368,0,SAME
+azurebackup_vm20011-prod-pometheus-backup_929623887343452660,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,0.523278,0.523278,0,SAME
+azurebackup_vm20011-prod-prometheus_929623887370555182,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.90708,6.90708,0,SAME
+azurebackup_vm20012-prod-kiopos-web01_929623887747725848,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.831572,1.831572,0,SAME
+azurebackup_vm20013-prod-kiopos-soft01_929623887472167545,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,1.402638,1.402638,0,SAME
+azurebackup_vm20014-prod-integration-web01_35184734496430,KioSoft Globalazure  Subscription,azurebackuprg_centralus_1,2.324353,2.324353,0,SAME
+azurebackup_vm20016-prod-doris01_929623887154713044,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,161.629644,161.629644,0,SAME
+azurebackup_vm20017-prod-elk01_929623888271918898,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,23.837254,23.837254,0,SAME
+azurebackup_vm20018-prod-latamcleanstore-web01_460229181087139705,KioSoft Globalazure  Subscription,azurebackuprg_southcentralus_1,1.68159,1.68159,0,SAME
+azurebackup_vm20019-prod-latamcleanstore-web02_460229179169971872,KioSoft Globalazure  Subscription,azurebackuprg_southcentralus_1,1.411,1.411,0,SAME
+azurebackup_vm20020-prod-latamcleanstore-web03_460229180512933154,KioSoft Globalazure  Subscription,azurebackuprg_southcentralus_1,1.386139,1.386139,0,SAME
+azurebackup_vm20021-prod-csc-elk01_929623887382271519,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,22.766899,22.766899,0,SAME
+azurebackup_vm20022-prod-sut-server02_5414223954553080845,KioSoft Globalazure  Subscription,azurebackuprg_eastus2_1,0.046075,0.046075,0,SAME
+azurebackup_vm73-prod-modem_929623888755050499,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,11.555866,11.555866,0,SAME
+azurebackup_vm90-prod-powerbi_929623888027641471,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,2.103669,2.103669,0,SAME
+azurebackup_vm97-prod-csc-universal-web01_929623888750657210,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,7.057742,7.057742,0,SAME
+azurebackup_vm98-prod-csc-universal-web02_929623888600091599,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,7.22461,7.22461,0,SAME
+azurebackup_vm99-prod-csc-universal-web03_929623888409280534,KioSoft Globalazure  Subscription,azurebackuprg_eastus_1,6.831384,6.831384,0,SAME
+azusprod.kiosoft.com,KioSoft Globalazure  Subscription,usprod,0.481714,0.481714,0,SAME
+bak-202412291941-capser,KioSoft Globalazure  Subscription,dbmonitor,10.726142,10.726142,0,SAME
+bigdata1datafactory,KioSoft Globalazure  Subscription,rg9998-test-bigdata-infrastructure,21.60025,21.60025,0,SAME
+bigdata1storageac,KioSoft Globalazure  Subscription,rg9998-test-bigdata-infrastructure,4.406397,4.406397,0,SAME
+cctestaksbackup,KioSoft Globalazure  Subscription,commandcenter,0.000186,0.000186,0,SAME
+cmk,KioSoft Globalazure  Subscription,cmk,17.766968,17.766968,0,SAME
+cmk_osdisk_1_877fdd916a1c4a98abf230e509521e82,KioSoft Globalazure  Subscription,cmk,19.285836,19.285836,0,SAME
+cmk-ip,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+cpu usage percentage - aks-test,KioSoft Globalazure  Subscription,rg9997-test-devops-infrastructure,0.059039,0.059039,0,SAME
+cpu usage percentage - aks10000_cc_test,KioSoft Globalazure  Subscription,commandcenter,0.059039,0.059039,0,SAME
+cpu usage percentage - aks10000-test-cc,KioSoft Globalazure  Subscription,commandcenter,0.092191,0.092191,0,SAME
+cpu usage percentage - cc-test,KioSoft Globalazure  Subscription,commandcenter,0.059039,0.059039,0,SAME
+cpu usage percentage - cc-tti-test,KioSoft Globalazure  Subscription,commandcenter,0.059039,0.059039,0,SAME
+critical-mysql offline-mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,0.092191,0.092191,0,SAME
+datafactoryerror,KioSoft Globalazure  Subscription,rg10003-test-datalake,0,0,0,SAME
+db-cpu-high,KioSoft Globalazure  Subscription,kiosoft-test,0.057118,0.057118,0,SAME
+dbmonitor,KioSoft Globalazure  Subscription,dbmonitor,15.919847,15.919847,0,SAME
+dbmonitor-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+dbmonitor-nsg,KioSoft Globalazure  Subscription,dbmonitor,4.305119,4.305119,0,SAME
+dbmonitor-osdisk-20241018-133820,KioSoft Globalazure  Subscription,dbmonitor,39.532283,39.532283,0,SAME
+dbstoragemfwmlslycntz2,KioSoft Globalazure  Subscription,databricks-rg-kiodatabricks-63wh3jijrnppk,0.006668,0.006668,0,SAME
+ddos attack-amusement,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+ddos attack-cleanstore-web01,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.059039,0.059039,0,SAME
+ddos attack-cleanstore-web02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+ddos attack-cleanstore-web05,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+ddos attack-cleanstore-web06,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+ddos attack-csc,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+ddos attack-international,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+ddos attack-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+defaultazuremonitorworkspace-eus,KioSoft Globalazure  Subscription,commandcenter,19.324397,19.324397,0,SAME
+defaultworkspace-6276588a-9234-41ee-a81c-7538ea3a817e-eus,KioSoft Globalazure  Subscription,defaultresourcegroup-eus,890.502209,890.502209,0,SAME
+defaultworkspace-6276588a-9234-41ee-a81c-7538ea3a817e-eus2,KioSoft Globalazure  Subscription,defaultresourcegroup-eus2,0,0,0,SAME
+defaultworkspace-6276588a-9234-41ee-a81c-7538ea3a817e-fim,KioSoft Globalazure  Subscription,fim-datacollectionrules,0.001277,0.001277,0,SAME
+dev,KioSoft Globalazure  Subscription,kiosoft-test,20.457404,20.457404,0,SAME
+dev-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME
+dev-osdisk-20221213-085144,KioSoft Globalazure  Subscription,kiosoft-test,19.905351,19.905351,0,SAME
+disk10001-test-internal-server,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,19.483123,19.483123,0,SAME
+disk10002-test-olap01,KioSoft Globalazure  Subscription,rg10001-test-olap,19.60464,19.60464,0,SAME
+disk10003-test-olap01-data,KioSoft Globalazure  Subscription,rg10001-test-olap,37.596172,37.596172,0,SAME
+disk10004-test-elk01-os,KioSoft Globalazure  Subscription,rg10002-test-devops,19.285836,19.285836,0,SAME
+disk10005-test-elk01-data01,KioSoft Globalazure  Subscription,rg10002-test-devops,71.643981,71.643981,0,SAME
+disk10006-stage-kiopos-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,19.527054,19.527054,0,SAME
+disk10007-stage-kiopos-soft01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,19.525766,19.525766,0,SAME
+disk10008-stage-market-single,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,2.067762,2.067762,0,SAME
+disk10009-test-qa-universal-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,37.37041,37.37041,0,SAME
+disk10010-stage-market-web01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,5.475381,5.475381,0,SAME
+disk10011-stage-market-web02,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,5.462236,5.462236,0,SAME
+disk10012-stage-market-soft01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,6.826185,6.826185,0,SAME
+disk10013-automated-testing-platform,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,4.894586,4.894586,0,SAME
+disk20003-prod-seatunnel01,KioSoft Globalazure  Subscription,rg20000-prod-olap,71.643981,71.643981,0,SAME
+disk20007-prod-jenkins01-os,KioSoft Globalazure  Subscription,rg20001-prod-devops,19.285836,19.285836,0,SAME
+disk20008-prod-jenkins01-data01,KioSoft Globalazure  Subscription,rg20001-prod-devops,71.643981,71.643981,0,SAME
+disk20009-prod-jumpserver-os,KioSoft Globalazure  Subscription,rg20002-prod-om,33.816187,33.816187,0,SAME
+disk20010-prod-backupserver-os,KioSoft Globalazure  Subscription,rg20002-prod-om,5.166104,5.166104,0,SAME
+disk20011-prod-elk-os,KioSoft Globalazure  Subscription,rg20002-prod-om,26.63039,26.63039,0,SAME
+disk20012-prod-csc-elk01-os,KioSoft Globalazure  Subscription,rg20003-prod-csc,42.058947,42.058947,0,SAME
+disk20013-prod-internal-web01-os,KioSoft Globalazure  Subscription,rg20004-prod-internal,19.285836,19.285836,0,SAME
+disk20014-prod-internal-web02-os,KioSoft Globalazure  Subscription,rg20004-prod-internal,19.285836,19.285836,0,SAME
+disk20015-prod-prometheus-os,KioSoft Globalazure  Subscription,rg20002-prod-om,37.194526,37.194526,0,SAME
+disk20016-prod-kiopos-web01,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,19.285836,19.285836,0,SAME
+disk20017-prod-kiopos-soft01,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,19.285836,19.285836,0,SAME
+disk20018-prod-integration-web01-os,KioSoft Globalazure  Subscription,rg20006-prod-integration,19.283719,19.283719,0,SAME
+disk20018-prod-seatunnel01-data01,KioSoft Globalazure  Subscription,rg20000-prod-olap,0,0,0,SAME
+disk20019-prod-doris01-data01,KioSoft Globalazure  Subscription,rg20000-prod-olap,101.156556,101.156556,0,SAME
+disk20020-prod-elk-os,KioSoft Globalazure  Subscription,rg20002-prod-om,19.285836,19.285836,0,SAME
+disk20021-prod-elk01-data01,KioSoft Globalazure  Subscription,rg20002-prod-om,186.988173,186.988173,0,SAME
+disk20022-prod-latamcleanstore-web01-os,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.534192,17.534192,0,SAME
+disk20023-prod-latamcleanstore-web02-os,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.534192,17.534192,0,SAME
+disk20024-prod-latamcleanstore-web03-os,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.534192,17.534192,0,SAME
+disk20025-prod-csc-elk01-os,KioSoft Globalazure  Subscription,rg20003-prod-csc,17.226299,17.226299,0,SAME
+disk20026-prod-elk01-data01,KioSoft Globalazure  Subscription,rg20003-prod-csc,72.626445,72.626445,0,SAME
+disk20027-prod-sut-server02-os,KioSoft Globalazure  Subscription,sut,1.021851,1.021851,0,SAME
+dryrun01_private_endpoint,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,7.2,7.2,0,SAME
+elktestdatalake,KioSoft Globalazure  Subscription,rg9998-test-bigdata-infrastructure,1.221465,1.221465,0,SAME
+f7f171b92381240709e6fbd,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,117.607032,117.607032,0,SAME
+ff5c9fa757a8e4a31ab7f6e,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,41.268228,41.268228,0,SAME
+high  cpu usage-prod-market,KioSoft Globalazure  Subscription,retail,0.057502,0.057502,0,SAME
+high connections -mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high connections -mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high connections -mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage- mysql06-test-retail-slave,KioSoft Globalazure  Subscription,kiosoft-test,0.057374,0.057374,0,SAME
+high cpu usage-amusement-web01,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high cpu usage-azure-retailstage,KioSoft Globalazure  Subscription,kiosoft-test,0.05827,0.05827,0,SAME
+high cpu usage-cleanstore-web01,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.05827,0.05827,0,SAME
+high cpu usage-cleanstore-web02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.05827,0.05827,0,SAME
+high cpu usage-cleanstore-web03,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.060191,0.060191,0,SAME
+high cpu usage-cleanstore-web05,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.058527,0.058527,0,SAME
+high cpu usage-cleanstore-web07,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.059039,0.059039,0,SAME
+high cpu usage-cleanstore-web08,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high cpu usage-cleanstore-web09,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high cpu usage-coffee,KioSoft Globalazure  Subscription,cmk,0.092063,0.092063,0,SAME
+high cpu usage-csc-reportserver01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-reportserver02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-reportserver03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-reportserver04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-retail-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-retail-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-retail-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-retail-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-universal-soft01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-universal-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-universal-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-universal-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-csc-universal-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092063,0.092063,0,SAME
+high cpu usage-mariadb27-prod-csc-universal,KioSoft Globalazure  Subscription,rg52-prod-csc,0.058655,0.058655,0,SAME
+high cpu usage-mariadb48-prod-csc-retail,KioSoft Globalazure  Subscription,rg52-prod-csc,0.058655,0.058655,0,SAME
+high cpu usage-mqtt-coffee,KioSoft Globalazure  Subscription,production,0.092191,0.092191,0,SAME
+high cpu usage-mysql,KioSoft Globalazure  Subscription,rg49-test-kiopos,0.057118,0.057118,0,SAME
+high cpu usage-mysql03-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high cpu usage-mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high cpu usage-mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,0.092191,0.092191,0,SAME
+high cpu usage-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high cpu usage-mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,0.092191,0.092191,0,SAME
+high cpu usage-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high cpu usage-mysql122-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high cpu usage-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high cpu usage-mysql16-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.058655,0.058655,0,SAME
+high cpu usage-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high cpu usage-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high cpu usage-mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high cpu usage-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+high cpu usage-postgresql01-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,0.075431,0.075431,0,SAME
+high cpu usage-prod-cc,KioSoft Globalazure  Subscription,commandcenter,0.057886,0.057886,0,SAME
+high cpu usage-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.059039,0.059039,0,SAME
+high cpu usage-prod-cleanstore,KioSoft Globalazure  Subscription,retail,0.057502,0.057502,0,SAME
+high cpu usage-prod-international,KioSoft Globalazure  Subscription,retail,0.05827,0.05827,0,SAME
+high cpu usage-prod-market,KioSoft Globalazure  Subscription,retail,0.057502,0.057502,0,SAME
+high cpu usage-prod-universal,KioSoft Globalazure  Subscription,cmk,0.058655,0.058655,0,SAME
+high cpu usage-sutserver02,KioSoft Globalazure  Subscription,sut,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-db01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-lb01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-oldtms1,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-tms01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-tms02,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-tms03,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-web01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-tmsprod-web02,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high cpu usage-ttideployment,KioSoft Globalazure  Subscription,ttideploy,0.092191,0.092191,0,SAME
+high cpu usage-universal-db01,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high cpu usage-universal-web01,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high cpu usage-universal-web02,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high mem usage-amusement-web01,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high mem usage-cleanstore-web01,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.057118,0.057118,0,SAME
+high mem usage-cleanstore-web02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.057886,0.057886,0,SAME
+high mem usage-cleanstore-web03,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.057502,0.057502,0,SAME
+high mem usage-cleanstore-web05,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.059423,0.059423,0,SAME
+high mem usage-cleanstore-web07,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.057886,0.057886,0,SAME
+high mem usage-cleanstore-web08,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high mem usage-cleanstore-web09,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high mem usage-coffee,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high mem usage-csc-reportserver01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-reportserver02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-reportserver03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-reportserver04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-retail-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-retail-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-retail-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-retail-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-universal-soft01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-universal-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-universal-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-universal-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-csc-universal-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-mqtt-coffee,KioSoft Globalazure  Subscription,production,0.092191,0.092191,0,SAME
+high mem usage-mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high mem usage-mysql08-prod-market,KioSoft Globalazure  Subscription,retail,0.060191,0.060191,0,SAME
+high mem usage-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high mem usage-mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,0.092191,0.092191,0,SAME
+high mem usage-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high mem usage-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high mem usage-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high mem usage-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high mem usage-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high mem usage-mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high mem usage-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+high mem usage-postgresql01-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,0.075431,0.075431,0,SAME
+high mem usage-prod-cc,KioSoft Globalazure  Subscription,commandcenter,0.058655,0.058655,0,SAME
+high mem usage-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.057886,0.057886,0,SAME
+high mem usage-prod-cleanstore,KioSoft Globalazure  Subscription,retail,0.060191,0.060191,0,SAME
+high mem usage-prod-international,KioSoft Globalazure  Subscription,retail,0.059807,0.059807,0,SAME
+high mem usage-prod-market,KioSoft Globalazure  Subscription,retail,0.059423,0.059423,0,SAME
+high mem usage-sutserver02,KioSoft Globalazure  Subscription,sut,0.092191,0.092191,0,SAME
+high mem usage-tms01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-db01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-lb01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-oldtms1,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-tms02,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-tms03,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-web01,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-tmsprod-web02,KioSoft Globalazure  Subscription,tmsprod,0.092191,0.092191,0,SAME
+high mem usage-ttideployment,KioSoft Globalazure  Subscription,ttideploy,0.092191,0.092191,0,SAME
+high mem usage-universal-db01,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high mem usage-universal-web01,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high mem usage-universal-web02,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high memory usage-azure-retailstage,KioSoft Globalazure  Subscription,kiosoft-test,0.057118,0.057118,0,SAME
+high memory usage-mariadb27-prod-csc-universal,KioSoft Globalazure  Subscription,rg52-prod-csc,0.058527,0.058527,0,SAME
+high memory usage-mariadb48-prod-csc-retail,KioSoft Globalazure  Subscription,rg52-prod-csc,0.057502,0.057502,0,SAME
+high memory usage-mysql02-test-kiopos,KioSoft Globalazure  Subscription,rg49-test-kiopos,0.059039,0.059039,0,SAME
+high memory usage-mysql03-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high memory usage-mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,0.092191,0.092191,0,SAME
+high memory usage-mysql06-test-retail-slave,KioSoft Globalazure  Subscription,kiosoft-test,0.060191,0.060191,0,SAME
+high memory usage-prod-universal,KioSoft Globalazure  Subscription,cmk,0.058655,0.058655,0,SAME
+high network in universal-db01,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high storage usage-azure-retailstage,KioSoft Globalazure  Subscription,kiosoft-test,0.057118,0.057118,0,SAME
+high storage usage-mariadb01-prod-cc,KioSoft Globalazure  Subscription,commandcenter,0.057886,0.057886,0,SAME
+high storage usage-mariadb04-prod-universal,KioSoft Globalazure  Subscription,cmk,0.057118,0.057118,0,SAME
+high storage usage-mariadb27-prod-csc-universal,KioSoft Globalazure  Subscription,rg52-prod-csc,0.05827,0.05827,0,SAME
+high storage usage-mariadb48-prod-csc-retail,KioSoft Globalazure  Subscription,rg52-prod-csc,0.059039,0.059039,0,SAME
+high storage usage-mysql02-test-kiopos,KioSoft Globalazure  Subscription,rg49-test-kiopos,0.057886,0.057886,0,SAME
+high storage usage-mysql03-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high storage usage-mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high storage usage-mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,0.092191,0.092191,0,SAME
+high storage usage-mysql06-test-retail-slave,KioSoft Globalazure  Subscription,kiosoft-test,0.05699,0.05699,0,SAME
+high storage usage-mysql07-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.060191,0.060191,0,SAME
+high storage usage-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+high storage usage-mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,0.092191,0.092191,0,SAME
+high storage usage-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high storage usage-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high storage usage-mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+high storage usage-mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+high storage usage-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high storage usage-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+high storage usage-mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,0.092191,0.092191,0,SAME
+high storage usage-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+high storage usage-postgresql01-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,0.075431,0.075431,0,SAME
+high storage usage-prod-cleanstore,KioSoft Globalazure  Subscription,retail,0.059423,0.059423,0,SAME
+hosttohost-nuvolinq_datacenter1,KioSoft Globalazure  Subscription,sut,0.118505,0.118505,0,SAME
+kiopos high cpu usage,KioSoft Globalazure  Subscription,rg43_prod_alert,0.092063,0.092063,0,SAME
+kiopos high memory usage,KioSoft Globalazure  Subscription,rg43_prod_alert,0.092191,0.092191,0,SAME
+kiopos high storage usage,KioSoft Globalazure  Subscription,rg43_prod_alert,0.092191,0.092191,0,SAME
+kioposqa-db01,KioSoft Globalazure  Subscription,kiopos_test,14.426086,14.426086,0,SAME
+kioposqa-db01_osdisk_1_4fdedc51a1fb4bb89c7623d04e3508e6,KioSoft Globalazure  Subscription,kiopos_test,19.618809,19.618809,0,SAME
+kioposqa-db01-ip,KioSoft Globalazure  Subscription,kiopos_test,3.60004,3.60004,0,SAME
+kioposqa-softapp01,KioSoft Globalazure  Subscription,kiopos_test,14.431696,14.431696,0,SAME
+kioposqa-softapp01_osdisk_1_520ba8f3d68f4dec830dc429dfea7c13,KioSoft Globalazure  Subscription,kiopos_test,19.557939,19.557939,0,SAME
+kioposqa-softapp01-ip,KioSoft Globalazure  Subscription,kiopos_test,3.60004,3.60004,0,SAME
+kioposqa-webapp01,KioSoft Globalazure  Subscription,kiopos_test,14.523168,14.523168,0,SAME
+kioposqa-webapp01_osdisk_1_31a1955d239941059922cbec1a0ece09,KioSoft Globalazure  Subscription,kiopos_test,20.265986,20.265986,0,SAME
+kioposqa-webapp01-ip,KioSoft Globalazure  Subscription,kiopos_test,3.60004,3.60004,0,SAME
+kiosoft,KioSoft Globalazure  Subscription,rg20002-prod-om,19.998884,19.998884,0,SAME
+kiosoft-coffee,KioSoft Globalazure  Subscription,kiosoft-test,17.555909,17.555909,0,SAME
+kiosoft-coffee_osdisk_1_94c152ad643f4e68aaa3377d986ab30b,KioSoft Globalazure  Subscription,kiosoft-test,19.910395,19.910395,0,SAME
+kiosoft-coffee-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME
+kiosoft-es,KioSoft Globalazure  Subscription,dbmonitor,14.55245,14.55245,0,SAME
+kiosoft-es_osdisk_1_ab5bfb0ab1fb445abcd8754025a9e037,KioSoft Globalazure  Subscription,dbmonitor,72.621369,72.621369,0,SAME
+kiosoft-es-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-international-new,KioSoft Globalazure  Subscription,kiosoft-test,14.560048,14.560048,0,SAME
+kiosoft-international-new_osdisk_1_b2a9c88909b44f0f9457f48e9c508178,KioSoft Globalazure  Subscription,kiosoft-test,19.533888,19.533888,0,SAME
+kiosoft-international-new-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME
+kiosoft-publicddd,KioSoft Globalazure  Subscription,dbmonitor,14.985755,14.985755,0,SAME
+kiosoft-publicddd_osdisk_1_692455c3841c4b2db68f8741ad3d72db,KioSoft Globalazure  Subscription,dbmonitor,19.695261,19.695261,0,SAME
+kiosoft-publicddd-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-qa,KioSoft Globalazure  Subscription,kiosoft-test,15.629299,15.629299,0,SAME
+kiosoft-qa_osdisk_1_42450e75abf84b01a7d55bfcf9727908,KioSoft Globalazure  Subscription,kiosoft-test,19.819333,19.819333,0,SAME
+kiosoft-qa-public-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME
+kiosoft-retail,KioSoft Globalazure  Subscription,kiosoft-test,21.372806,21.372806,0,SAME
+kiosoft-retail_osdisk_1_adc389b617aa4712a7d0b2ec7c2355bb,KioSoft Globalazure  Subscription,kiosoft-test,22.652797,22.652797,0,SAME
+kiosoft-retail-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME
+kiosoft-unistress-lb01-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-unistress-web01-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-unistress-web02-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-universaldev,KioSoft Globalazure  Subscription,dbmonitor,14.607377,14.607377,0,SAME
+kiosoft-universaldev-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+kiosoft-universaluat,KioSoft Globalazure  Subscription,dbmonitor,14.487802,14.487802,0,SAME
+kiosoft-universaluat-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+ks-fgt,KioSoft Globalazure  Subscription,sut,278.572632,278.572632,0,SAME
+ks-fgt_disk2_38c86f7ae9ed4a9681c35ca89d1c0156,KioSoft Globalazure  Subscription,sut,4.707187,4.707187,0,SAME
+ks-fgt_osdisk_1_9f02230dd01446fdbc896a9e669fa7a6,KioSoft Globalazure  Subscription,sut,0.591321,0.591321,0,SAME
+ks-fgt-pip,KioSoft Globalazure  Subscription,sut,2.590011,2.590011,0,SAME
+kubernetes,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,72.865198,72.865198,0,SAME
+kubernetes,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,41.954182,41.954182,0,SAME
+kubernetes-a03086337f77140c0a669db2c967252e,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,3.60004,3.60004,0,SAME
+kubernetes-a0929de449d844cc9a443b0bbd7a8a2e,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.135001,0.135001,0,SAME
+kubernetes-a0ee29861b5e54fedab09ea55e128ca1,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,3.60004,3.60004,0,SAME
+kubernetes-a24d1cf29a100455f9dbb5ba32f9558e,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,3.197145,3.197145,0,SAME
+kubernetes-a3d3323bd21bb4fe1bf240028f83e7eb,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,3.60004,3.60004,0,SAME
+kubernetes-ae3659d744daf4a81b25ef73b1899182,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,3.60004,3.60004,0,SAME
+kubernetes-ae80924c6e8104b47af4627e23657589,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,3.60004,3.60004,0,SAME
+lb-test-internal,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.025001,0.025001,0,SAME
+lbweb01-vm-cpu-high,KioSoft Globalazure  Subscription,newwbserverscheme,0.057502,0.057502,0,SAME
+loadbalance,KioSoft Globalazure  Subscription,rg_test_route_als,3.60004,3.60004,0,SAME
+loadbalance05-test-route-als,KioSoft Globalazure  Subscription,rg_test_route_als,32.40206,32.40206,0,SAME
+loadbalance07-prod-csc-universalweb,KioSoft Globalazure  Subscription,rg52-prod-csc,18.001579,18.001579,0,SAME
+loadbalance08-test-csc-web,KioSoft Globalazure  Subscription,rg51-test-csc,18.001923,18.001923,0,SAME
+low cpu usage-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+low cpu usage-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+low cpu usage-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+low cpu usage-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+low cpu usage-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+low cpu usage-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+medium cpu usage-mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,0.092191,0.092191,0,SAME
+medium cpu usage-mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.092191,0.092191,0,SAME
+medium cpu usage-mysql14-prod-market,KioSoft Globalazure  Subscription,retail,0.092191,0.092191,0,SAME
+medium cpu usage-mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092063,0.092063,0,SAME
+medium cpu usage-mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.092191,0.092191,0,SAME
+medium cpu usage-mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.092191,0.092191,0,SAME
+memory working set percentage - aks-test,KioSoft Globalazure  Subscription,rg9997-test-devops-infrastructure,0.059423,0.059423,0,SAME
+memory working set percentage - aks10000_cc_test,KioSoft Globalazure  Subscription,commandcenter,0.060576,0.060576,0,SAME
+memory working set percentage - aks10000-test-cc,KioSoft Globalazure  Subscription,commandcenter,0.092191,0.092191,0,SAME
+memory working set percentage - cc-test,KioSoft Globalazure  Subscription,commandcenter,0.05827,0.05827,0,SAME
+memory working set percentage - cc-tti-test,KioSoft Globalazure  Subscription,commandcenter,0.05827,0.05827,0,SAME
+multiwbdisks351,KioSoft Globalazure  Subscription,kiosoft-test,150.699357,150.699357,0,SAME
+myreservedip,KioSoft Globalazure  Subscription,tmsprod,3.59504,3.59504,0,SAME
+mysql03-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,60.657397,60.657397,0,SAME
+mysql03-prod-modem-dbrestore04,KioSoft Globalazure  Subscription,rg50-prod-modem,59.035518,59.035518,0,SAME
+mysql05-test-retail,KioSoft Globalazure  Subscription,kiosoft-test,472.979616,472.979616,0,SAME
+mysql10-prod-universal,KioSoft Globalazure  Subscription,cmk,97.862681,97.862681,0,SAME
+mysql11-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,162.813083,162.813083,0,SAME
+mysql12-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,1267.267276,1267.267276,0,SAME
+mysql14-prod-market,KioSoft Globalazure  Subscription,retail,278.852558,278.852558,0,SAME
+mysql15-prod-market-replica,KioSoft Globalazure  Subscription,retail,87.20266,87.20266,0,SAME
+mysql19-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,213.123072,213.123072,0,SAME
+mysql22-prod-csc-retail,KioSoft Globalazure  Subscription,rg20003-prod-csc,1213.485746,1213.485746,0,SAME
+mysql23-prod-csc-universal,KioSoft Globalazure  Subscription,rg20003-prod-csc,79.271551,79.271551,0,SAME
+mysql24-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,170.580863,170.580863,0,SAME
+mysql25-prod-olap,KioSoft Globalazure  Subscription,rg20000-prod-olap,114.719218,114.719218,0,SAME
+mysql9998-test-automation,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,8.731345,8.731345,0,SAME
+mysqldisk,KioSoft Globalazure  Subscription,kiosoft-test,37.785501,37.785501,0,SAME
+nat-gateway,KioSoft Globalazure  Subscription,databricks-rg-kiodatabricks-63wh3jijrnppk,32.399242,32.399242,0,SAME
+nat-gw-public-ip,KioSoft Globalazure  Subscription,databricks-rg-kiodatabricks-63wh3jijrnppk,3.60004,3.60004,0,SAME
+nat-lb-test,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,4.006706,4.006706,0,SAME
+nat-lb-test-ip,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.442962,0.442962,0,SAME
+networkwatcher_eastus,KioSoft Globalazure  Subscription,networkwatcherrg,0,0,0,SAME
+new-kiosoft-unistress-web02_osdisk_1_eebfb9cb0cac41138cdd8c2b8db34027-20220905,KioSoft Globalazure  Subscription,dbmonitor,10.711388,10.711388,0,SAME
+new-kiosoft-universaluat_osdisk-202406051807,KioSoft Globalazure  Subscription,dbmonitor,19.47958,19.47958,0,SAME
+new-prod-universal_osdisk_1_b6073e6ffc6149e3889bf087c5f7da76-202209061431,KioSoft Globalazure  Subscription,cmk,37.194526,37.194526,0,SAME
+new-prod-universal-web01_osdisk_1_d9bed20442044741973316466ba092d5-202209071420,KioSoft Globalazure  Subscription,cmk,19.285836,19.285836,0,SAME
+new-prod-universal-web02_osdisk_1_1460efb8ec6a46988cfb86a06bcefadc-20220909,KioSoft Globalazure  Subscription,cmk,19.285836,19.285836,0,SAME
+new-uniersalstress-db01_osdisk_1_178423fc8d5d4d9fa93bb09aae7cc966-20220905,KioSoft Globalazure  Subscription,dbmonitor,20.054942,20.054942,0,SAME
+newtmsdesign,KioSoft Globalazure  Subscription,armtmsrsc,20.54583,20.54583,0,SAME
+pe01-prod-kiocentral-tool,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,7.2,7.2,0,SAME
+pe01-sa26-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,7.2,7.2,0,SAME
+pe01-sa27-prod-amusement,KioSoft Globalazure  Subscription,rg56-prod-amusement,7.2,7.2,0,SAME
+pe01-sa28-prod-csc,KioSoft Globalazure  Subscription,rg52-prod-csc,7.2,7.2,0,SAME
+pe02-sa26-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,7.2,7.2,0,SAME
+percentage cpu - ks-fgt,KioSoft Globalazure  Subscription,sut,0.092191,0.092191,0,SAME
+pip10001-test-internal-server,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,3.60004,3.60004,0,SAME
+pip10002-test-olap01,KioSoft Globalazure  Subscription,rg10001-test-olap,3.60004,3.60004,0,SAME
+pip10003-test-elk01,KioSoft Globalazure  Subscription,rg10002-test-devops,3.60004,3.60004,0,SAME
+pip10004-stage-kiopos-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,3.60004,3.60004,0,SAME
+pip10005-stage-kiopos-soft01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,3.60004,3.60004,0,SAME
+pip10006-stage-market-single,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,0.380004,0.380004,0,SAME
+pip10007-test-qa-universal-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,3.60004,3.60004,0,SAME
+pip10008-stage-market-web01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,3.60004,3.60004,0,SAME
+pip10009-stage-market-web02,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,3.60004,3.60004,0,SAME
+pip10010-stage-market-soft01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,1.285927,1.285927,0,SAME
+pip10011-automated-testing-platform,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,0.915507,0.915507,0,SAME
+pip103-stage-cleanstore-web01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,3.60004,3.60004,0,SAME
+pip104-stage-cleanstore-web02,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,3.60004,3.60004,0,SAME
+pip106-test-kiopos-soft01,KioSoft Globalazure  Subscription,rg49-test-kiopos,3.60004,3.60004,0,SAME
+pip107-test-kiopos-web01,KioSoft Globalazure  Subscription,rg49-test-kiopos,3.60004,3.60004,0,SAME
+pip108-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,3.60004,3.60004,0,SAME
+pip109-test-universal,KioSoft Globalazure  Subscription,rg51-test-csc,3.60004,3.60004,0,SAME
+pip110-test-retail,KioSoft Globalazure  Subscription,rg51-test-csc,3.60004,3.60004,0,SAME
+pip132-vm97-prod-csc-universal-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip133-vm98-prod-csc-universal-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip134-vm99-prod-csc-universal-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip135-vm100-prod-csc-universal-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip136-vm101-prod-csc-universal-soft01,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip137-vm102-prod-csc-retail-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip138-vm103-prod-csc-retail-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip139-vm104-prod-csc-retail-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip140-vm105-prod-csc-retail-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip141-vm106-prod-csc-retail-reportserver01,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip142-vm107-prod-csc-retail-reportserver02,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip143-vm108-prod-csc-retail-reportserver03,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip144-vm109-prod-csc-retail-reportserver04,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip146-app-gt-prod-csc,KioSoft Globalazure  Subscription,rg52-prod-csc,199.870048,199.870048,0,SAME
+pip147-loadbalance07-prod-csc-universalweb,KioSoft Globalazure  Subscription,rg52-prod-csc,199.870048,199.870048,0,SAME
+pip148-vm114-prod-cleanstore-web04,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,3.60004,3.60004,0,SAME
+pip149-vm115-prod-cleanstore-web05,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,3.60004,3.60004,0,SAME
+pip157-vm126-automated-testing-platform,KioSoft Globalazure  Subscription,rg53-automated_testing_platform,3.60004,3.60004,0,SAME
+pip158-vm127-prod-tcn,KioSoft Globalazure  Subscription,rg54-prod-tcn,3.60004,3.60004,0,SAME
+pip159-vm128-prod-csc-retail-reportserver05,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip160-vm129-prod-csc-retail-reportserver06,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip161-vm130-prod-csc-retail-reportserver07,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip162-vm131-prod-csc-retail-reportserver08,KioSoft Globalazure  Subscription,rg52-prod-csc,3.60004,3.60004,0,SAME
+pip164-loadbalance08-test-csc-web,KioSoft Globalazure  Subscription,rg51-test-csc,3.60004,3.60004,0,SAME
+pip165-vm133-prod-csc-tms,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+pip166-vm134-prod-amusement-web02,KioSoft Globalazure  Subscription,retail,3.60004,3.60004,0,SAME
+pip167-vm135-prod-amusement-web03,KioSoft Globalazure  Subscription,retail,3.60004,3.60004,0,SAME
+pip168-vm136-prod-wazan-web01,KioSoft Globalazure  Subscription,rg55-prod-wazan,3.60004,3.60004,0,SAME
+pip169-vm139-prod-universal-web03,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+pip170-vm140-prod-devops-ai,KioSoft Globalazure  Subscription,rg57-prod-devops-infrastructure,3.60004,3.60004,0,SAME
+pip171-vm143-prod-latamcleanstore-web03,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,3.60004,3.60004,0,SAME
+pip172-vm142-prod-latamcleanstore-web02,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,3.60004,3.60004,0,SAME
+pip176-vm147-prod-kiocentral-tool,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+pip177-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,2.925032,2.925032,0,SAME
+pip178-vm157-prod-operation-management,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,2.925032,2.925032,0,SAME
+pip179-vm158-prod-kiocentraluk-web01,KioSoft Globalazure  Subscription,rg60-prod-kiocentraluk,3.60004,3.60004,0,SAME
+pip20000-prod-doris01,KioSoft Globalazure  Subscription,rg20000-prod-olap,3.60004,3.60004,0,SAME
+pip20003-prod-seatunnel01,KioSoft Globalazure  Subscription,rg20000-prod-olap,3.60004,3.60004,0,SAME
+pip20004-prod-jenkins01,KioSoft Globalazure  Subscription,rg20001-prod-devops,3.60004,3.60004,0,SAME
+pip20006-prod-backupserver,KioSoft Globalazure  Subscription,rg20002-prod-om,3.60004,3.60004,0,SAME
+pip20007-prod-elk,KioSoft Globalazure  Subscription,rg20002-prod-om,0.380004,0.380004,0,SAME
+pip20008-prod-csc-elk,KioSoft Globalazure  Subscription,rg20003-prod-csc,1.130013,1.130013,0,SAME
+pip20009-prod-internal-web01,KioSoft Globalazure  Subscription,rg20004-prod-internal,3.60004,3.60004,0,SAME
+pip20010-prod-internal-web02,KioSoft Globalazure  Subscription,rg20004-prod-internal,3.60004,3.60004,0,SAME
+pip20012-prod-elk01,KioSoft Globalazure  Subscription,rg20002-prod-om,3.60004,3.60004,0,SAME
+pip20019-prod-csc-elk01,KioSoft Globalazure  Subscription,rg20003-prod-csc,3.223895,3.223895,0,SAME
+pip20020-prod-sut-server02,KioSoft Globalazure  Subscription,sut,0.792803,0.792803,0,SAME
+pip9999-test-restore,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,2.399064,2.399064,0,SAME
+postgresql01-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,36.775056,36.775056,0,SAME
+priend01-prod-cleanstore-db02,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,7.2,7.2,0,SAME
+priend02-prod-market-replica,KioSoft Globalazure  Subscription,retail,7.2,7.2,0,SAME
+priend03-prod-universal,KioSoft Globalazure  Subscription,cmk,7.2,7.2,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,rg52-prod-csc,0.483744,0.483744,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.483744,0.483744,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,cmk,0.483743,0.483743,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,retail,0.483744,0.483744,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,dbmonitor,0.483744,0.483744,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,0.483744,0.483744,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,usprod,0.483743,0.483743,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,rg56-prod-amusement,0.483743,0.483743,0,SAME
+privatelink.file.core.windows.net,KioSoft Globalazure  Subscription,armtmsrsc,0.483744,0.483744,0,SAME
+privatelink.mariadb.database.azure.com,KioSoft Globalazure  Subscription,armtmsrsc,0.483744,0.483744,0,SAME
+privatelink.mysql.database.azure.com,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.503787,0.503787,0,SAME
+privatelink.mysql.database.azure.com,KioSoft Globalazure  Subscription,cmk,0.483744,0.483744,0,SAME
+privatelink.mysql.database.azure.com,KioSoft Globalazure  Subscription,retail,0.483744,0.483744,0,SAME
+prod_action,KioSoft Globalazure  Subscription,rg43_prod_alert,0.000035,0.000035,0,SAME
+prod_mysql_action,KioSoft Globalazure  Subscription,rg43_prod_alert,0.000064,0.000064,0,SAME
+prod-amusementserver-ip,KioSoft Globalazure  Subscription,retail,3.60004,3.60004,0,SAME
+prod-integrationserver-ip,KioSoft Globalazure  Subscription,rg20006-prod-integration,3.59504,3.59504,0,SAME
+prod-internationalretail-ip,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,3.60004,3.60004,0,SAME
+prod-mqtt-coffee,KioSoft Globalazure  Subscription,production,14.454609,14.454609,0,SAME
+prod-mqtt-coffee_osdisk_1_747e1c7aa6e54ec1b5f8196f647640b5,KioSoft Globalazure  Subscription,production,19.285836,19.285836,0,SAME
+prod-mqtt-coffee-ip,KioSoft Globalazure  Subscription,production,3.60004,3.60004,0,SAME
+prod-sage-db01,KioSoft Globalazure  Subscription,sage300c_v2022,161.528857,161.528857,0,SAME
+prod-sage-db01_osdisk_1_6b2c346cebe44aab9278af1c3b66f401,KioSoft Globalazure  Subscription,sage300c_v2022,71.643981,71.643981,0,SAME
+prod-universal-db01,KioSoft Globalazure  Subscription,cmk,52.058529,52.058529,0,SAME
+prod-universal-ip,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+prod-universal-lb01-ip,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+prod-universal-web01-ip,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+prod-universal-web01-new,KioSoft Globalazure  Subscription,cmk,40.262871,40.262871,0,SAME
+prod-universal-web02-ip,KioSoft Globalazure  Subscription,cmk,3.60004,3.60004,0,SAME
+prod-universal-web02-new,KioSoft Globalazure  Subscription,cmk,39.971941,39.971941,0,SAME
+prodsagedb01ip411,KioSoft Globalazure  Subscription,sage300c_v2022,3.60004,3.60004,0,SAME
+pvc-0c0410dd-8d93-4147-a5a9-48ce781c8b95,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,1.900327,1.900327,0,SAME
+pvc-332b90cc-bd80-4861-b4fe-404433360355,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,0.382144,0.382144,0,SAME
+pvc-5806d47a-ff6f-4ee2-b1b7-c3138c355cc1,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.556669,0.556669,0,SAME
+pvc-ad01910c-3bac-4eaa-ac2a-f93d7a33d801,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,1.899411,1.899411,0,SAME
+pvc-d10ab5ac-43d1-4bca-9f81-25f1994cf4f4,KioSoft Globalazure  Subscription,mc_commandcenter_aks10000-test-cc_eastus,0.003436,0.003436,0,SAME
+pvc-dc92159c-cbf0-4d62-a194-07d4aa78c603,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,0.023699,0.023699,0,SAME
+pvc-ee264443-0d0e-48d6-ba21-acd9c0b763f2,KioSoft Globalazure  Subscription,mc_rg20007-prod-kiocentral-aks_aks20000-prod-kiocentral_eastus,0.173186,0.173186,0,SAME
+recommendedalertrules-ag-3,KioSoft Globalazure  Subscription,sut,0,0,0,SAME
+redis01-test-universal,KioSoft Globalazure  Subscription,kiosoft-test,99.359905,99.359905,0,SAME
+redis03-prod-universal,KioSoft Globalazure  Subscription,retail,0,0,0,SAME
+redis04-test-csc,KioSoft Globalazure  Subscription,rg51-test-csc,99.359905,99.359905,0,SAME
+redis05-test-omdryun01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,99.359905,99.359905,0,SAME
+redis06-prod-csc-retail,KioSoft Globalazure  Subscription,rg52-prod-csc,0,0,0,SAME
+redis07-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,80.557422,80.557422,0,SAME
+redis9998-test-automation,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,36.024866,36.024866,0,SAME
+restore-mysql10-prod-universal-slowest-utc-20250925083103,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.322001,0.322001,0,SAME
+restore-mysql10-prod-universal-utc-20250925083203,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.397281,0.397281,0,SAME
+restore-mysql12-prod-cleanstore-latest-utc-2025030300,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,3.0995,3.0995,0,SAME
+restore-mysql12-prod-cleanstore-slowest-utc-20250924161103,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,3.42402,3.42402,0,SAME
+restore-mysql12-prod-cleanstore-utc-20250924161203,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,6.944294,6.944294,0,SAME
+restore-mysql14-prod-market-slowest-utc-20250924133803,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.358635,0.358635,0,SAME
+restore-mysql14-prod-market-utc-20250924133903,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.413152,0.413152,0,SAME
+restore-mysql15-prod-market-replica-slowest-utc-20250924212403,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.430558,0.430558,0,SAME
+restore-mysql15-prod-market-replica-utc-20250924212503,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.419272,0.419272,0,SAME
+restore-mysql19-prod-cleanstore-db02-fastest-utc-20250925133303,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.539423,0.539423,0,SAME
+restore-mysql19-prod-cleanstore-db02-latest-utc-20250926011600,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.432465,0.432465,0,SAME
+restore-mysql19-prod-cleanstore-db02-slowest-utc-20250924133203,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,2.161244,2.161244,0,SAME
+restore-mysql19-prod-cleanstore-db02-utc-20250924133303,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,2.140286,2.140286,0,SAME
+restore-mysql24-prod-modem-slowest-utc-20250924232203,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.295086,0.295086,0,SAME
+restore-mysql24-prod-modem-utc-20250924232303,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.339224,0.339224,0,SAME
+restore-mysql25-prod-olap-slowest-utc-20250925030603,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.352556,0.352556,0,SAME
+restore-mysql25-prod-olap-utc-20250925030703,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.362251,0.362251,0,SAME
+restore-prod-jumpserver,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,35.228506,35.228506,0,SAME
+restore-prod-sage,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,56.032004,56.032004,0,SAME
+restore-sage-ip,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,2.477895,2.477895,0,SAME
+restore-universal-web01,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.000007,0.000007,0,SAME
+restore-universal-web02,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.000022,0.000022,0,SAME
+restoreamusementweb01-osdisk-20250925-013247,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.778959,0.778959,0,SAME
+restorecleanstoreweb01-osdisk-20250925-010257,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.792559,0.792559,0,SAME
+restoreintegrationweb01-osdisk-20250925-023550,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.750119,0.750119,0,SAME
+restorelatamweb01-osdisk-20250925-023457,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.682423,0.682423,0,SAME
+restoreprodjumpserver-osdisk-20250925-085359,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,22.415596,22.415596,0,SAME
+restoreprodsage-osdisk-20250930-051805,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,49.035432,49.035432,0,SAME
+restoreuniversalweb01-osdisk-20250925-005356,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.800857,0.800857,0,SAME
+restoreuniversalweb02-osdisk-20250925-005827,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.794628,0.794628,0,SAME
+retail-loadbalance-stage-ip,KioSoft Globalazure  Subscription,newwbserverscheme,3.60004,3.60004,0,SAME
+rsv01-prod-eastus,KioSoft Globalazure  Subscription,backup,2120.557242,2120.557242,0,SAME
+rsv02-prod-eastus2,KioSoft Globalazure  Subscription,backup,45.038336,45.038336,0,SAME
+rsv03-prod-centralus,KioSoft Globalazure  Subscription,backup,14.210965,14.210965,0,SAME
+rsv04-prod-southcentralus,KioSoft Globalazure  Subscription,backup,23.98195,23.98195,0,SAME
+rsv05-test-eastus,KioSoft Globalazure  Subscription,backup,644.049591,644.049591,0,SAME
+rsv06-prod-uksouth,KioSoft Globalazure  Subscription,backup,6.05998,6.05998,0,SAME
+sa18baletest,KioSoft Globalazure  Subscription,commandcenter,0.002483,0.002483,0,SAME
+sa18prodcleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,0.030157,0.030157,0,SAME
+sa19testkiopos,KioSoft Globalazure  Subscription,rg49-test-kiopos,0.298657,0.298657,0,SAME
+sa20democc,KioSoft Globalazure  Subscription,commandcenter,0.000058,0.000058,0,SAME
+sa23stagedryrun,KioSoft Globalazure  Subscription,dbmonitor,4.980472,4.980472,0,SAME
+sa25omdryrun01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,39.258153,39.258153,0,SAME
+sa26prodcleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,19.569667,19.569667,0,SAME
+sa27prodamusement,KioSoft Globalazure  Subscription,rg56-prod-amusement,19.569667,19.569667,0,SAME
+sa28prodcsc,KioSoft Globalazure  Subscription,rg52-prod-csc,19.569667,19.569667,0,SAME
+sa29prodlatamcleanstore,KioSoft Globalazure  Subscription,retail,23.479053,23.479053,0,SAME
+sa30prodbackup,KioSoft Globalazure  Subscription,rg45-prod-om,86.642759,86.642759,0,SAME
+sa31prodoperationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,0.039359,0.039359,0,SAME
+sa33prodtms,KioSoft Globalazure  Subscription,tmsprod,75.450846,75.450846,0,SAME
+sa34omdryrun01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,15.659341,15.659341,0,SAME
+sa35prodintegration,KioSoft Globalazure  Subscription,retail,22.117325,22.117325,0,SAME
+sa36prodinternal,KioSoft Globalazure  Subscription,rg20004-prod-internal,19.569667,19.569667,0,SAME
+sa37produniversal,KioSoft Globalazure  Subscription,cmk,19.656726,19.656726,0,SAME
+sa38prodcscuniversal,KioSoft Globalazure  Subscription,rg52-prod-csc,19.569667,19.569667,0,SAME
+sa40sharepointbackup,KioSoft Globalazure  Subscription,rg20002-prod-om,2.406691,2.406691,0,SAME
+sa41prodcommandcenter,KioSoft Globalazure  Subscription,rg20000-prod-olap,0.001161,0.001161,0,SAME
+sa9997eastus2,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0,0,0,SAME
+sa9998restoresouth,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0,0,0,SAME
+sa9999restorecentral,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0,0,0,SAME
+scsharetest,KioSoft Globalazure  Subscription,rg9997-test-devops-infrastructure,0.001937,0.001937,0,SAME
+seatunnel-cluster-test1,KioSoft Globalazure  Subscription,rg9997-test-devops-infrastructure,79.971223,79.971223,0,SAME
+snapshot-disk20012-prod-csc-elk01-os,KioSoft Globalazure  Subscription,rg20003-prod-csc,26.991011,26.991011,0,SAME
+snipe-it,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,1.485309,1.485309,0,SAME
+snipe-it_osdisk_1_b13ca6878cec4dbf9550fe81abb9fa39,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,1.063296,1.063296,0,SAME
+snipe-it-ip,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.380004,0.380004,0,SAME
+stage-cleanstore-web01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,14.633722,14.633722,0,SAME
+stage-cleanstore-web02,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,14.562452,14.562452,0,SAME
+stage-cleanstore-web02_osdisk_1_a658fd4adcaa4f71b458f3dcd0046030,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,5.574877,5.574877,0,SAME
+stage-universal-db01,KioSoft Globalazure  Subscription,dbmonitor,14.80428,14.80428,0,SAME
+stage-universal-web01,KioSoft Globalazure  Subscription,dbmonitor,16.117462,16.117462,0,SAME
+stage-universal-web02,KioSoft Globalazure  Subscription,dbmonitor,15.645478,15.645478,0,SAME
+stagecleanstoreweb01-osdisk-20241225-050718,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,5.589657,5.589657,0,SAME
+sut_vnetgateway,KioSoft Globalazure  Subscription,sut,136.8,136.8,0,SAME
+sut_vnetgateway1_publicip1,KioSoft Globalazure  Subscription,sut,2.88,2.88,0,SAME
+sutserver01,KioSoft Globalazure  Subscription,sut,80.699679,80.699679,0,SAME
+sutserver01-ip,KioSoft Globalazure  Subscription,sut,3.60004,3.60004,0,SAME
+sutserver01-new_osdisk_1_a06c711facad49a48f8208abbaca4778,KioSoft Globalazure  Subscription,sut,17.531677,17.531677,0,SAME
+sutserver02,KioSoft Globalazure  Subscription,sut,14.454538,14.454538,0,SAME
+sutserver02_disk1_2d3f6d24be204a268f3cae7fe4263767,KioSoft Globalazure  Subscription,sut,4.697776,4.697776,0,SAME
+sutserver02ip184,KioSoft Globalazure  Subscription,sut,3.60004,3.60004,0,SAME
+terraformstatsfile,KioSoft Globalazure  Subscription,rg9997-test-devops-infrastructure,0.000583,0.000583,0,SAME
+test1,KioSoft Globalazure  Subscription,rg_test_route_als,0.057886,0.057886,0,SAME
+tm02-stage-cleanstore,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,2.669299,2.669299,0,SAME
+tm03-prod-cleanstore,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,20.861953,20.861953,0,SAME
+tm04-prod-csc-reportserver,KioSoft Globalazure  Subscription,rg52-prod-csc,21.195429,21.195429,0,SAME
+tmsnginx,KioSoft Globalazure  Subscription,armtmsrsc,14.425912,14.425912,0,SAME
+tmsnginxip149,KioSoft Globalazure  Subscription,armtmsrsc,3.60004,3.60004,0,SAME
+tmsprod,KioSoft Globalazure  Subscription,tmsprod,545.691714,545.691714,0,SAME
+tmsprod-db01,KioSoft Globalazure  Subscription,tmsprod,14.4263,14.4263,0,SAME
+tmsprod-db01_osdisk_1_d3b9cf26c0954998ac076bedc2e2d669,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+tmsprod-db01-data01,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+tmsprod-lb01,KioSoft Globalazure  Subscription,tmsprod,16.243806,16.243806,0,SAME
+tmsprod-lb01_osdisk_1_41aeade537234520b8d6a326e96775c0,KioSoft Globalazure  Subscription,tmsprod,5.166104,5.166104,0,SAME
+tmsprod-lb01_osdisk_1_41aeade537234520b8d6a326e96775c0-202306301141-disk-2023063,KioSoft Globalazure  Subscription,armtmsrsc,5.309613,5.309613,0,SAME
+tmsprod-oldtms1,KioSoft Globalazure  Subscription,tmsprod,14.434879,14.434879,0,SAME
+tmsprod-oldtms1_osdisk_1_5a3bb962407e4018a18c5746fe3f700c,KioSoft Globalazure  Subscription,tmsprod,5.166381,5.166381,0,SAME
+tmsprod-tms01,KioSoft Globalazure  Subscription,tmsprod,15.926677,15.926677,0,SAME
+tmsprod-tms01_osdisk_1_864e1344192f412ab26319ff668672d4,KioSoft Globalazure  Subscription,tmsprod,9.987175,9.987175,0,SAME
+tmsprod-tms02,KioSoft Globalazure  Subscription,tmsprod,15.155643,15.155643,0,SAME
+tmsprod-tms02_osdisk_1_fd21183cca6a4e3a9bf1fa8ff86b3974,KioSoft Globalazure  Subscription,tmsprod,9.987175,9.987175,0,SAME
+tmsprod-tms03,KioSoft Globalazure  Subscription,tmsprod,32.320616,32.320616,0,SAME
+tmsprod-tms03_osdisk_1_dc480da34b3045efb56faebc75a4b45b,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+tmsprod-web01,KioSoft Globalazure  Subscription,tmsprod,16.717542,16.717542,0,SAME
+tmsprod-web01_osdisk_1_b246404255f7462f937bc8b1702caf83,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+tmsprod-web02,KioSoft Globalazure  Subscription,tmsprod,16.682634,16.682634,0,SAME
+tmsprod-web02_osdisk_1_82c6e02223da4c23a3e4e94825526cf9,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+tmsproddb01ip166,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodlb01ip334,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodtms01ip181,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodtms02ip372,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodtms03ip741,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodweb01ip798,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsprodweb02ip534,KioSoft Globalazure  Subscription,tmsprod,3.60004,3.60004,0,SAME
+tmsserver1,KioSoft Globalazure  Subscription,armtmsrsc,14.422376,14.422376,0,SAME
+tmsserver1-osdisk-20230704-032302,KioSoft Globalazure  Subscription,armtmsrsc,5.419449,5.419449,0,SAME
+tmsserver1ip341,KioSoft Globalazure  Subscription,armtmsrsc,3.60004,3.60004,0,SAME
+tmsserver2,KioSoft Globalazure  Subscription,armtmsrsc,14.434722,14.434722,0,SAME
+tmsserver2_osdisk_1_cbac7d887c924200b44055b3d5ba316a,KioSoft Globalazure  Subscription,armtmsrsc,5.342149,5.342149,0,SAME
+tmsserver2ip827,KioSoft Globalazure  Subscription,armtmsrsc,3.60004,3.60004,0,SAME
+tmstest,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,7.2,7.2,0,SAME
+ttiacr,KioSoft Globalazure  Subscription,commandcenter,34.823374,34.823374,0,SAME
+ttideployment,KioSoft Globalazure  Subscription,ttideploy,14.439536,14.439536,0,SAME
+ttideployment-ip,KioSoft Globalazure  Subscription,ttideploy,3.60004,3.60004,0,SAME
+ttideployment-osdisk-20230807-055519,KioSoft Globalazure  Subscription,ttideploy,19.285836,19.285836,0,SAME
+ttimetrics-ip,KioSoft Globalazure  Subscription,rg20002-prod-om,3.60004,3.60004,0,SAME
+uniersalstress-db01-ip,KioSoft Globalazure  Subscription,dbmonitor,3.60004,3.60004,0,SAME
+universal-loadbalance-prod,KioSoft Globalazure  Subscription,cmk,18.592142,18.592142,0,SAME
+universal-loadbalance-stage,KioSoft Globalazure  Subscription,dbmonitor,46.803315,46.803315,0,SAME
+universaldev_osdisk_1_f84f34c352104cdfaf579e18cee76d65,KioSoft Globalazure  Subscription,dbmonitor,19.537979,19.537979,0,SAME
+usprod-demoportal01,KioSoft Globalazure  Subscription,usprod,14.544698,14.544698,0,SAME
+usprod-demoportal01_disk1_2e16994519694305b0887b4dd5e17989,KioSoft Globalazure  Subscription,usprod,19.536553,19.536553,0,SAME
+usprod-demoportal01-ip,KioSoft Globalazure  Subscription,usprod,3.60004,3.60004,0,SAME
+usprod-natgw01,KioSoft Globalazure  Subscription,usprod,32.399242,32.399242,0,SAME
+usprod-v4-29prefix,KioSoft Globalazure  Subscription,usprod,34.56,34.56,0,SAME
+vm availability - ks-fgt,KioSoft Globalazure  Subscription,sut,0.092191,0.092191,0,SAME
+vm-cpu-memory-alert,KioSoft Globalazure  Subscription,rg9999-test-infrastructure,0.016905,0.016905,0,SAME
+vm-cpu-memory-alert,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,0.184126,0.184126,0,SAME
+vm-germany_osdisk_1_7178b248c1704aac982858764130d989-snapshot,KioSoft Globalazure  Subscription,rg20002-prod-om,0.260341,0.260341,0,SAME
+vm-uk_osdisk_1_98f4e2aaa2be478aadf195ece551bb17-snapshot,KioSoft Globalazure  Subscription,rg20002-prod-om,0.240272,0.240272,0,SAME
+vm100-prod-csc-universal-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,29.993741,29.993741,0,SAME
+vm100-prod-csc-universal-web04-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm10001-test-internal-server,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,23.196393,23.196393,0,SAME
+vm10002-test-olap01,KioSoft Globalazure  Subscription,rg10001-test-olap,37.176058,37.176058,0,SAME
+vm10003-test-elk01,KioSoft Globalazure  Subscription,rg10002-test-devops,14.754711,14.754711,0,SAME
+vm10004-stage-kiopos-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,14.449259,14.449259,0,SAME
+vm10005-stage-kiopos-soft01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,14.440713,14.440713,0,SAME
+vm10006-stage-market-single,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,1.497854,1.497854,0,SAME
+vm10006-stage-market-single_cpu-memory-alert,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,0.019722,0.019722,0,SAME
+vm10007-test-qa-universal-web01,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,14.489755,14.489755,0,SAME
+vm10008-stage-market-web01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,14.497675,14.497675,0,SAME
+vm10008-stage-market-web01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,0.184382,0.184382,0,SAME
+vm10009-stage-market-web02,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,14.446196,14.446196,0,SAME
+vm10009-stage-market-web02_cpu-memory-alert,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,0.184126,0.184126,0,SAME
+vm10010-stage-market-soft01,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,5.190498,5.190498,0,SAME
+vm10010-stage-market-soft01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg10004-stage-kiocentral,0.065536,0.065536,0,SAME
+vm10011-automated-testing-platform,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,3.702831,3.702831,0,SAME
+vm10011-automated-testing-platform_cpu-memory-alert,KioSoft Globalazure  Subscription,rg10000-test-kiocentral,0.046838,0.046838,0,SAME
+vm101-prod-csc-universal-soft01,KioSoft Globalazure  Subscription,rg52-prod-csc,15.945665,15.945665,0,SAME
+vm101-prod-csc-universal-soft01_osdisk_1_0d87c751f0774a8299773475ddd50ed5,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm102-prod-csc-retail-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,18.907709,18.907709,0,SAME
+vm102-prod-csc-retail-web01-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm103-prod-csc-retail-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,18.753955,18.753955,0,SAME
+vm103-prod-csc-retail-web02-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm104-prod-csc-retail-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,18.812473,18.812473,0,SAME
+vm104-prod-csc-retail-web03-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm105-prod-csc-retail-web04,KioSoft Globalazure  Subscription,rg52-prod-csc,18.794554,18.794554,0,SAME
+vm105-prod-csc-retail-web04-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm106-prod-csc-retail-reportserver01,KioSoft Globalazure  Subscription,rg52-prod-csc,16.034689,16.034689,0,SAME
+vm106-prod-csc-retail-reportserver01-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm107-prod-csc-retail-reportserver02,KioSoft Globalazure  Subscription,rg52-prod-csc,16.011964,16.011964,0,SAME
+vm107-prod-csc-retail-reportserver02-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm108-prod-csc-retail-reportserver03,KioSoft Globalazure  Subscription,rg52-prod-csc,16.001568,16.001568,0,SAME
+vm108-prod-csc-retail-reportserver03-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm109-prod-csc-retail-reportserver04,KioSoft Globalazure  Subscription,rg52-prod-csc,16.140986,16.140986,0,SAME
+vm109-prod-csc-retail-reportserver04-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm120-prod-cleanstore-web08,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,40.731059,40.731059,0,SAME
+vm120prodcleanstoreweb08-osdisk-20240103-020640,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,19.285836,19.285836,0,SAME
+vm121-prod-amusement-web01,KioSoft Globalazure  Subscription,retail,16.546345,16.546345,0,SAME
+vm121prodamusementweb01-osdisk-20240103-070935,KioSoft Globalazure  Subscription,retail,19.285836,19.285836,0,SAME
+vm123-prod-cleanstore-web09,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,39.69416,39.69416,0,SAME
+vm123-prod-cleanstore-web09_osdisk,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,19.285836,19.285836,0,SAME
+vm124-test-retail,KioSoft Globalazure  Subscription,rg51-test-csc,14.85994,14.85994,0,SAME
+vm124testretail-osdisk-20240104-025010,KioSoft Globalazure  Subscription,rg51-test-csc,19.520199,19.520199,0,SAME
+vm125-stage-db01,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,14.50413,14.50413,0,SAME
+vm125-stage-db01_osdisk,KioSoft Globalazure  Subscription,rg48-stage-cleanstore,19.406807,19.406807,0,SAME
+vm126-automated-testing-platform,KioSoft Globalazure  Subscription,rg53-automated_testing_platform,17.392144,17.392144,0,SAME
+vm126-automated-testing-platform_osdisk_1_ffd07256ddcf488980faed125034b72b,KioSoft Globalazure  Subscription,rg53-automated_testing_platform,19.285836,19.285836,0,SAME
+vm127-prod-tcn,KioSoft Globalazure  Subscription,rg54-prod-tcn,162.210496,162.210496,0,SAME
+vm127-prod-tcn_osdisk_1_b08e2fba98cb40e38e775fed78d75726,KioSoft Globalazure  Subscription,rg54-prod-tcn,71.643981,71.643981,0,SAME
+vm128-prod-csc-retail-reportserver05,KioSoft Globalazure  Subscription,rg52-prod-csc,16.039723,16.039723,0,SAME
+vm128prodcscretailreportserver-osdisk-20240229-004711,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm129-prod-csc-retail-reportserver06,KioSoft Globalazure  Subscription,rg52-prod-csc,15.993138,15.993138,0,SAME
+vm129prodcscretailreportserver-osdisk-20240229-005305,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm130-prod-csc-retail-reportserver07,KioSoft Globalazure  Subscription,rg52-prod-csc,16.035029,16.035029,0,SAME
+vm130prodcscretailreportserver-osdisk-20240229-005759,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm131-prod-csc-retail-reportserver08,KioSoft Globalazure  Subscription,rg52-prod-csc,16.022406,16.022406,0,SAME
+vm131prodcscretailreportserver-osdisk-20240229-010350,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm133-prod-csc-tms,KioSoft Globalazure  Subscription,tmsprod,15.157971,15.157971,0,SAME
+vm133-prod-csc-tms_osdisk_1_25351b0b638540fa8fd89d4ff582f07e,KioSoft Globalazure  Subscription,tmsprod,19.285836,19.285836,0,SAME
+vm134-prod-amusement-web02,KioSoft Globalazure  Subscription,rg56-prod-amusement,16.383582,16.383582,0,SAME
+vm134-prod-amusement-web02-os,KioSoft Globalazure  Subscription,rg56-prod-amusement,19.285836,19.285836,0,SAME
+vm135-prod-amusement-web03,KioSoft Globalazure  Subscription,rg56-prod-amusement,16.372017,16.372017,0,SAME
+vm135-prod-amusement-web03-os,KioSoft Globalazure  Subscription,rg56-prod-amusement,19.285836,19.285836,0,SAME
+vm136-prod-wazan-web01,KioSoft Globalazure  Subscription,rg55-prod-wazan,17.414216,17.414216,0,SAME
+vm136-prod-wazan-web01_osdisk_1_75074322860c414f921c689d0224db50,KioSoft Globalazure  Subscription,rg55-prod-wazan,19.285836,19.285836,0,SAME
+vm138-prod-cleanstore-web10,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,39.858384,39.858384,0,SAME
+vm138-prod-cleanstore-web10_os,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,19.285836,19.285836,0,SAME
+vm139-prod-universal-web03,KioSoft Globalazure  Subscription,cmk,39.93806,39.93806,0,SAME
+vm139produniversalweb03-osdisk-20241105-054648,KioSoft Globalazure  Subscription,cmk,19.285836,19.285836,0,SAME
+vm140-prod-devops-ai,KioSoft Globalazure  Subscription,rg57-prod-devops-infrastructure,15.40491,15.40491,0,SAME
+vm140-prod-devops-ai_osdisk_1_83b9e79bcd134b239c4100f995f1c8cb,KioSoft Globalazure  Subscription,rg57-prod-devops-infrastructure,37.194526,37.194526,0,SAME
+vm147-prod-kiocentral-tool,KioSoft Globalazure  Subscription,cmk,14.439864,14.439864,0,SAME
+vm147-prod-kiocentral-tool_osdisk_1_c57e1084985d4cbebfc1f45ef076c3e1,KioSoft Globalazure  Subscription,cmk,9.987175,9.987175,0,SAME
+vm156-prod-operationcenter,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,12.214952,12.214952,0,SAME
+vm156-prod-operationcenter_datadisk,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,15.683164,15.683164,0,SAME
+vm156-prod-operationcenter_osdisk_1_880d6438858240c9ba0c55d70080bd57,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,4.201056,4.201056,0,SAME
+vm157-prod-operation-management,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,16.30232,16.30232,0,SAME
+vm157-prod-operation-management_osdisk_1_44e32bf4140e41b5ab909cfae5f92d2c,KioSoft Globalazure  Subscription,rg59-prod-operationcenter,15.683164,15.683164,0,SAME
+vm158-prod-kiocentraluk-web01-osdisk,KioSoft Globalazure  Subscription,rg60-prod-kiocentraluk,23.338815,23.338815,0,SAME
+vm20003-prod-seatunnel01,KioSoft Globalazure  Subscription,rg20000-prod-olap,67.480014,67.480014,0,SAME
+vm20004-prod-jenkins01,KioSoft Globalazure  Subscription,rg20001-prod-devops,20.465757,20.465757,0,SAME
+vm20005-prod-jumpserver,KioSoft Globalazure  Subscription,rg20002-prod-om,17.410386,17.410386,0,SAME
+vm20006-prod-backupserver,KioSoft Globalazure  Subscription,rg20002-prod-om,49.371956,49.371956,0,SAME
+vm20008-prod-csc-elk01,KioSoft Globalazure  Subscription,rg20003-prod-csc,4.473983,4.473983,0,SAME
+vm20009-prod-internal-web01,KioSoft Globalazure  Subscription,rg20004-prod-internal,16.944441,16.944441,0,SAME
+vm20010-prod-internal-web02,KioSoft Globalazure  Subscription,rg20004-prod-internal,16.861627,16.861627,0,SAME
+vm20011-prod-prometheus,KioSoft Globalazure  Subscription,rg20002-prod-om,21.01288,21.01288,0,SAME
+vm20012-prod-kiopos-web01,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,16.041685,16.041685,0,SAME
+vm20013-prod-kiopos-soft01,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,14.423337,14.423337,0,SAME
+vm20014-prod-integration-web01,KioSoft Globalazure  Subscription,rg20006-prod-integration,16.094167,16.094167,0,SAME
+vm20014-prod-integration-web01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20006-prod-integration,0.184382,0.184382,0,SAME
+vm20016-prod-doris01,KioSoft Globalazure  Subscription,rg20000-prod-olap,14.821957,14.821957,0,SAME
+vm20016-prod-doris01_osdisk_1_4619dc83df1b4a9dbb22047b32692d87,KioSoft Globalazure  Subscription,rg20000-prod-olap,19.285836,19.285836,0,SAME
+vm20017-prod-elk01,KioSoft Globalazure  Subscription,rg20002-prod-om,14.555332,14.555332,0,SAME
+vm20017-prod-elk01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20002-prod-om,0.184254,0.184254,0,SAME
+vm20018-prod-latamcleanstore-web01,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.474127,17.474127,0,SAME
+vm20018-prod-latamcleanstore-web01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,0.184382,0.184382,0,SAME
+vm20019-prod-latamcleanstore-web02,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.260345,17.260345,0,SAME
+vm20019-prod-latamcleanstore-web02_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,0.184382,0.184382,0,SAME
+vm20020-prod-latamcleanstore-web03,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,17.15981,17.15981,0,SAME
+vm20020-prod-latamcleanstore-web03_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20008-prod-latamcleanstore,0.184382,0.184382,0,SAME
+vm20021-prod-csc-elk01,KioSoft Globalazure  Subscription,rg20003-prod-csc,12.978584,12.978584,0,SAME
+vm20021-prod-csc-elk01_cpu-memory-alert,KioSoft Globalazure  Subscription,rg20003-prod-csc,0.1653,0.1653,0,SAME
+vm20022-prod-sut-server02,KioSoft Globalazure  Subscription,sut,23.263141,23.263141,0,SAME
+vm20022-prod-sut-server02_cpu-memory-alert,KioSoft Globalazure  Subscription,sut,0.040563,0.040563,0,SAME
+vm57-test-route-als-web01,KioSoft Globalazure  Subscription,rg_test_route_als,14.40426,14.40426,0,SAME
+vm57-test-route-als-web01_osdisk_1_7f41ea7e98b84410bfe318d323cb3c65,KioSoft Globalazure  Subscription,rg_test_route_als,5.509322,5.509322,0,SAME
+vm57-test-route-als-web01-ip,KioSoft Globalazure  Subscription,rg_test_route_als,3.60004,3.60004,0,SAME
+vm58-test-route-als-web02,KioSoft Globalazure  Subscription,rg_test_route_als,14.451647,14.451647,0,SAME
+vm58-test-route-als-web02_osdisk_1_2b08909888dc42bcac2b1fe2be4a08b2,KioSoft Globalazure  Subscription,rg_test_route_als,5.547729,5.547729,0,SAME
+vm58-test-route-als-web02-ip,KioSoft Globalazure  Subscription,rg_test_route_als,3.60004,3.60004,0,SAME
+vm59-prod-kiopos-web01-ip,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,3.60004,3.60004,0,SAME
+vm60-prod-kiopos-soft01-ip,KioSoft Globalazure  Subscription,rg20005-prod-kiopos,3.60004,3.60004,0,SAME
+vm67-prod-cleanstore-web02-ip,KioSoft Globalazure  Subscription,rg47-prod-cleanstore,3.60004,3.60004,0,SAME
+vm71-test-kiopos-soft01,KioSoft Globalazure  Subscription,rg49-test-kiopos,14.446066,14.446066,0,SAME
+vm71-test-kiopos-soft01_osdisk_1_b1c9c0a43ad14e66a5ded5a1da484c77,KioSoft Globalazure  Subscription,rg49-test-kiopos,19.957475,19.957475,0,SAME
+vm72-test-kiopos-web01,KioSoft Globalazure  Subscription,rg49-test-kiopos,14.559987,14.559987,0,SAME
+vm72-test-kiopos-web01_osdisk_1_1a7f2bed3d8c43359921c3e41b45a926,KioSoft Globalazure  Subscription,rg49-test-kiopos,19.681815,19.681815,0,SAME
+vm73-prod-modem,KioSoft Globalazure  Subscription,rg50-prod-modem,81.089566,81.089566,0,SAME
+vm73-prod-modem_osdisk_1_237266ce8eac4256b70c15497445e36c,KioSoft Globalazure  Subscription,rg50-prod-modem,71.643981,71.643981,0,SAME
+vm74-test-universal,KioSoft Globalazure  Subscription,rg51-test-csc,14.513207,14.513207,0,SAME
+vm74-test-universal_osdisk_1_4531eb6b58ea47c18d98719556a5a6ea,KioSoft Globalazure  Subscription,rg51-test-csc,19.523095,19.523095,0,SAME
+vm90-prod-powerbi,KioSoft Globalazure  Subscription,commandcenter,25.921481,25.921481,0,SAME
+vm90-prod-powerbi_osdisk_1_30820f66bf4e4ab3b395b47bafc55b02,KioSoft Globalazure  Subscription,commandcenter,19.285836,19.285836,0,SAME
+vm90-prod-powerbi-ip,KioSoft Globalazure  Subscription,commandcenter,3.60004,3.60004,0,SAME
+vm97-prod-csc-universal-web01,KioSoft Globalazure  Subscription,rg52-prod-csc,30.205745,30.205745,0,SAME
+vm97-prod-csc-universal-web01-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm98-prod-csc-universal-web02,KioSoft Globalazure  Subscription,rg52-prod-csc,30.184823,30.184823,0,SAME
+vm98-prod-csc-universal-web02-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+vm99-prod-csc-universal-web03,KioSoft Globalazure  Subscription,rg52-prod-csc,29.981105,29.981105,0,SAME
+vm99-prod-csc-universal-web03-disk,KioSoft Globalazure  Subscription,rg52-prod-csc,19.285836,19.285836,0,SAME
+waftestvm_osdisk_1_ed8e841fc1ad41f4a04deba3d34d2175-eastus,KioSoft Globalazure  Subscription,kiosoft-test,37.800574,37.800574,0,SAME
+wb,KioSoft Globalazure  Subscription,kiosoft-test,20.32742,20.32742,0,SAME
+wb-ip,KioSoft Globalazure  Subscription,kiosoft-test,3.60004,3.60004,0,SAME

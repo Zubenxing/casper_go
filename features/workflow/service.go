@@ -7,8 +7,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 // Service n8n 工作流服务
@@ -404,4 +407,120 @@ func (s *Service) CheckHealth() error {
 	}
 
 	return nil
+}
+
+// ExecuteWorkflowWithFiles 执行包含文件上传的工作流
+func (s *Service) ExecuteWorkflowWithFiles(workflowID string, c *gin.Context) (*ExecutionData, error) {
+	logger.Log.Infof("开始执行包含文件的工作流: %s", workflowID)
+
+	// 获取工作流信息以找到 Webhook URL
+	workflow, err := s.GetWorkflow(workflowID)
+	if err != nil {
+		return nil, fmt.Errorf("获取工作流信息失败: %w", err)
+	}
+
+	// 查找 Webhook URL
+	webhookURL := s.findWebhookURL(workflow)
+	if webhookURL == "" {
+		return nil, fmt.Errorf("未找到 Webhook 触发器，无法执行文件上传")
+	}
+
+	logger.Log.Infof("使用 Webhook URL: %s", webhookURL)
+
+	// 创建一个新的 multipart writer
+	var requestBody bytes.Buffer
+	writer := multipart.NewWriter(&requestBody)
+
+	// 解析表单
+	if err := c.Request.ParseMultipartForm(32 << 20); err != nil { // 32 MB max
+		return nil, fmt.Errorf("解析表单失败: %w", err)
+	}
+
+	// 复制所有文件
+	for key, files := range c.Request.MultipartForm.File {
+		for _, fileHeader := range files {
+			file, err := fileHeader.Open()
+			if err != nil {
+				return nil, fmt.Errorf("打开文件失败: %w", err)
+			}
+			defer file.Close()
+
+			part, err := writer.CreateFormFile(key, fileHeader.Filename)
+			if err != nil {
+				return nil, fmt.Errorf("创建表单文件失败: %w", err)
+			}
+
+			if _, err := io.Copy(part, file); err != nil {
+				return nil, fmt.Errorf("复制文件失败: %w", err)
+			}
+		}
+	}
+
+	// 复制所有表单字段
+	for key, values := range c.Request.MultipartForm.Value {
+		for _, value := range values {
+			writer.WriteField(key, value)
+		}
+	}
+
+	writer.Close()
+
+	// 创建请求 - 先尝试 POST
+	req, err := http.NewRequest("POST", webhookURL, &requestBody)
+	if err != nil {
+		return nil, fmt.Errorf("创建请求失败: %w", err)
+	}
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	// 发送请求
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("发送请求失败: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// 检查响应状态
+	if resp.StatusCode == http.StatusNotFound {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("Webhook 执行失败: %s\n\n提示：文件上传需要 Webhook 配置为 POST 方法。请在 n8n 中修改 Webhook 节点的 HTTP Method 为 POST", string(body))
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("Webhook 执行失败: %s", string(body))
+	}
+
+	// 检查响应类型
+	contentType := resp.Header.Get("Content-Type")
+	logger.Log.Infof("Webhook 响应 Content-Type: %s", contentType)
+
+	// 检查是否是 Excel 文件
+	isExcelFile := contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+		contentType == "application/vnd.ms-excel" ||
+		contentType == "application/octet-stream"
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("读取响应失败: %w", err)
+	}
+
+	// Webhook 直接返回工作流结果，需要包装成 ExecutionData 格式
+	result := &ExecutionData{
+		ID:         fmt.Sprintf("webhook-%d", time.Now().Unix()),
+		Finished:   true,
+		Mode:       "webhook",
+		StartedAt:  time.Now(),
+		StoppedAt:  time.Now(),
+		WorkflowID: workflowID,
+		Status:     "success",
+		Data: map[string]interface{}{
+			"result":      string(body),
+			"contentType": contentType,
+			"isFile":      isExcelFile,
+		},
+	}
+
+	logger.Log.Infof("工作流执行成功: %s, 返回类型: %s, 是否文件: %v", workflowID, contentType, isExcelFile)
+	return result, nil
 }

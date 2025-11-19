@@ -74,3 +74,55 @@ export function checkHealth() {
   })
 }
 
+// ========== 工作流配置管理 ==========
+
+// 获取所有工作流配置
+export function getWorkflowConfigs() {
+  return request({
+    url: '/workflows/configs',
+    method: 'get'
+  })
+}
+
+// 获取指定工作流配置
+export function getWorkflowConfig(id) {
+  return request({
+    url: `/workflows/configs/${id}`,
+    method: 'get'
+  })
+}
+
+// 创建工作流配置
+export function createWorkflowConfig(data) {
+  return request({
+    url: '/workflows/configs',
+    method: 'post',
+    data
+  })
+}
+
+// 更新工作流配置
+export function updateWorkflowConfig(id, data) {
+  return request({
+    url: `/workflows/configs/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+// 删除工作流配置
+export function deleteWorkflowConfig(id) {
+  return request({
+    url: `/workflows/configs/${id}`,
+    method: 'delete'
+  })
+}
+
+// 从 n8n 同步工作流配置
+export function syncWorkflowConfigs() {
+  return request({
+    url: '/workflows/configs/sync',
+    method: 'post'
+  })
+}
+

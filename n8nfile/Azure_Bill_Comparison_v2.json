@@ -1,0 +1,126 @@
+{
+  "name": "Azure Bill Comparison v2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "azure-bill-v2",
+        "responseMode": "responseNode",
+        "options": { "binaryData": true }
+      },
+      "id": "webhook",
+      "name": "Receive Files",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "operation": "fromFile",
+        "binaryPropertyName": "current_month",
+        "fileFormat": "autodetect"
+      },
+      "id": "read_current",
+      "name": "Read Current",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [420, 200]
+    },
+    {
+      "parameters": {
+        "operation": "fromFile",
+        "binaryPropertyName": "last_month",
+        "fileFormat": "autodetect"
+      },
+      "id": "read_last",
+      "name": "Read Last",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [420, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\nif (allItems.length === 0) {\n  return [{ json: { error: 'No data' } }];\n}\n\nconst midPoint = Math.floor(allItems.length / 2);\nconst currentMonth = allItems.slice(0, midPoint);\nconst lastMonth = allItems.slice(midPoint);\n\nconst lastMonthMap = new Map();\nfor (const item of lastMonth) {\n  const row = item.json;\n  const res = (row.Resource || '').trim();\n  if (res) {\n    lastMonthMap.set(res, parseFloat(row.CostUSD || 0));\n  }\n}\n\nconst results = [];\nconst processed = new Set();\n\nfor (const item of currentMonth) {\n  const row = item.json;\n  const res = (row.Resource || '').trim();\n  if (!res) continue;\n  \n  const curr = parseFloat(row.CostUSD || 0);\n  const last = lastMonthMap.get(res) || 0;\n  const diff = curr - last;\n  \n  let remark = '';\n  if (last === 0) {\n    remark = 'New';\n  } else if (diff === 0) {\n    remark = 'No change';\n  } else {\n    const pct = ((diff / last) * 100).toFixed(2);\n    remark = (diff > 0 ? '+' : '') + diff.toFixed(2) + ' USD (' + pct + '%)';\n  }\n  \n  results.push({\n    ResourceGroup: row.ResourceGroup || '',\n    Resource: res,\n    ResourceType: row.ResourceType || '',\n    ResourceLocation: row.ResourceLocation || '',\n    'Last Month': last.toFixed(2),\n    'Current Month': curr.toFixed(2),\n    Difference: diff.toFixed(2),\n    Remark: remark\n  });\n  processed.add(res);\n}\n\nfor (const [res, cost] of lastMonthMap.entries()) {\n  if (!processed.has(res)) {\n    results.push({\n      ResourceGroup: '',\n      Resource: res,\n      ResourceType: '',\n      ResourceLocation: '',\n      'Last Month': cost.toFixed(2),\n      'Current Month': '0.00',\n      Difference: (-cost).toFixed(2),\n      Remark: 'Deleted'\n    });\n  }\n}\n\nresults.sort((a, b) => {\n  const ord = (r) => r === 'New' ? 1 : r === 'Deleted' ? 2 : r.includes('USD') ? 3 : 4;\n  const diff = ord(a.Remark) - ord(b.Remark);\n  return diff !== 0 ? diff : Math.abs(parseFloat(b.Difference)) - Math.abs(parseFloat(a.Difference));\n});\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "compare",
+      "name": "Compare",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "xlsx",
+        "options": {
+          "fileName": "azure-bill-comparison.xlsx",
+          "sheetName": "Comparison"
+        }
+      },
+      "id": "export",
+      "name": "Export",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [840, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "binaryPropertyName": "data",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+              { "name": "Content-Disposition", "value": "attachment; filename=azure-bill-comparison.xlsx" }
+            ]
+          }
+        }
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, 300]
+    }
+  ],
+  "connections": {
+    "Receive Files": {
+      "main": [[
+        { "node": "Read Current", "type": "main", "index": 0 },
+        { "node": "Read Last", "type": "main", "index": 0 }
+      ]]
+    },
+    "Read Current": {
+      "main": [[{
+        "node": "Compare",
+        "type": "main",
+        "index": 0
+      }]]
+    },
+    "Read Last": {
+      "main": [[{
+        "node": "Compare",
+        "type": "main",
+        "index": 0
+      }]]
+    },
+    "Compare": {
+      "main": [[{
+        "node": "Export",
+        "type": "main",
+        "index": 0
+      }]]
+    },
+    "Export": {
+      "main": [[{
+        "node": "Response",
+        "type": "main",
+        "index": 0
+      }]]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "tags": []
+}
